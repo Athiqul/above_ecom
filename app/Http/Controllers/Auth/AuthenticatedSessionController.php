@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +19,11 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    //Enterprise user login
+    public function createAuthorise(): View
+    {
+        return view('auth.auth_login');
+    }
     /**
      * Handle an incoming authentication request.
      */
@@ -28,8 +32,25 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $url='/';
+        if($request->user()->role=='admin')
+        {
+            $url='/admin/dashboard';
+        }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if($request->user()->role=='vendor')
+        {
+            $url='/vendor/dashboard';
+        }
+
+
+        if($request->user()->role=='user')
+        {
+            $url='/dashboard';
+        }
+
+
+        return redirect()->intended($url);
     }
 
     /**
@@ -37,12 +58,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $url='/';
+        if(Auth::user()->role=='admin'||Auth::user()->role=='vendor')
+        {
+            $url='/enterprise-login';
+        }
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+
+        return redirect($url);
     }
 }
