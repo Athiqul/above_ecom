@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProfile;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dash;
@@ -18,6 +19,8 @@ use App\Http\Controllers\Admin\Dash;
 Route::prefix('admin')->group(function (){
     Route::middleware(['auth','role:admin'])->group(function(){
          Route::get('dashboard',Dash::class)->name('admin.dashboard');
+         Route::get('profile',[AdminProfile::class,'show'])->name('admin.profile');
+         Route::patch('profile-update',[AdminProfile::class,'profileUpdate'])->name('admin.profileUpdate');
     });
 });
 

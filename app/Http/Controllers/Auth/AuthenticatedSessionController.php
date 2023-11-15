@@ -50,7 +50,7 @@ class AuthenticatedSessionController extends Controller
         }
 
 
-        return redirect()->intended($url);
+        return redirect()->intended($url)->with(['toast-type'=>'success','toast-message'=>'Welcome '.$request->user()->name.' Sir!']);
     }
 
     /**
