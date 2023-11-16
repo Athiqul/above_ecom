@@ -13,7 +13,7 @@
     <ul class="metismenu" id="menu">
         <li>
 
-            <a href="{{ Auth::user()->role=='admin'?route('admin.dashboard'):'' }}" class="has-arrow">
+            <a href="{{ Auth::user()->role=='admin'?route('admin.dashboard'): route('vendor.dashboard') }}" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminProfile;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dash;
+use App\Http\Controllers\Vendor\Dash as VendorDash;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,17 @@ Route::prefix('admin')->group(function (){
          Route::get('change-password',[AdminProfile::class,'changePassword'])->name('admin.password_change');
          Route::patch('change-password',[AdminProfile::class,'storePassword'])->name('admin.password_store');
     });
+});
+
+
+//Vendor Dashboard
+Route::prefix('vendor')->middleware(['auth','role:vendor'])->group(function(){
+    Route::get('dashboard',VendorDash::class)->name('vendor.dashboard');
+    Route::get('profile',[AdminProfile::class,'show'])->name('admin.profile');
+    Route::patch('profile-update',[AdminProfile::class,'profileUpdate'])->name('admin.profileUpdate');
+    Route::get('change-password',[AdminProfile::class,'changePassword'])->name('admin.password_change');
+    Route::patch('change-password',[AdminProfile::class,'storePassword'])->name('admin.password_store');
+
 });
 
 Route::get('/', function () {
