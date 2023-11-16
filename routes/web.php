@@ -21,6 +21,8 @@ Route::prefix('admin')->group(function (){
          Route::get('dashboard',Dash::class)->name('admin.dashboard');
          Route::get('profile',[AdminProfile::class,'show'])->name('admin.profile');
          Route::patch('profile-update',[AdminProfile::class,'profileUpdate'])->name('admin.profileUpdate');
+         Route::get('change-password',[AdminProfile::class,'changePassword'])->name('admin.password_change');
+         Route::patch('change-password',[AdminProfile::class,'storePassword'])->name('admin.password_store');
     });
 });
 
