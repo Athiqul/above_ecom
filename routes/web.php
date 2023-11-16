@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminProfile;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dash;
+use App\Http\Controllers\Customer\Home;
 use App\Http\Controllers\Vendor\Dash as VendorDash;
 use App\Http\Controllers\Vendor\VendorProfile;
 
@@ -39,9 +40,9 @@ Route::prefix('vendor')->middleware(['auth','role:vendor'])->group(function(){
 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Visitors view
+
+Route::get('/',[Home::class,'index'] )->name('customer.home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
