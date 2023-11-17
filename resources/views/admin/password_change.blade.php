@@ -14,7 +14,7 @@
                 </ol>
             </nav>
         </div>
-        
+
     </div>
     <!--end breadcrumb-->
     <div class="row">
@@ -69,17 +69,17 @@
                                 <button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Change Password</button>
                             </div>
                         </div>
-                    
+
                 </form>
                 </div>
             </div>
-           
-           
-         
-           
-           
-           
-           
+
+
+
+
+
+
+
         </div>
     </div>
     <!--end row-->
@@ -107,10 +107,10 @@
 					},
 
                     confirm_password: {
-						
+
                         equalTo: {
                 param: "#new_password",
-              
+
        }
 					},
 
@@ -147,5 +147,5 @@
 
 
     </script>
-    </script>
+
 @endsection

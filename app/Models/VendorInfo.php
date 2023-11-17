@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorInfo extends Model
 {
-    protected $guarded=['id'];
+    protected $guarded=[];
     use HasFactory;
 }

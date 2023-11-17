@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Dash;
 use App\Http\Controllers\Customer\Home;
 use App\Http\Controllers\Vendor\Dash as VendorDash;
 use App\Http\Controllers\Vendor\VendorProfile;
+use App\Http\Controllers\Customer\Auth as CustomerAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::prefix('vendor')->middleware(['auth','role:vendor'])->group(function(){
 //Visitors view
 
 Route::get('/',[Home::class,'index'] )->name('customer.home');
+Route::get('/sign-in',[CustomerAuth::class,'signIn'])->name('customer.login');
+Route::get('/sign-up',[CustomerAuth::class,'register'])->name('customer.register');
+Route::get('/forget-password',[CustomerAuth::class,'forgot'])->name('customer.forgot');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
