@@ -28,7 +28,7 @@ class RedirectIfAuthenticated
                 elseif (Auth::check()&&Auth::user()->role=='vendor'){
                     return redirect('/vendor/dashboard');
                 }elseif(Auth::check()&&Auth::user()->role=='user'){
-                    return redirect('/dashboard');
+                    return redirect('/customer/dashboard');
                 }
                 return redirect('/');
             }

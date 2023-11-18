@@ -48,9 +48,11 @@ Route::get('/sign-in',[CustomerAuth::class,'signIn'])->name('customer.login');
 Route::get('/sign-up',[CustomerAuth::class,'register'])->name('customer.register');
 Route::get('/forget-password',[CustomerAuth::class,'forgot'])->name('customer.forgot');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Customer
+Route::prefix('customer')->middleware(['auth','role:user'])->group(function (){
+      Route::get('dashboard',[Home::class,'dashboard']);
+      Route::patch('account-info-update',[Home::class,'profileUpdate'])->name('customer.profile.update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

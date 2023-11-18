@@ -57,7 +57,7 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="index.html"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg')}}" alt="logo" /></a>
+                    <a href="{{ route('customer.home') }}"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg')}}" alt="logo" /></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -271,7 +271,7 @@
                             <ul>
 
                                 <li>
-                                    <a class="active" href="index.html">Home  </a>
+                                    <a class="active" href="{{ route('customer.home') }}">Home  </a>
 
                                 </li>
                                 <li>
@@ -522,7 +522,7 @@
                 <nav>
                     <ul class="mobile-menu font-heading">
                         <li class="menu-item-has-children">
-                            <a href="index.html">Home</a>
+                            <a href="{{ route('customer.home') }}">Home</a>
 
                         </li>
                         <li class="menu-item-has-children">
