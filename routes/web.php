@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\Home;
 use App\Http\Controllers\Vendor\Dash as VendorDash;
 use App\Http\Controllers\Vendor\VendorProfile;
 use App\Http\Controllers\Customer\Auth as CustomerAuth;
+use App\Http\Controllers\Common\Brand;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,13 @@ Route::prefix('admin')->group(function (){
          Route::patch('profile-update',[AdminProfile::class,'profileUpdate'])->name('admin.profileUpdate');
          Route::get('change-password',[AdminProfile::class,'changePassword'])->name('admin.password_change');
          Route::patch('change-password',[AdminProfile::class,'storePassword'])->name('admin.password_store');
+    });
+
+    //Brands
+    Route::controller(Brand::class)->group( function (){
+         //Show All brands
+         Route::get('all-brand','index')->name('all.brand');
+         Route::get('add-brand','add')->name('brand.add');
     });
 });
 
