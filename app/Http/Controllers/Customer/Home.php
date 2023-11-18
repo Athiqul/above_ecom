@@ -179,7 +179,7 @@ class Home extends Controller
          $request->session()->regenerateToken();
 
 
-         return redirect('/')->with(['toast-type'=>'success','toast-message'=>'You are successfully logout!']);
+         return redirect('/sign-in')->with(['toast-type'=>'success','toast-message'=>'You are successfully logout!']);
      }
 
 }
