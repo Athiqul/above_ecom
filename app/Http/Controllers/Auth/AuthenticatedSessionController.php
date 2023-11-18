@@ -70,6 +70,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
 
-        return redirect($url);
+        return redirect($url)->with([['toast-type'=>'success','toast-message'=>'You are successfully logout!']]);
     }
 }

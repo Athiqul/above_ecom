@@ -22,10 +22,11 @@
                             <div class="dashboard-menu">
                                 <ul class="nav flex-column" role="tablist">
                                     @php
-                                     $dashboard=$orders=$track=$address=$account_details='';
-                                    if(sesion()->has('type'))
+                                     $dashboard=$orders=$track=$address=$account_details=$change_pass='';
+                                    if(session()->has('type'))
                                     {
-                                        $type=sesion()->get('type');
+                                        $type=session()->get('type');
+                                        //dd($type);
                                         if($type=='orders')
                                         {
                                               $orders='active';
@@ -36,11 +37,14 @@
                                             $address='active';
                                         }elseif ($type=='account-details') {
                                             $account_details='active';
+                                        }elseif ($type=='change-pass') {
+                                            $change_pass='active';
                                         }
                                     }
                                        else{
                                             $dashboard='active';
                                         }
+                                       // dd($account_details);
                                     @endphp
                                     <li class="nav-item">
                                         <a class="nav-link {{ $dashboard }}" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
@@ -58,17 +62,24 @@
                                         <a class="nav-link {{ $account_details }}" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="page-login.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+
+                                        <a class="nav-link {{ $change_pass }}" id="password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="true"><i class="fi-rs-key mr-10"></i>Change Password</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('customer.logout') }}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="tab-content account dashboard-content pl-50">
-                                <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+
+                                @include('assets.alert')
+                                <div class="tab-pane fade {{ $dashboard=='active'?'active show':'' }} " id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="mb-0">Hello Rosie!</h3>
+                                            <h3 class="mb-0">Hello {{ $user->name }}</h3>
+                                            <img src="{{ $user->image==null?asset('uploads/no_image.jpg'):asset('uploads/profile/'.$user->image) }}" height="150px" width="150px" class="img-fluid" alt="">
                                         </div>
                                         <div class="card-body">
                                             <p>
@@ -78,7 +89,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                <div class="tab-pane fade {{ $orders=='active'? 'active show':'' }}" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="mb-0">Your Orders</h3>
@@ -123,7 +134,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                                <div class="tab-pane fade {{ $track=='active'? 'active show':'' }}" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="mb-0">Orders tracking</h3>
@@ -148,7 +159,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                <div class="tab-pane fade {{ $address=='active'?
+                                'active show':'' }}" id="address" role="tabpanel" aria-labelledby="address-tab">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="card mb-3 mb-lg-0">
@@ -183,7 +195,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                                <div class="tab-pane fade {{ $account_details=='active'?'active show':'' }}" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Account Details</h5>
@@ -233,6 +245,10 @@
                                                     <div class="form-group col-md-12">
                                                         <label>Profile Image<span class="required">*</span></label>
                                                         <input class="form-control" name="image" type="file" onchange="changeImage(event)">
+
+                                                        @error('image')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="form-group col-md-12">
 
@@ -240,6 +256,58 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Change</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade {{ $change_pass=='active'?'active show':'' }}" id="change-password" role="tabpanel" aria-labelledby="password-tab">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Change Password</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <form method="post" name="enq" id="passForm" enctype="multipart/form-data" action="{{ route('customer.change.password') }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <div class="row">
+                                                    <div class="form-group col-md-12">
+                                                        <label>Current Password<span class="required">*</span></label>
+                                                        <input required="" class="form-control @error('current_password')
+                                                            {{ 'is-invalid' }}
+                                                        @enderror" name="current_password" type="password">
+
+                                                        @error('current_password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                      @enderror
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label>New Password<span class="required">*</span></label>
+                                                        <input required="" type="password" class="form-control @error('new_password')
+                                                            {{ 'is-invalid' }}
+                                                        @enderror" id="new_password" name="new_password">
+                                                        @error('new_password')
+                                                         <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label>Confirm Password<span class="required">*</span></label>
+                                                        <input required="" type="password"  class="form-control @error('password_confirmation')
+                                                            {{ 'is-invalid' }}
+                                                        @enderror" name="password_confirmation">
+                                                        @error('password_confirmation')
+                                                          <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+
+
+
+
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Change Password</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -284,6 +352,61 @@ $(document).ready(function() {
 				messages: {
 					name: {
 						required: 'Please type full name!',
+
+					},
+				},
+				errorElement: 'span',
+				errorPlacement: function(error, element) {
+					error.addClass('invalid-feedback');
+					element.closest('.form-group').append(error);
+				},
+				highlight: function(element, errorClass, validClass) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight: function(element, errorClass, validClass) {
+					$(element).removeClass('is-invalid');
+				},
+			});
+		});
+
+
+        $(document).ready(function() {
+			$('#passForm').validate({
+				rules: {
+					 new_password: {
+						required: true,
+                        minlength:6,
+                        maxlength:255,
+					},
+
+                    current_password: {
+						required: true,
+                        minlength:6,
+                        maxlength:255,
+					},
+
+                    password_confirmation: {
+
+                        equalTo: {
+                param: "#new_password",
+
+       }
+					},
+
+				},
+
+				messages: {
+					current_password: {
+						required: 'Please type current password',
+                        minlength:'Too short password not allowed!',
+                        maxlength:'Too long password not allowed!',
+
+					},
+
+                    new_password: {
+						required: 'Please type new password',
+                        minlength:'Too short password not allowed!',
+                        maxlength:'Too long password not allowed!',
 
 					},
 				},

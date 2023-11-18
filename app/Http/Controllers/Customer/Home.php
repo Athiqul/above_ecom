@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use \App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 class Home extends Controller
 {
     //Customer home page
@@ -30,7 +31,7 @@ class Home extends Controller
      public function profileUpdate(Request $request)
      {
          //Validation
-         Validator::make($request->all(),[
+        $validation= Validator::make($request->all(),[
              'name'=>'required|min:4|max:255',
              'image'=>'nullable|image|max:2048|mimes:png,jpg',
              'address'=>'nullable|max:255|min:5',
@@ -48,9 +49,12 @@ class Home extends Controller
             'username.min' =>'Too short username!',
             'username.max'=>'Too long username!',
             'username.alpha_dash'=>'You can only use _ or - with Alphabets!'
-         ])->validate();
+         ]);
 
-
+          if($validation->fails())
+          {
+            return back()->withErrors($validation)->with('type','account-details');
+          }
          //Get Data
          $user_id=Auth::user()->id;
          $user=User::findOrFail($user_id);
@@ -75,8 +79,19 @@ class Home extends Controller
 
          }
 
+
+         if($user->username!=$request->username)
+         {
+             $check=User::where('username',$request->username)->first();
+             if($check)
+             {
+                return back()->withErrors(['username'=>'This username already taken!'])->with('type','account-details')->withInput();
+             }
+         }
+
          $user->name=$request->name;
          $user->address=$request->address;
+         $user->username=$request->username;
 
          if($user->isClean())
          {
@@ -93,6 +108,78 @@ class Home extends Controller
 
 
 
+     }
+
+     //Change Customer Password
+     public function storePassword(Request $request)
+     {
+         //validation
+        $validator= Validator::make($request->all(),[
+             "current_password"=>'required|max:255|min:6',
+             "new_password"=>'required|max:255|min:6',
+             "password_confirmation"=>"required|same:new_password"
+
+         ],[
+             'current_password.required'=>'Please type current password!',
+             'current_password.max'=>'Too long password not allowed!',
+             'current_password.min'=>'Too short password not allowed!',
+             'new_password.required'=>'Please type new password!',
+             'new_password.max'=>'Too long password not allowed!',
+             'new_password.min'=>'Too short password not allowed!',
+
+
+         ]);
+
+         if($validator->fails())
+         {
+            return back()->withErrors($validator)->withInput()->with('type','change-pass');
+         }
+
+         $user_id=Auth::user()->id;
+         $user=User::findOrFail($user_id);
+         //Check current Password valid or not
+         if(!Hash::check($request->current_password,$user->password))
+         {
+              return back()->with('alert-danger','Current Password is wrong!')->withInput()->with('type','change-pass');
+         }
+
+         //Check new password is actually change or not
+
+         if(Hash::check($request->new_password,$user->password))
+         {
+             return back()->with('alert-info','Nothing updated! same password for new and old!')->with('change-pass');
+         }
+
+         //save current password
+         $user->password=Hash::make($request->new_password);
+         try{
+
+             $user->save();
+             Auth::guard('web')->logout();
+
+             $request->session()->invalidate();
+
+             $request->session()->regenerateToken();
+             return redirect()->route('customer.login')->with('alert-success','Successfully password updated ! please log in now!');
+         }catch(Exception $ex){
+              //dd($ex->getMessage());
+              return back()->with(['toast-type'=>'warning','toast-message'=>'Something Errors happen!'])->withInput()->with('type','change-pass');
+         }
+     }
+
+     //Logout
+
+     public function destroy(Request $request): RedirectResponse
+     {
+
+         Auth::guard('web')->logout();
+
+         $request->session()->invalidate();
+
+         $request->session()->regenerateToken();
+
+
+         return redirect('/')->with(['toast-type'=>'success','toast-message'=>'You are successfully logout!']);
      }
 
 }

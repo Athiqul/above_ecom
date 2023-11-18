@@ -50,8 +50,10 @@ Route::get('/forget-password',[CustomerAuth::class,'forgot'])->name('customer.fo
 
 //Customer
 Route::prefix('customer')->middleware(['auth','role:user'])->group(function (){
-      Route::get('dashboard',[Home::class,'dashboard']);
+      Route::get('dashboard',[Home::class,'dashboard'])->name('customer.dashboard');
       Route::patch('account-info-update',[Home::class,'profileUpdate'])->name('customer.profile.update');
+      Route::patch('change-password',[Home::class,'storePassword'])->name('customer.change.password');
+      Route::get('logout',[Home::class,'destroy'])->name('customer.logout');
 });
 
 Route::middleware('auth')->group(function () {
