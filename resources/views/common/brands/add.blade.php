@@ -12,7 +12,7 @@
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a>
+                    <li class="breadcrumb-item"><a href="{{ route('all.brand') }}"><i class="bx bx-category"></i></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Add Brand</li>
                 </ol>
@@ -29,9 +29,9 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('admin.profileUpdate') }}" method="post" id="loginForm" enctype="multipart/form-data">
+                            <form action="{{ route('brand.create') }}" method="post" id="loginForm" enctype="multipart/form-data">
                                 @csrf
-                                @method('PATCH')
+
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Brand Name</h6>

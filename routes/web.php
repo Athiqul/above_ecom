@@ -35,6 +35,8 @@ Route::prefix('admin')->group(function (){
          //Show All brands
          Route::get('all-brand','index')->name('all.brand');
          Route::get('add-brand','add')->name('brand.add');
+         Route::post('add-brand','store')->name('brand.create');
+         Route::get('edit-brand/{id}','edit')->name('brand.edit');
     });
 });
 

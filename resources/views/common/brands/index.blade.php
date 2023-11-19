@@ -6,7 +6,7 @@
     <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
 @endsection
 @section('main')
-    <div class="page-content">
+
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Brands</div>
@@ -22,10 +22,15 @@
 
         </div>
         <!--end breadcrumb-->
-        <h6 class="mb-0 text-uppercase">Brand List</h6>
+        <div class="d-flex justify-content-between">
+            <h6 class="mb-0 text-uppercase ">Brand List</h6>
+            <a href="{{ route('brand.add') }}" class="btn btn-primary ">Add Brand</a>
+        </div>
+
         <hr>
         <div class="card">
             <div class="card-body">
+                @include('assets.alert')
                 <div class="table-responsive">
                     <div id="example_wrapper" class="dataTables_wrapper dt-bootstrap5">
 
@@ -70,10 +75,10 @@
                                     <td>
                                         <img src="{{$item->image==null? asset('uploads/no_image.jpg'):asset('uploads/brands/'.$item->image) }}" style="height: 50px;width:70px;" alt="{{ $item->brand_name }}">
                                     </td>
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
+                                    <td>{{date('h:i:s:a d-m-Y',strtotime($item->created_at))  }}</td>
+                                    <td>{{ date('h:i:s:a d-m-Y',strtotime($item->created_at)) }}</td>
                                     <td>
-                                        <a href="" class="btn btn-secondary">Edit</a>
+                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary">Edit</a>
                                         <a href="" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
@@ -93,9 +98,9 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+
+
 @endsection
 @section('need-js')
     <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
