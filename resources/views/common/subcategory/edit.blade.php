@@ -1,6 +1,6 @@
 @extends('layouts.backend_master');
 @section('title')
-    {{ $item->brand_name }} Brand| Above IT Ecommerce
+    {{ $sub->sub_name }} SubCategory| Above IT Ecommerce
 @endsection
 
 @section('main')
@@ -8,13 +8,13 @@
 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Brand</div>
+        <div class="breadcrumb-title pe-3">Sub Category</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="{{ route('all.brand') }}"><i class="bx bx-category"></i></a>
+                    <li class="breadcrumb-item"><a href="{{ route('sub.category.list') }}"><i class="bx bx-category"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit {{ $item->brand_name }} Brand</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit {{ $sub->sub_name }} Sub Category</li>
                 </ol>
             </nav>
         </div>
@@ -30,18 +30,18 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form action="{{ route('brand.update',$item->id) }}" method="post" id="loginForm" enctype="multipart/form-data">
+                            <form action="{{ route('sub.category.update',$sub->id) }}" method="post" id="loginForm" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Brand Name</h6>
+                                    <h6 class="mb-0">Sub Category Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group ">
-                                    <input type="text" value="{{old('brand_name',$item->brand_name) }}" class="form-control @error('brand_name')
+                                    <input type="text" value="{{old('sub_name',$sub->sub_name) }}" class="form-control @error('sub_name')
                                         is-invalid
-                                    @enderror" name="brand_name" required>
-                                    @error('brand_name')
+                                    @enderror" name="sub_name" required>
+                                    @error('sub_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -49,48 +49,29 @@
 
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Brand Slug</h6>
+                                    <h6 class="mb-0">Select Category</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                    <input type="text" value="{{ old('brand_slug',$item->brand_slug) }}" class="form-control @error('brand_slug')
-                                        {{ 'is-invalid' }}
-                                    @enderror" name="brand_slug" >
-                                    @error('brand_slug')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <select class="form-select mb-3 @error('cat_id')
+                                    {{ 'is-invalid' }}
+                                @enderror" aria-label="Default select example" name="cat_id" required="">
+
+                                    @foreach ($list as $item )
+                                    <option value="{{ $item->id }}" {{ $item->id==$sub->id?'Selected':'' }}>{{ $item->category_name }}</option>
+                                    @endforeach
+
+
+                                </select>
+                                @error('cat_id')
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 </div>
                             </div>
 
-
-
-
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Image</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary form-group">
-                                    <input type="file" id="selectImage" onchange="changeImage(event)" class="form-control @error('image')
-                                        is-invalid
-                                    @enderror" name="image">
-                                    @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                                </div>
-
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Preview</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary form-group">
-                                     <img src="{{ asset('uploads/brands/'.$item->image) }}" id="preview" alt="" height="100px" width="100px">
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                    <input type="submit" class="btn btn-primary px-4" value="Update brand">
+                                    <input type="submit" class="btn btn-primary px-4" value="Update Sub Category">
                                 </div>
                             </div>
                             </form>
@@ -109,47 +90,30 @@
     <script src="{{ asset('validate.min.js') }}"></script>
 <script>
 
-    function changeImage(event)
-    {
-        if(event.target.files.length>0){
-    var src=URL.createObjectURL( event.target.files[0]);
-    let preview=document.getElementById('preview');
-    preview.src=src;
-  }
-    }
-
-
-
 $(document).ready(function() {
 			$('#loginForm').validate({
 				rules: {
-					 brand_name: {
+					 sub_name: {
 						required: true,
                         minlength:2,
                         maxlength:255,
 					},
-                    brand_slug: {
-						required: true,
-                        minlength:3,
-                        maxlength:255,
-					},
+                   cat_id:{
+                    required:true,
+                   }
 
 
 				},
 
 				messages: {
-					brand_name: {
-						required: 'Please type full name!',
-                        minlength:'Too short Brand Name',
-                        maxlength:'Too long Brand Name',
+					sub_name: {
+						required: 'Please type Sub Category name!',
+                        minlength:'Too short Sub Category Name',
+                        maxlength:'Too long Sub Category Name',
 
 					},
 
-                    brand_slug:{
-                        required: 'Please type full Slug!',
-                        minlength:'Too short Brand Slug',
-                        maxlength:'Too long Brand Slug',
-                    }
+
 				},
 				errorElement: 'span',
 				errorPlacement: function(error, element) {

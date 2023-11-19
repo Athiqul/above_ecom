@@ -377,23 +377,23 @@
                 </ul>
             </div>
             @php
-                $userImage=\App\Models\User::find(Auth::user()->id);
+                $userImage=\App\Models\User::find(Auth::user()?->id);
 
             @endphp
             <div class="user-box dropdown">
                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ $userImage->image==null?asset('uploads/no_image.jpg')  : asset('uploads/profile/'.$userImage->image) }}" class="user-img" alt="user avatar">
+                    <img src="{{ $userImage?->image==null?asset('uploads/no_image.jpg')  : asset('uploads/profile/'.$userImage?->image) }}" class="user-img" alt="user avatar">
                     <div class="user-info ps-3">
-                        <p class="user-name mb-0">{{ Auth::user()->name }}</p>
-                        <p class="designattion mb-0">{{ Auth::user()->role }}</p>
+                        <p class="user-name mb-0">{{ Auth::user()?->name }}</p>
+                        <p class="designattion mb-0">{{ Auth::user()?->role }}</p>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ Auth::user()->role=='admin'? route('admin.profile'): route('vendor.profile') }}"><i
+                    <li><a class="dropdown-item" href="{{ Auth::user()?->role=='admin'? route('admin.profile'): route('vendor.profile') }}"><i
                                 class="bx bx-user"></i><span>Profile</span></a>
                     </li>
-                    <li><a class="dropdown-item" href="{{ Auth::user()->role=='admin'?route('admin.password_change'):route('vendor.password_change') }}"><i
+                    <li><a class="dropdown-item" href="{{ Auth::user()?->role=='admin'?route('admin.password_change'):route('vendor.password_change') }}"><i
                                 class="bx bx-cog"></i><span>Change Password</span></a>
                     </li>
                     <li><a class="dropdown-item" href="javascript:;"><i

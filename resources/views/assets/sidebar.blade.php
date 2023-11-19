@@ -13,7 +13,7 @@
     <ul class="metismenu" id="menu">
         <li>
 
-            <a href="{{ Auth::user()->role=='admin'?route('admin.dashboard'): route('vendor.dashboard') }}" class="has-arrow">
+            <a href="{{ Auth::user()?->role=='admin'?route('admin.dashboard'): route('vendor.dashboard') }}" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
@@ -45,6 +45,21 @@
                 <li> <a href="{{ route('category.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
                 </li>
                 <li> <a href="{{ route('category.list') }}"><i class="bx bx-right-arrow-alt"></i>All Category</a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Sub Category </div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('sub.category.add') }}"><i class="bx bx-right-arrow-alt"></i>Add SubCategory</a>
+                </li>
+                <li> <a href="{{ route('sub.category.list') }}"><i class="bx bx-right-arrow-alt"></i>All SubCategory</a>
                 </li>
 
             </ul>

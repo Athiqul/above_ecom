@@ -10,6 +10,7 @@ use App\Http\Controllers\Vendor\VendorProfile;
 use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
+use App\Http\Controllers\Common\SubCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::prefix('admin')->group(function (){
          Route::patch('profile-update',[AdminProfile::class,'profileUpdate'])->name('admin.profileUpdate');
          Route::get('change-password',[AdminProfile::class,'changePassword'])->name('admin.password_change');
          Route::patch('change-password',[AdminProfile::class,'storePassword'])->name('admin.password_store');
-    });
+
 
     //Brands
     Route::controller(Brand::class)->prefix('brand')->group( function (){
@@ -51,6 +52,19 @@ Route::prefix('admin')->group(function (){
            Route::patch('update/{id}','update')->name('category.update');
            Route::get('category-delete/{id}','delete')->name('category.delete');
     });
+
+  //Sub category route
+    Route::controller(SubCategory::class)->prefix('sub-category')->group(function(){
+
+        Route::get('/','index')->name('sub.category.list');
+        Route::get('add-sub-category','add')->name('sub.category.add');
+        Route::post('add-sub-category','store')->name('sub.category.create');
+        Route::get('edit-sub-category/{id}','edit')->name('sub.catedory.edit');
+        Route::patch('update/{id}','update')->name('sub.category.update');
+        Route::get('delete/{id}','delete')->name('sub.category.delete');
+ });
+
+});
 });
 
 
