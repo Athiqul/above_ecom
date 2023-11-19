@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\Dash as VendorDash;
 use App\Http\Controllers\Vendor\VendorProfile;
 use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
+use App\Http\Controllers\Common\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,7 @@ Route::prefix('admin')->group(function (){
     });
 
     //Brands
-    Route::controller(Brand::class)->group( function (){
+    Route::controller(Brand::class)->prefix('brand')->group( function (){
          //Show All brands
          Route::get('all-brand','index')->name('all.brand');
          Route::get('add-brand','add')->name('brand.add');
@@ -39,6 +40,16 @@ Route::prefix('admin')->group(function (){
          Route::get('edit-brand/{id}','edit')->name('brand.edit');
          Route::patch('update/{id}','update')->name('brand.update');
          Route::get('brand-delete/{id}','delete')->name('brand.delete');
+    });
+
+    Route::controller(Category::class)->prefix('category')->group(function(){
+
+           Route::get('categories','index')->name('category.list');
+           Route::get('add-category','add')->name('category.add');
+           Route::post('add-category','store')->name('category.create');
+           Route::get('edit-category/{id}','edit')->name('catedory.edit');
+           Route::patch('update/{id}','update')->name('category.update');
+           Route::get('category-delete/{id}','delete')->name('category.delete');
     });
 });
 
