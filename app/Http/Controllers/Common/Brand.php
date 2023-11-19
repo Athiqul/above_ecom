@@ -8,6 +8,7 @@ use App\Models\Brand as BrandModel;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use Illuminate\Validation\Rule;
 
 class Brand extends Controller
 {
@@ -80,8 +81,9 @@ class Brand extends Controller
 
     public function update(Request $request,$id)
     {
+        $item=BrandModel::findOrFail($id);
         Validator::make($request->all(),[
-            'brand_name'=>'required|min:3|max:255',
+            'brand_name'=>['required','min:3','max:255',Rule::unique('brands')->ignore($item->id)],
             'brand_slug'=>'required|min:3|max:255',
             'image'=>'nullable|image|mimes:png,jpg|max:2048'
          ],[
@@ -93,11 +95,54 @@ class Brand extends Controller
             'brand_slug.required'=>'Too short Brand name!',
             'brand_slug.required'=>'Too long Brand name!',
             'image.image'=>'Please select an image',
+
             'image.max'=>'Image should be maximum 2048 KB!',
             'image.mimes'=>'Only PNG and JPG Image will allow to upload!',
 
 
          ])->validate();
+
+         if($request->hasFile('image'))
+         {
+               $file=$request->file('image');
+               $filename=time().$file->getClientOriginalExtension();
+               !is_dir(public_path('uploads/brands/'))&&mkdir('uploads/brands/',0777,true);
+               //Remove image
+
+               if(file_exists(public_path('uploads/brands/'.$item->image)))
+               {
+                    unlink(public_path('uploads/brands/'.$item->image));
+               }
+               $path=public_path('uploads/brands/');
+               Image::make($file)->resize(300,300)->save($path.$filename);
+
+         }
+
+         $item->brand_name=$request->brand_name;
+         $item->brand_slug=strtolower( str_replace(' ','-',$request->brand_slug));
+         $item->image=$filename??$item->image;
+
+         if($item->isClean())
+         {
+            return back()->with('alert-info','Nothing Updated!')->with(['toast-type'=>'info','toast-message'=>'Nothing updated!'])->withInput();
+         }
+
+        //Info Save
+        try{
+
+               $item->save();
+
+               return back()->with('alert-success','Successfully updated!')->with(['toast-type'=>'success','toast-message'=>'Successfully updated!']);
+        }catch(Exception $ex){
+              return back()->with('alert-danger','System Error!');
+              dd($ex->getMessage());
+        }
     }
     //Brand Delete
+
+    public function delete($id)
+    {
+        BrandModel::findOrFail($id)->delete();
+        return back()->with('alert-success','Successfully item deleted')->with(['toast-type'=>'success','toast-message'=>'Successfully item deleted!']);
+    }
 }

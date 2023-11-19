@@ -4,6 +4,9 @@
 @endsection
 @section('need-css')
     <link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css
+    " rel="stylesheet">
 @endsection
 @section('main')
 
@@ -79,7 +82,7 @@
                                     <td>{{ date('h:i:s:a d-m-Y',strtotime($item->created_at)) }}</td>
                                     <td>
                                         <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary">Edit</a>
-                                        <a href="" class="btn btn-danger">Delete</a>
+                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -104,8 +107,38 @@
 @endsection
 @section('need-js')
     <script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
+        $(function(){
+    $(document).on('click','#delete',function(e){
+        e.preventDefault();
+        var link = $(this).attr("href");
+
+
+                  Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete This Data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.href = link
+                      Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                    }
+                  })
+
+
+    });
+
+  });
         $(document).ready(function() {
             $('#example').DataTable();
         });

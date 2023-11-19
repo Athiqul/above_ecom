@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function (){
          Route::get('add-brand','add')->name('brand.add');
          Route::post('add-brand','store')->name('brand.create');
          Route::get('edit-brand/{id}','edit')->name('brand.edit');
+         Route::patch('update/{id}','update')->name('brand.update');
+         Route::get('brand-delete/{id}','delete')->name('brand.delete');
     });
 });
 

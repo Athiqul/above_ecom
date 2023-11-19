@@ -29,9 +29,10 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('brand.create') }}" method="post" id="loginForm" enctype="multipart/form-data">
-                                @csrf
 
+                            <form action="{{ route('brand.update',$item->id) }}" method="post" id="loginForm" enctype="multipart/form-data">
+                                @csrf
+                                @method('PATCH')
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Brand Name</h6>
@@ -70,7 +71,7 @@
                                 <div class="col-sm-9 text-secondary form-group">
                                     <input type="file" id="selectImage" onchange="changeImage(event)" class="form-control @error('image')
                                         is-invalid
-                                    @enderror" name="image" required="">
+                                    @enderror" name="image">
                                     @error('image')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -132,10 +133,7 @@ $(document).ready(function() {
                         minlength:3,
                         maxlength:255,
 					},
-                    image: {
-						required: true,
 
-					},
 
 				},
 
