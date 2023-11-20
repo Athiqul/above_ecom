@@ -82,6 +82,26 @@
             </ul>
         </li>
 
+
+        <li class="menu-label">Product Management</li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Products</div>
+            </a>
+            <ul>
+
+                <li> <a href="{{ route('product.list') }}"><i class="bx bx-right-arrow-alt"></i>All Products</a>
+                </li>
+                <li> <a href="{{ route('product.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Product</a>
+                </li>
+
+            </ul>
+        </li>
+
+
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bx bx-repeat"></i>

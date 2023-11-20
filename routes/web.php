@@ -10,6 +10,7 @@ use App\Http\Controllers\Vendor\VendorProfile;
 use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
+use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
 
@@ -73,6 +74,15 @@ Route::prefix('admin')->group(function (){
           Route::get('profile/{id}','vendorDetails')->name('vendor.profile.details');
           Route::get('change-status/{id}','changeStatus')->name('vendor.status.change');
    });
+
+
+   //Product management
+   Route::controller(Products::class)->prefix('product-manage')->group(function(){
+
+    Route::get('','index')->name('product.list');
+    Route::get('add-product','add')->name('product.add');
+
+});
 
 });
 });
