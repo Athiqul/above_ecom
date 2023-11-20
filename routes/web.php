@@ -11,6 +11,7 @@ use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
 use App\Http\Controllers\Common\SubCategory;
+use App\Http\Controllers\Common\Vendor;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,15 @@ Route::prefix('admin')->group(function (){
         Route::get('delete/{id}','delete')->name('sub.category.delete');
  });
 
+ //Vendor Manage
+   Route::controller(Vendor::class)->prefix('vendor-manage')->group(function(){
+
+          Route::get('active-list','showActive')->name('vendor.active.list');
+          Route::get('inactive-list','showInActive')->name('vendor.inactive.list');
+          Route::get('profile/{id}','vendorDetails')->name('vendor.profile.details');
+          Route::get('change-status/{id}','changeStatus')->name('vendor.status.change');
+   });
+
 });
 });
 
@@ -84,6 +94,9 @@ Route::get('/',[Home::class,'index'] )->name('customer.home');
 Route::get('/sign-in',[CustomerAuth::class,'signIn'])->name('customer.login');
 Route::get('/sign-up',[CustomerAuth::class,'register'])->name('customer.register');
 Route::get('/forget-password',[CustomerAuth::class,'forgot'])->name('customer.forgot');
+//Vendor Register
+Route::get('/vendor-register',[VendorProfile::class,'vendorRegister'])->name('vendor.register');
+Route::post('vendor-register',[VendorProfile::class,'storeVendor'])->name('vendor.create');
 
 //Customer
 Route::prefix('customer')->middleware(['auth','role:user'])->group(function (){

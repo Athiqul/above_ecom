@@ -3,6 +3,7 @@
     Vendor Dashboard| Above Ecommerce
 @endsection
 @section('main')
+<h4>Currenty your account is <span class="{{ $user->status=='active'?'text-success':'text-danger' }}">{{ $user->status }}</span> </h4>
 <div class="card radius-10">
     <div class="card-body">
         <div class="d-flex align-items-center">

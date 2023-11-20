@@ -156,7 +156,7 @@
                     data-wow-delay=".3s">
                     <h4 class="widget-title">Corporate</h4>
                     <ul class="footer-list mb-sm-5 mb-md-0">
-                        <li><a href="#">Become a Vendor</a></li>
+                        <li><a href="{{ route('vendor.register') }}">Become a Vendor</a></li>
                         <li><a href="#">Affiliate Program</a></li>
                         <li><a href="#">Farm Business</a></li>
                         <li><a href="#">Farm Careers</a></li>

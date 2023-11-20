@@ -33,7 +33,12 @@
     <!--wrapper-->
     <div class="wrapper">
         <!--sidebar wrapper -->
+        @if (Auth::user()->role=='admin')
         @include('assets.sidebar')
+        @else
+         @include('assets.vendor_sidebar')
+        @endif
+
         <!--end sidebar wrapper -->
         <!--start header -->
         @include('assets.topbar')

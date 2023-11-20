@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
+use Intervention\Image\Facades\Image;
+
 class VendorProfile extends Controller
 {
     //Vendor profile
@@ -19,7 +21,7 @@ class VendorProfile extends Controller
     {
           $user_id=Auth::user()->id;
           $user=User::findOrFail($user_id);
-          $userInfo=VendorInfo::where('vendor_id',$user_id)->first();          
+          $userInfo=VendorInfo::where('vendor_id',$user_id)->first();
           return view('vendor.profile',compact('user','userInfo'));
     }
 
@@ -94,18 +96,18 @@ class VendorProfile extends Controller
                 {
                     $user->save();
                 }
-                return back()->with(['toast-type'=>'success','toast-message'=>'Your Information updated!'])->with('alert-success','Your Information successfully updated!');  
+                return back()->with(['toast-type'=>'success','toast-message'=>'Your Information updated!'])->with('alert-success','Your Information successfully updated!');
             }catch(Exception $ex){
 
                 return back()->with(['toast-type'=>'danger','toast-message'=>'SomethingError!'])->withInput();
                 dd($ex->getMessage());
             }
             //create
-           
 
-            
+
+
         }
-        
+
         $userInfo->info=$request->info;
         $userInfo->since=$request->since;
         $userInfo->phone=$request->phone;
@@ -122,7 +124,7 @@ class VendorProfile extends Controller
             return back()->with(['toast-type'=>'success','toast-message'=>'Your Information updated!'])->with('alert-success','Your Information successfully updated!');
         }catch(Exception $ex){
            dd($ex->getMessage());
-        }   
+        }
 
     }
 
@@ -148,7 +150,7 @@ class VendorProfile extends Controller
             'new_password.min'=>'Too short password not allowed!',
             'confirm_password.required'=>'Please retype new password!',
             'current_password.same'=>'Password should be same!',
-            
+
         ])->validate();
 
         $user_id=Auth::user()->id;
@@ -158,9 +160,9 @@ class VendorProfile extends Controller
         {
              return back()->with('alert-danger','Current Password is wrong!')->withInput();
         }
-      
+
         //Check new password is actually change or not
-       
+
         if(Hash::check($request->new_password,$user->password))
         {
             return back()->with('alert-info','Nothing updated! same password for new and old!');
@@ -169,17 +171,85 @@ class VendorProfile extends Controller
         //save current password
         $user->password=Hash::make($request->new_password);
         try{
-          
+
             $user->save();
             Auth::guard('web')->logout();
 
             $request->session()->invalidate();
-    
+
             $request->session()->regenerateToken();
             return redirect()->route('authorise.login')->with('alert-success','Successfully password updated ! please log in now!');
         }catch(Exception $ex){
-             //dd($ex->getMessage());  
+             //dd($ex->getMessage());
              return back()->with(['toast-type'=>'warning','toast-message'=>'Something Errors happen!'])->withInput();
         }
     }
+
+    //Vendor Register
+    public function vendorRegister()
+    {
+        return view('customer.vendor_register');
+    }
+
+
+    public function storeVendor(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'mobile' => ['required', 'string', 'size:11','regex:/^(?:\+?88)?01[3-9]\d{8}$/', 'unique:'.User::class],
+            'password' => ['required', 'confirmed'],
+            'info'=>['required','string'],
+            'since'=>['required','numeric','min:1971'],
+            'image'=>['required','image','mimes:png,jpg','max:2048'],
+            'address'=>['required','string','max:255'],
+            'phone'=>['nullable','string','max:15'],
+        ]);
+
+
+        //Work With Image
+        if($request->hasFile('image'))
+        {
+            //Remove Existing file
+
+            $file=$request->file('image');
+            $filename=date('Y-m-d').$file->getClientOriginalName();
+            Image::make($file)->resize('300','300')->save(public_path('/uploads/profile/'.$filename));
+
+        }
+
+        //Store info for user table
+
+        try{
+
+            $user=User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'username'=>fake()->unique()->userName(),
+                'mobile'=>$request->mobile,
+                'role'=>'vendor',
+                'status'=>'inactive',
+                'image'=>$filename,
+                'address'=>$request->address,
+            ]);
+
+            //Save User Info
+
+            VendorInfo::create([
+                  "vendor_id"=>$user->id,
+                  "since"=>$request->since,
+                  'info'=>$request->info,
+                  'phone'=>$request->phone??null,
+            ]);
+
+            return redirect()->route('authorise.login')->with('alert-success','Successfully your vendor account created!');
+
+        }catch(Exception $ex){
+           return back()->with('alert-danger','Something Error');
+        }
+
+    }
+
+    //Vendor Save
 }
