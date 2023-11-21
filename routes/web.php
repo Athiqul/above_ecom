@@ -81,6 +81,7 @@ Route::prefix('admin')->group(function (){
 
     Route::get('','index')->name('product.list');
     Route::get('add-product','add')->name('product.add');
+    Route::post('add-product','store')->name('product.save');
     Route::get('/subcategory/{id}','subCategory')->name('ajax.subcategory');
 
 
