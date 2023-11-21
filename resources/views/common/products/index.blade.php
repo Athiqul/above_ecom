@@ -63,6 +63,9 @@
                                             <th class="sorting" tabindex="0" aria-controls="example" rowspan="1"
                                                 colspan="1" aria-label="Start date: activate to sort column ascending"
                                                 style="width: 67px;">Vendor</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1"
+                                                colspan="1" aria-label="Start date: activate to sort column ascending"
+                                                style="width: 67px;">Status</th>
                                             <th class="sorting" tabindex="0" aria-controls="example" rowspan="1"
                                                 colspan="1" aria-label="Salary: activate to sort column ascending"
                                                 style="width: 52px;">Action</th>
@@ -78,14 +81,18 @@
                                         <img src="{{$item->main_image==null? asset('uploads/no_image.jpg'):asset('uploads/products/'.$item->main_image) }}" style="height: 50px;width:70px;" alt="{{ $item->product_name }}">
                                     </td>
                                     <td>{{ $item->selling_price }}</td>
-
-                                    <td>{{$item->discount  }}</td>
-                                    <td>{{ $item->vendor??'' }}</td>
+                                     @php
+                                         $amount=$item->selling_price-$item->discount_price;
+                                         $percentage=($amount/$item->selling_price)*100;
+                                     @endphp
+                                    <td class="text-center"> <span class="bg-danger rounded text-light">{{$percentage  }}%</span></td>
+                                    <td>{{ $item->vendor->name??'' }}</td>
+                                    <td> <span class="rounded {{ $item->status=='1'?'bg-success text-light':'bg-warning' }}">{{ $item->status=='1'?'Active':'Inactive' }}</span></td>
                                     <td>
-                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary">Edit</a>
-                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary">View</a>
-                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary">Status</a>
-                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
+                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
+                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-warning" title="View"><i class="fadeIn animated bx bx-link-external"></i></a>
+                                        <a href="{{ route('brand.edit',$item->id) }}" title="{{ $item->status=='1'?'Make Inactive':'Make Active' }}" class="btn btn-primary"><i class="fadeIn animated bx {{ $item->status=='1'?'bx-dislike':'bx-like' }}"></i></a>
+                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete" title="Delete" class="btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

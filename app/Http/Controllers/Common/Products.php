@@ -97,7 +97,7 @@ class Products extends Controller
         }
         //Store in product table
         //working here
-        $product
+        $product_code=time();
        DB::beginTransaction();
 
        try{
@@ -122,6 +122,7 @@ class Products extends Controller
             "featured"=>$request->featured,
             "hot_deals"=>$request->hot_deals,
             "product_slug"=>$product_slug,
+            "product_code"=>$product_code,
         ]);
         //Store in muilti image table
         if($request->hasFile('image'))
@@ -141,7 +142,7 @@ class Products extends Controller
 
         DB::commit();
 
-        return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product Added!'])->with('alert-success','Successfully Product Added!');
+        return redirect()->route('product.list')->with(['toast-type'=>'success','toast-message'=>'Successfully Product Added!'])->with('alert-success','Successfully Product Added!');
 
        }catch(Exception $e)
        {
