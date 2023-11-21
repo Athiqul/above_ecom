@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('product_code');
             $table->string('product_qty');
             $table->string('product_tags')->nullable();
-            $table->enum('product_size',['s','m','ml','x','xl'])->nullable();
+            $table->string('product_size')->nullable();
             $table->string('product_color')->nullable();
             $table->integer('selling_price');
             $table->integer('discount_price')->nullable();

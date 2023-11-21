@@ -81,6 +81,8 @@ Route::prefix('admin')->group(function (){
 
     Route::get('','index')->name('product.list');
     Route::get('add-product','add')->name('product.add');
+    Route::get('/subcategory/{id}','subCategory')->name('ajax.subcategory');
+
 
 });
 
@@ -121,5 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 require __DIR__.'/auth.php';
