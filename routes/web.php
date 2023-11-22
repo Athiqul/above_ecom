@@ -14,6 +14,7 @@ use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
 use App\Http\Controllers\Vendor\VendorProduct;
+use App\Models\Slider;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,17 @@ Route::prefix('admin')->group(function (){
 
 
 
+});
+
+//Brands
+Route::controller(Slider::class)->prefix('slider')->group( function (){
+    //Show All brands
+    Route::get('all-sliders','index')->name('all.slider');
+    Route::get('add-slider','add')->name('slider.add');
+    Route::post('add-slider','store')->name('slider.create');
+    Route::get('edit-slider/{id}','edit')->name('slider.edit');
+    Route::patch('update/{id}','update')->name('slider.update');
+    Route::get('slider-delete/{id}','delete')->name('slider.delete');
 });
 
 });
