@@ -14,7 +14,7 @@
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a>
+                    <li class="breadcrumb-item"><a href="{{Auth::user()->role=='admin'? route('admin.dashboard'):route('vendor.dashboard') }}"><i class="bx bx-home-alt"></i></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
                 </ol>
@@ -30,7 +30,7 @@
             <hr>
             <div class="form-body mt-4">
                 @include('assets.alert')
-                <form action="{{ route('product.save') }}" method="post" id="loginForm" enctype="multipart/form-data">
+                <form action="{{ route('vendor.product.save') }}" method="post" id="loginForm" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-lg-8">
@@ -201,8 +201,8 @@
 
                                         </select>
                                     </div>
-
-                                    <div class="col-12 form-group">
+                                     @if (Auth::user()->role=='admin')
+                                     <div class="col-12 form-group">
                                         <label for="inputCollection" class="form-label">Vendor</label>
                                         <select class="form-select" name="vendor_id" id="inputCollection">
                                             <option></option>
@@ -213,6 +213,8 @@
 
                                         </select>
                                     </div>
+                                     @endif
+
                                     <div class="col-md-6">
                                         <div class="form-check">
                                             <input type="hidden" name="hot_deals" value="0">
@@ -287,19 +289,25 @@
             let catId = cat.value;
             document.getElementById('subcat').innerHTML = "";
             if (catId !== '') {
-                let url = "{{ URL::to('/admin/product-manage/subcategory') }}" + '/' + catId;
+                let url = "{{ URL::to('/vendor/product-manage/subcategory') }}" + '/' + catId;
                 //console.log(url);
-                fetch(url).then(res => res.json()).then(res => {
-                    console.log(res);
+               fetch(url)
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        data.forEach((item) => {
+            let option = document.createElement("option");
+            option.text = item.sub_name;
+            option.value = item.id;
+            document.getElementById('subcat').add(option);
+        });
+    })
+    .catch(err => console.log(err));
 
-                    res.forEach((item) => {
-                        let option = document.createElement("option");
-                        option.text = item.sub_name;
-                        option.value = item.id;
-                        document.getElementById('subcat').add(option);
-                    })
-
-                }).catch(err => console.log(err));
 
 
             }

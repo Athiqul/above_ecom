@@ -17,7 +17,7 @@
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="{{ route('product.list') }}"><i class="bx bx-home-alt"></i></a>
+                    <li class="breadcrumb-item"><a href="{{Auth::user()->role=='admin'? route('product.list'):route('vendor.product.list') }}"><i class="bx bx-home-alt"></i></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                 </ol>
@@ -149,6 +149,10 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
+                                    {{-- @if (woriking here) --}}
+
+                                    @endif
 
                                     <div class="col-12 form-group">
                                         <label for="inputProductType" class="form-label">Brand</label>

@@ -47,10 +47,8 @@ class RegisteredUserController extends Controller
             'mobile'=>$request->mobile,
         ]);
 
-        event(new Registered($user));
 
-        Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('customer.login')->with('alert-success','Successfully Account Created, Please login with your email and password');
     }
 }

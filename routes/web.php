@@ -13,6 +13,7 @@ use App\Http\Controllers\Common\Category;
 use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
+use App\Http\Controllers\Vendor\VendorProduct;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,27 @@ Route::prefix('vendor')->middleware(['auth','role:vendor'])->group(function(){
     Route::get('change-password',[VendorProfile::class,'changePassword'])->name('vendor.password_change');
     Route::patch('change-password',[VendorProfile::class,'storePassword'])->name('vendor.password_store');
 
+
+    Route::controller(VendorProduct::class)->prefix('product-manage')->group(function(){
+
+        Route::get('','index')->name('vendor.product.list');
+        Route::get('add-product','add')->name('vendor.product.add');
+        Route::post('add-product','store')->name('vendor.product.save');
+
+        Route::get('edit-product/{id}','edit')->name('vendor.product.edit');
+        Route::put('info-update/{id}','updateInfo')->name('product.update.info');
+        Route::patch('main-image-update/{id}','updateImage')->name('product.update.image');
+        Route::patch('multi-image-update/{id}','updateMultiImage')->name('product.update.multi');
+        Route::post('add-multi-image/{id}','addMultiImage')->name('product.add.multi');
+        Route::get('delete-product/{id}','deleteMulti')->name('product.image.delete');
+        Route::get('status-product/{id}','changeStatus')->name('product.status');
+        Route::get('product-delete/{id}','deleteProduct')->name('product.delete');
+        Route::get('/subcategory/{id}',[VendorProduct::class,'subCategory'])->name('ajax.subcategory');
+
+
+
+    });
+
 });
 
 //Visitors view
@@ -119,6 +141,9 @@ Route::get('/forget-password',[CustomerAuth::class,'forgot'])->name('customer.fo
 //Vendor Register
 Route::get('/vendor-register',[VendorProfile::class,'vendorRegister'])->name('vendor.register');
 Route::post('vendor-register',[VendorProfile::class,'storeVendor'])->name('vendor.create');
+
+
+
 
 //Customer
 Route::prefix('customer')->middleware(['auth','role:user'])->group(function (){

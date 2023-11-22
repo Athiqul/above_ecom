@@ -21,6 +21,26 @@
 
         </li>
 
+        @if (Auth::user()->status=='active')
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Products</div>
+            </a>
+            <ul>
+
+                <li> <a href="{{ route('vendor.product.list') }}"><i class="bx bx-right-arrow-alt"></i>All Products</a>
+                </li>
+                <li> <a href="{{ route('product.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Product</a>
+                </li>
+
+            </ul>
+        </li>
+        @endif
+
+
+
     </ul>
     <!--end navigation-->
 </div>

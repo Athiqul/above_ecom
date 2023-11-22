@@ -16,9 +16,9 @@
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a>
+                        <li class="breadcrumb-item"><a href="{{Auth::user()->role=='admin'? route('admin.dashboard'):route('vendor.dashboard') }}"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Products List</li>
+                        <li class="breadcrumb-item active" aria-current="page">All Product <span class="badge rounded-pill bg-danger">{{ count($products) }}</span></li>
                     </ol>
                 </nav>
             </div>
@@ -27,7 +27,7 @@
         <!--end breadcrumb-->
         <div class="d-flex justify-content-between">
             <h6 class="mb-0 text-uppercase ">Products List</h6>
-            <a href="{{ route('product.add') }}" class="btn btn-primary ">Add Product</a>
+            <a href="{{ route('vendor.product.add') }}" class="btn btn-primary ">Add Product</a>
         </div>
 
         <hr>
@@ -89,7 +89,7 @@
                                     <td>{{ $item->vendor->name??'' }}</td>
                                     <td> <span class="rounded-pill badge {{ $item->status=='1'?'bg-success':'bg-warning' }}">{{ $item->status=='1'?'Active':'Inactive' }}</span></td>
                                     <td>
-                                        <a href="{{ route('product.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
+                                        <a href="{{ route('vendor.product.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
 
                                         <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-primary" title="View"><i class="fadeIn animated bx bx-link-external"></i></a>
 
