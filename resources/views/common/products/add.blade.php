@@ -289,7 +289,10 @@
             let catId = cat.value;
             document.getElementById('subcat').innerHTML = "";
             if (catId !== '') {
-                let url = "{{ URL::to('/vendor/product-manage/subcategory') }}" + '/' + catId;
+                @php
+                    $url= Auth::user()->role=='admin'? URL::to('/admin/product-manage/subcategory'):URL::to('/vendor/product-manage/subcategory');
+                @endphp
+                let url = "{{ $url }}" + '/' + catId;
                 //console.log(url);
                fetch(url)
     .then(res => {

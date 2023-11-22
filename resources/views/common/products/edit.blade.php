@@ -33,7 +33,7 @@
             <hr>
             <div class="form-body mt-4">
                 @include('assets.alert')
-                <form action="{{ route('product.update.info', $product->id) }}" method="post" id="loginForm"
+                <form action="{{ Auth::user()->role=='admin' ? route('product.update.info', $product->id) : route('vendor.product.update.info',$product->id) }}" method="post" id="loginForm"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -150,9 +150,6 @@
                                         @enderror
                                     </div>
 
-                                    {{-- @if (woriking here) --}}
-
-                                    @endif
 
                                     <div class="col-12 form-group">
                                         <label for="inputProductType" class="form-label">Brand</label>
@@ -193,6 +190,8 @@
                                         </select>
                                     </div>
 
+                                    @if (Auth::user()->role=='admin')
+
                                     <div class="col-12 form-group">
                                         <label for="inputCollection" class="form-label">Vendor</label>
                                         <select class="form-select" name="vendor_id" id="inputCollection">
@@ -206,6 +205,10 @@
 
                                         </select>
                                     </div>
+
+                                    @endif
+
+
                                     <div class="col-md-6">
                                         <div class="form-check">
                                             <input type="hidden" name="hot_deals" value="0">
@@ -264,7 +267,7 @@
                         <h4>Change Main Preview Product Image</h4>
                         <hr>
                         <div class="border border-3 p-4 rounded">
-                           <form action="{{ route('product.update.image',$product->id) }}" method="POST" id="imageUpdate"  enctype="multipart/form-data">
+                           <form action="{{ Auth::user()->role=='admin'? route('product.update.image',$product->id) : route('vendor.product.update.image',$product->id) }}" method="POST" id="imageUpdate"  enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
                             <div class="mb-3 form-group">
@@ -313,7 +316,7 @@
                                         <tbody>
                                             @foreach ($product->images as $key=>$item)
                                             <tr>
-                                                <form action="{{ route('product.update.multi',$item->id) }}" method="POST" enctype="multipart/form-data">
+                                                <form action="{{Auth::user()->role=='admin'? route('product.update.multi',$item->id):route('vendor.product.update.multi',$item->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PATCH')
                                                 <th scope="row">{{ ++$key }}</th>
@@ -327,13 +330,13 @@
                                                 <td>
                                                     <button type="submit" class="btn btn-info">Update</button>
                                                 </form>
-                                                    <a href="{{ route('product.image.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
+                                                    <a href="{{Auth::user()->role=='admin'? route('product.image.delete',$item->id):route('vendor.product.image.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                                 </td>
 
                                             </tr>
                                             @endforeach
                                             <tr>
-                                                <form action="{{ route('product.add.multi',$product->id) }}" method="POST"  enctype="multipart/form-data">
+                                                <form action="{{Auth::user()->role=='admin'? route('product.add.multi',$product->id): route('vendor.product.add.multi',$product->id) }}" method="POST"  enctype="multipart/form-data">
                                                     @csrf
                                                 <th scope="row"></th>
                                                 <td>
@@ -413,7 +416,10 @@ $(function(){
             let catId = cat.value;
             document.getElementById('subcat').innerHTML = "";
             if (catId !== '') {
-                let url = "{{ URL::to('/admin/product-manage/subcategory') }}" + '/' + catId;
+                @php
+                    $url= Auth::user()->role=='admin'? URL::to('/admin/product-manage/subcategory'):URL::to('/vendor/product-manage/subcategory');
+                @endphp
+                let url = "{{ $url }}" + '/' + catId;
                 //console.log(url);
                 fetch(url).then(res => res.json()).then(res => {
                     console.log(res);

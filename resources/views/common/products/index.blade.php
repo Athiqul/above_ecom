@@ -27,7 +27,7 @@
         <!--end breadcrumb-->
         <div class="d-flex justify-content-between">
             <h6 class="mb-0 text-uppercase ">Products List</h6>
-            <a href="{{ route('vendor.product.add') }}" class="btn btn-primary ">Add Product</a>
+            <a href="{{Auth::user()->role=='admin'? route('product.add'):route('vendor.product.add') }}" class="btn btn-primary ">Add Product</a>
         </div>
 
         <hr>
@@ -89,13 +89,13 @@
                                     <td>{{ $item->vendor->name??'' }}</td>
                                     <td> <span class="rounded-pill badge {{ $item->status=='1'?'bg-success':'bg-warning' }}">{{ $item->status=='1'?'Active':'Inactive' }}</span></td>
                                     <td>
-                                        <a href="{{ route('vendor.product.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
+                                        <a href="{{Auth::user()->role=='admin'? route('product.edit',$item->id) :route('vendor.product.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
 
                                         <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-primary" title="View"><i class="fadeIn animated bx bx-link-external"></i></a>
 
                                         <a data-id="{{ $item->id }}" title="{{ $item->status=='1'?'Make Inactive':'Make Active' }}" class="status btn {{ $item->status=='1'?'bg-warning':'bg-info' }}"><i class="fadeIn animated bx {{ $item->status=='1'?'bx-dislike':'bx-like' }}" ></i></a>
 
-                                        <a href="{{ route('product.delete',$item->id) }}"  title="Delete" data-id="{{ $item->id }}" class="delete btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
+                                        <a href="{{Auth::user()->role=='admin'? route('product.delete',$item->id): route('vendor.product.delete',$item->id) }}"  title="Delete" data-id="{{ $item->id }}" class="delete btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -126,8 +126,11 @@
       $(function(){
     $(document).on('click','.status',function(e){
         e.preventDefault();
-        console.log($(this).attr('data-id'));
-        var link = "{{ URL::to('/admin/product-manage/status-product') }}" +'/'+$(this).attr("data-id");
+        //console.log($(this).attr('data-id'));
+        @php
+            $url=Auth::user()->role=='admin'?URL::to('/admin/product-manage/status-product'):URL::to('/vendor/product-manage/status-product');
+        @endphp
+        var link = "{{ $url }}" +'/'+$(this).attr("data-id");
 
 
 

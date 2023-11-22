@@ -117,14 +117,14 @@ Route::prefix('vendor')->middleware(['auth','role:vendor'])->group(function(){
         Route::post('add-product','store')->name('vendor.product.save');
 
         Route::get('edit-product/{id}','edit')->name('vendor.product.edit');
-        Route::put('info-update/{id}','updateInfo')->name('product.update.info');
-        Route::patch('main-image-update/{id}','updateImage')->name('product.update.image');
-        Route::patch('multi-image-update/{id}','updateMultiImage')->name('product.update.multi');
-        Route::post('add-multi-image/{id}','addMultiImage')->name('product.add.multi');
-        Route::get('delete-product/{id}','deleteMulti')->name('product.image.delete');
-        Route::get('status-product/{id}','changeStatus')->name('product.status');
-        Route::get('product-delete/{id}','deleteProduct')->name('product.delete');
-        Route::get('/subcategory/{id}',[VendorProduct::class,'subCategory'])->name('ajax.subcategory');
+        Route::put('info-update/{id}','updateInfo')->name('vendor.product.update.info');
+        Route::patch('main-image-update/{id}','updateImage')->name('vendor.product.update.image');
+        Route::patch('multi-image-update/{id}','updateMultiImage')->name('vendor.product.update.multi');
+        Route::post('add-multi-image/{id}','addMultiImage')->name('vendor.product.add.multi');
+        Route::get('delete-product/{id}','deleteMulti')->name('vendor.product.image.delete');
+        Route::get('status-product/{id}','changeStatus')->name('vendor.product.status');
+        Route::get('product-delete/{id}','deleteProduct')->name('vendor.product.delete');
+        Route::get('/subcategory/{id}',[VendorProduct::class,'subCategory'])->name('vendor.subcategory');
 
 
 

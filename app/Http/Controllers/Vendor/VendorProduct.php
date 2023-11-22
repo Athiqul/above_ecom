@@ -171,7 +171,7 @@ class VendorProduct extends Controller
     {
 
 
-        $product=Product::findOrFail($id);
+        $product=Product::where('vendor_id',Auth::user()->id)->findOrFail($id);
 
           //Valdiation
           Validator::make($request->all(),[
@@ -184,7 +184,6 @@ class VendorProduct extends Controller
             'selling_price'=>'required|numeric',
             'discount_price'=>'nullable|numeric|lt:selling_price',
             'product_qty'=>'required|numeric',
-            'brand_id'=>'required|exists:brands,id',
             'category_id'=>'required|exists:categories,id',
             'subcategory_id'=>'nullable|exists:sub_categories,id',
             'vendor_id'=>'nullable|exists:users,id',
@@ -212,7 +211,7 @@ class VendorProduct extends Controller
     public function updateImage(Request $request,$id)
     {
 
-        $product=Product::findOrFail($id);
+        $product=Product::where('vendor_id',Auth::user()->id)->findOrFail($id);
 
         Validator::make($request->all(),[
 
@@ -275,7 +274,7 @@ class VendorProduct extends Controller
     //Add Multi Single Image
     public function addMultiImage(Request $request,$id)
     {
-        $product=Product::findOrFail($id);
+        $product=Product::where('vendor_id',Auth::user()->id)->findOrFail($id);
 
          //multiple Image Image Validation
          if($request->hasFile('image'))
@@ -354,7 +353,7 @@ class VendorProduct extends Controller
     //Change Status
     public function changeStatus($id)
     {
-        $product=Product::findOrFail($id);
+        $product=Product::where('vendor_id',Auth::user()->id)->findOrFail($id);
         $product->status=$product->status=='1'?'0':'1';
         $product->save();
         $msg=ucwords($product->status=='1'?'Activate':'Inactive');
@@ -365,7 +364,7 @@ class VendorProduct extends Controller
     //Delete Product
     public function deleteProduct($id)
     {
-        $product=Product::findOrFail($id);
+        $product=Product::where('vendor_id',Auth::user()->id)->findOrFail($id);
         //Delete images Multi Images
         $images=ProductImage::where('product_id',$id)->get();
         foreach($images as $image)
