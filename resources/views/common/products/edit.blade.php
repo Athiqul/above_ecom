@@ -5,6 +5,9 @@
 @section('need-css')
     <script src="https://cdn.tiny.cloud/1/b69tdpiu66ovx82jjhzsf0eooi7hehgia7avmhbdiy1s6rx4/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
+        <link href="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css
+        " rel="stylesheet">
     <link href="{{ asset('backend/assets/plugins/input-tags/css/tagsinput.css') }}" rel="stylesheet">
 @endsection
 @section('main')
@@ -306,23 +309,42 @@
                                         <tbody>
                                             @foreach ($product->images as $key=>$item)
                                             <tr>
-                                                <form action="">
+                                                <form action="{{ route('product.update.multi',$item->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PATCH')
                                                 <th scope="row">{{ ++$key }}</th>
                                                 <td>
                                                     <img src="{{ asset('uploads/products/'.$item->image) }}" alt="{{ $product->product_name }}" height="70px" width="70px">
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="image_id" value="{{ $item->id }}">
-                                                    <input type="file" class="form-control" name="images" required>
+
+                                                    <input type="file" class="form-control" name="image" required>
                                                 </td>
                                                 <td>
                                                     <button type="submit" class="btn btn-info">Update</button>
                                                 </form>
-                                                    <a href="" class="btn btn-danger">Delete</a>
+                                                    <a href="{{ route('product.image.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                                 </td>
 
                                             </tr>
                                             @endforeach
+                                            <tr>
+                                                <form action="{{ route('product.add.multi',$product->id) }}" method="POST"  enctype="multipart/form-data">
+                                                    @csrf
+                                                <th scope="row"></th>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                    <input type="file" class="form-control" name="image[]" multiple required>
+                                                </td>
+                                                <td>
+                                                    <button type="submit" class="btn btn-info">Add Image</button>
+                                                </form>
+
+                                                </td>
+                                            </tr>
 
 
                                         </tbody>
@@ -339,7 +361,7 @@
 
 @section('need-js')
     <script src="{{ asset('validate.min.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('backend/assets/plugins/input-tags/js/tagsinput.js') }}"></script>
     <script>
         tinymce.init({
@@ -350,6 +372,36 @@
     </script>
 
     <script>
+
+$(function(){
+    $(document).on('click','#delete',function(e){
+        e.preventDefault();
+        var link = $(this).attr("href");
+
+
+                  Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete This Data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.href = link
+                      Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                    }
+                  })
+
+
+    });
+
+  });
         //WOrking with SUb category
         let cat = document.getElementById('category');
         cat.addEventListener('change', () => {

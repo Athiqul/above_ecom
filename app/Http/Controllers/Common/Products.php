@@ -272,7 +272,100 @@ class Products extends Controller
             dd($ex->getMessage());
         }
     }
+
+    //Add Multi Single Image
+    public function addMultiImage(Request $request,$id)
+    {
+        $product=Product::findOrFail($id);
+
+         //multiple Image Image Validation
+         if($request->hasFile('image'))
+         {
+             $allowMime=['jpg', 'jpeg', 'png','webp'];
+              $files=$request->file('image');
+              foreach($files as $file){
+               $ext=$file->getClientOriginalExtension();
+               if(!in_array($ext,$allowMime))
+               {
+                   return back()->withInput()->withErrors(['image'=>'Only jpg, jpeg, png,webp are allow to upload'])->with(['toast-type'=>'warning','toast-message'=>'Only jpg, jpeg, png,webp are allow to upload'])->with('alert-warning','Wrong file format');
+               }
+
+               //Check Image sizes
+
+               $size=$file->getSize()/1024;
+               //dd($size);
+               if($size>2048)
+               {
+                 return back()->withInput()->withErrors(['image'=>'Maximum 2048 Kb allowed for upload'])->with(['toast-type'=>'warning','toast-message'=>'Maximum 2048 KB allow for upload'])->with('alert-warning','Over Size Image');
+               }
+
+
+               //Save Image
+               $path=public_path('uploads/products/');
+               $image=uniqid().$file->getClientOriginalName();
+
+               !is_dir($path)&&mkdir($path,0777,true);
+               Image::make($file)->resize(800,800)->save($path.$image);
+
+               try{
+
+                  ProductImage::create([
+                    'product_id'=>$product->id,
+                    "image"=>$image,
+                  ]);
+
+
+               }catch(Exception $ex){
+                   dd($ex->getMessage());
+               }
+
+
+              }
+
+              return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product  Image uploaded!'])->with('alert-success','Successfully Product Image Uploaded!');
+         }
+
+
+    }
+    //Delete multi Image
+
+    public function deleteMulti($id)
+    {
+        try{
+
+            ProductImage::where('id',$id)->delete();
+            return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product  Image deleted!'])->with('alert-success','Successfully Product Image deleted!');
+
+
+        }catch(Exception $ex)
+        {
+            dd($ex->getMessage());
+        }
+
+    }
+
+    //Change Status
+    public function changeStatus($id)
+    {
+        $product=Product::findOrFail($id);
+        $product->status=$product->status=='1'?'0':'1';
+        $product->save();
+        $msg=ucwords($product->status=='1'?'Activate':'Inactive');
+        return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product '.$msg])->with('alert-success','Successfully Product '.$msg);
+
+    }
+
     //Delete Product
+    public function deleteProduct($id)
+    {
+        $product=Product::findOrFail($id);
+        //Delete images Multi Images
+        $images=ProductImage::where('product_id',$id)->get();
+        foreach($images as $image)
+        {
+
+        }
+    }
 
     //Send Json Data
 

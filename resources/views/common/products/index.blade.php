@@ -90,9 +90,12 @@
                                     <td> <span class="rounded-pill badge {{ $item->status=='1'?'bg-success':'bg-warning' }}">{{ $item->status=='1'?'Active':'Inactive' }}</span></td>
                                     <td>
                                         <a href="{{ route('product.edit',$item->id) }}" class="btn btn-secondary" title="Edit"><i class="fadeIn animated bx bx-pencil"></i></a>
-                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-warning" title="View"><i class="fadeIn animated bx bx-link-external"></i></a>
-                                        <a href="{{ route('brand.edit',$item->id) }}" title="{{ $item->status=='1'?'Make Inactive':'Make Active' }}" class="btn btn-primary"><i class="fadeIn animated bx {{ $item->status=='1'?'bx-dislike':'bx-like' }}"></i></a>
-                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete" title="Delete" class="btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
+
+                                        <a href="{{ route('brand.edit',$item->id) }}" class="btn btn-primary" title="View"><i class="fadeIn animated bx bx-link-external"></i></a>
+
+                                        <a data-id="{{ $item->id }}" title="{{ $item->status=='1'?'Make Inactive':'Make Active' }}" class="status btn {{ $item->status=='1'?'bg-warning':'bg-info' }}"><i class="fadeIn animated bx {{ $item->status=='1'?'bx-dislike':'bx-like' }}" ></i></a>
+
+                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete"  title="Delete" class="btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -120,7 +123,41 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
-        $(function(){
+      $(function(){
+    $(document).on('click','.status',function(e){
+        e.preventDefault();
+        console.log($(this).attr('data-id'));
+        var link = "{{ URL::to('/admin/product-manage/status-product') }}" +'/'+$(this).attr("data-id");
+
+
+
+
+                  Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Change status of this product?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Change it!'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.href = link
+                      Swal.fire(
+                        'Changed!',
+                        'Product status changed.',
+                        'success'
+                      )
+                    }
+                  })
+
+
+    });
+
+  });
+
+
+  $(function(){
     $(document).on('click','#delete',function(e){
         e.preventDefault();
         var link = $(this).attr("href");

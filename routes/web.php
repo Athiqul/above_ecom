@@ -86,6 +86,11 @@ Route::prefix('admin')->group(function (){
     Route::get('edit-product/{id}','edit')->name('product.edit');
     Route::put('info-update/{id}','updateInfo')->name('product.update.info');
     Route::patch('main-image-update/{id}','updateImage')->name('product.update.image');
+    Route::patch('multi-image-update/{id}','updateMultiImage')->name('product.update.multi');
+    Route::post('add-multi-image/{id}','addMultiImage')->name('product.add.multi');
+    Route::get('delete-product/{id}','deleteMulti')->name('product.image.delete');
+    Route::get('status-product/{id}','changeStatus')->name('product.status');
+
 
 
 });
