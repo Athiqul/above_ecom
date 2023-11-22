@@ -129,7 +129,7 @@ class Products extends Controller
         {
             $files=$request->file('image');
              foreach($files as $file){
-                 $filename=time().$file->getClientOriginalName();
+                 $filename=uniqid().$file->getClientOriginalName();
                  //Save Images
                  Image::make($file)->resize(800,800)->save($path.$filename);
                  //Save In Database
@@ -156,7 +156,122 @@ class Products extends Controller
     }
     //Status Change Product
     //Edit Product
-    //Update Product
+    public function edit($id)
+    {
+
+        $product=Product::findOrFail($id);
+        $brands= Brand::latest()->get();
+        $categories=Category::latest()->get();
+        $vendors=User::where('role','vendor')->where('status','active')->latest()->get();
+        return view('common.products.edit',compact('product','brands','categories','vendors'));
+    }
+
+
+    //Update Product info
+    public function updateInfo(Request $request,$id)
+    {
+
+
+        $product=Product::findOrFail($id);
+
+          //Valdiation
+          Validator::make($request->all(),[
+            'product_name'=>'required|string|min:3|max:255',
+            'product_color'=>'required|string|min:3|max:255',
+            'product_size'=>'required|string|min:3|max:255',
+            'product_tags'=>'nullable|string|min:3|max:255',
+            'short_desc'=>'required',
+            'long_desc'=>'required',
+            'selling_price'=>'required|numeric',
+            'discount_price'=>'nullable|numeric|lt:selling_price',
+            'product_qty'=>'required|numeric',
+            'brand_id'=>'required|exists:brands,id',
+            'category_id'=>'required|exists:categories,id',
+            'subcategory_id'=>'nullable|exists:sub_categories,id',
+            'vendor_id'=>'nullable|exists:users,id',
+        ])->validate();
+
+
+
+       //dd($product,$product->fill($request->all()),$product->isClean());
+       $product->fill($request->all());
+       if($product->isClean())
+       {
+        return back()->with(['toast-type'=>'info','toast-message'=>'Nothing to Update for information'])->with('alert-info','No update on Product Information');
+       }
+
+       try {
+        $product->save();
+        return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product information Updated!'])->with('alert-success','Successfully Product Information Updated!');
+       }catch(Exception $ex){
+        return back()->withInput()->with(['toast-type'=>'danger','toast-message'=>'Something error!'])->with('alert-danger','Something Wrong!');
+       }
+
+    }
+
+    //Update Main Image
+    public function updateImage(Request $request,$id)
+    {
+
+        $product=Product::findOrFail($id);
+
+        Validator::make($request->all(),[
+
+            'main_image'=>'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+        ])->validate();
+        $path=public_path('uploads/products/');
+        //Remove Previous Image
+         if(file_exists($path.$product->main_image))
+         {
+            @unlink($path.$product->main_image);
+         }
+        $file=$request->file('main_image');
+        $mainImage=time().$file->getClientOriginalName();
+
+        !is_dir($path)&&mkdir($path,0777,true);
+        Image::make($file)->resize(800,800)->save($path.$mainImage);
+
+        $product->main_image=$mainImage;
+        try{
+            $product->save();
+            return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product Main Image Updated!'])->with('alert-success','Successfully Product Main Image Updated!');
+        }catch(Exception $ex){
+            dd($ex->getMessage());
+        }
+    }
+
+    //Update Other Product Image
+    public function updateMultiImage(Request $request,$id)
+    {
+
+        $productImage=ProductImage::findOrFail($id);
+
+        Validator::make($request->all(),[
+
+            'image'=>'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+        ])->validate();
+        $path=public_path('uploads/products/');
+        //Remove Previous Image
+         if(file_exists($path.$productImage->image))
+         {
+            @unlink($path.$productImage->image);
+         }
+        $file=$request->file('image');
+        $image=uniqid().$file->getClientOriginalName();
+
+        !is_dir($path)&&mkdir($path,0777,true);
+        Image::make($file)->resize(800,800)->save($path.$image);
+
+        $productImage->image=$image;
+        try{
+            $productImage->save();
+            return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product  Image Updated!'])->with('alert-success','Successfully Product Image Updated!');
+        }catch(Exception $ex){
+            dd($ex->getMessage());
+        }
+    }
     //Delete Product
 
     //Send Json Data

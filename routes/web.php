@@ -83,6 +83,9 @@ Route::prefix('admin')->group(function (){
     Route::get('add-product','add')->name('product.add');
     Route::post('add-product','store')->name('product.save');
     Route::get('/subcategory/{id}','subCategory')->name('ajax.subcategory');
+    Route::get('edit-product/{id}','edit')->name('product.edit');
+    Route::put('info-update/{id}','updateInfo')->name('product.update.info');
+    Route::patch('main-image-update/{id}','updateImage')->name('product.update.image');
 
 
 });
