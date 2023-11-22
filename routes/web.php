@@ -90,6 +90,7 @@ Route::prefix('admin')->group(function (){
     Route::post('add-multi-image/{id}','addMultiImage')->name('product.add.multi');
     Route::get('delete-product/{id}','deleteMulti')->name('product.image.delete');
     Route::get('status-product/{id}','changeStatus')->name('product.status');
+    Route::get('product-delete/{id}','deleteProduct')->name('product.delete');
 
 
 

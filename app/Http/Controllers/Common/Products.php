@@ -331,9 +331,17 @@ class Products extends Controller
 
     public function deleteMulti($id)
     {
+
+       $imageItem= ProductImage::findOrFail($id);
+
+       $path=public_path('uploads/products/');
+               if(file_exists($path.$imageItem->image) ){
+                unlink($path.$imageItem->image);
+               }
+
         try{
 
-            ProductImage::where('id',$id)->delete();
+            $imageItem->delete();
             return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product  Image deleted!'])->with('alert-success','Successfully Product Image deleted!');
 
 
@@ -363,8 +371,22 @@ class Products extends Controller
         $images=ProductImage::where('product_id',$id)->get();
         foreach($images as $image)
         {
-
+               $path=public_path('uploads/products/');
+               if(file_exists($path.$image->image) ){
+                unlink($path.$image->image);
+               }
         }
+
+        ProductImage::where('product_id',$id)->delete();
+
+        //Delete thumnail image
+        $path=public_path('uploads/products/');
+        if(file_exists($path.$product->main_image) ){
+         unlink($path.$product->main_image);
+        }
+
+        $product->delete();
+        return back()->with(['toast-type'=>'success','toast-message'=>'Successfully Product Deleted'])->with('alert-success','Successfully Product Deleted!');
     }
 
     //Send Json Data

@@ -27,7 +27,7 @@
         <!--end breadcrumb-->
         <div class="d-flex justify-content-between">
             <h6 class="mb-0 text-uppercase ">Products List</h6>
-            <a href="{{ route('brand.add') }}" class="btn btn-primary ">Add Product</a>
+            <a href="{{ route('product.add') }}" class="btn btn-primary ">Add Product</a>
         </div>
 
         <hr>
@@ -83,7 +83,7 @@
                                     <td>{{ $item->selling_price }}</td>
                                      @php
                                          $amount=$item->selling_price-$item->discount_price;
-                                         $percentage=($amount/$item->selling_price)*100;
+                                         $percentage=round(($amount/$item->selling_price)*100);
                                      @endphp
                                     <td class="text-center"> <span class="badge rounded-pill bg-danger">{{$percentage  }}%</span></td>
                                     <td>{{ $item->vendor->name??'' }}</td>
@@ -95,7 +95,7 @@
 
                                         <a data-id="{{ $item->id }}" title="{{ $item->status=='1'?'Make Inactive':'Make Active' }}" class="status btn {{ $item->status=='1'?'bg-warning':'bg-info' }}"><i class="fadeIn animated bx {{ $item->status=='1'?'bx-dislike':'bx-like' }}" ></i></a>
 
-                                        <a href="{{ route('brand.delete',$item->id) }}" id="delete"  title="Delete" class="btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
+                                        <a href="{{ route('product.delete',$item->id) }}"  title="Delete" data-id="{{ $item->id }}" class="delete btn btn-danger"><i class="fadeIn animated bx bx-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -158,7 +158,7 @@
 
 
   $(function(){
-    $(document).on('click','#delete',function(e){
+    $(document).on('click','.delete',function(e){
         e.preventDefault();
         var link = $(this).attr("href");
 
