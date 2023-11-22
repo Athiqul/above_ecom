@@ -1,6 +1,6 @@
 @extends('layouts.backend_master');
 @section('title')
-    {{ $item->brand_name }} Brand| Above IT Ecommerce
+    {{ $item->title }} Home Slider| Above IT Ecommerce
 @endsection
 
 @section('main')
@@ -8,13 +8,13 @@
 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Brand</div>
+        <div class="breadcrumb-title pe-3">Home Slider</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="{{ route('all.brand') }}"><i class="bx bx-category"></i></a>
+                    <li class="breadcrumb-item"><a href="{{ route('all.slider') }}"><i class="bx bx-category"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit {{ $item->brand_name }} Brand</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit {{ $item->title }} Slider</li>
                 </ol>
             </nav>
         </div>
@@ -30,18 +30,18 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form action="{{ route('brand.update',$item->id) }}" method="post" id="loginForm" enctype="multipart/form-data">
+                            <form action="{{ route('slider.update',$item->id) }}" method="post" id="loginForm" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Brand Name</h6>
+                                    <h6 class="mb-0">Title</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group ">
-                                    <input type="text" value="{{old('brand_name',$item->brand_name) }}" class="form-control @error('brand_name')
+                                    <input type="text" value="{{old('title',$item->title) }}" class="form-control @error('title')
                                         is-invalid
-                                    @enderror" name="brand_name" required>
-                                    @error('brand_name')
+                                    @enderror" name="title" required>
+                                    @error('title')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -49,13 +49,13 @@
 
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Brand Slug</h6>
+                                    <h6 class="mb-0">Short Title</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                    <input type="text" value="{{ old('brand_slug',$item->brand_slug) }}" class="form-control @error('brand_slug')
+                                    <input type="text" value="{{ old('short_title',$item->short_title) }}" class="form-control @error('short_title')
                                         {{ 'is-invalid' }}
-                                    @enderror" name="brand_slug" >
-                                    @error('brand_slug')
+                                    @enderror" name="short_title" >
+                                    @error('short_title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 </div>
@@ -84,13 +84,13 @@
                                     <h6 class="mb-0">Preview</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                     <img src="{{ asset('uploads/brands/'.$item->image) }}" id="preview" alt="" height="100px" width="100px">
+                                     <img src="{{ asset('uploads/sliders/'.$item->image) }}" id="preview" alt="" height="100px" width="100px">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                    <input type="submit" class="btn btn-primary px-4" value="Update brand">
+                                    <input type="submit" class="btn btn-primary px-4" value="Update Slider">
                                 </div>
                             </div>
                             </form>
@@ -123,12 +123,12 @@
 $(document).ready(function() {
 			$('#loginForm').validate({
 				rules: {
-					 brand_name: {
+					 title: {
 						required: true,
                         minlength:2,
                         maxlength:255,
 					},
-                    brand_slug: {
+                   short_title: {
 						required: true,
                         minlength:3,
                         maxlength:255,
@@ -138,17 +138,17 @@ $(document).ready(function() {
 				},
 
 				messages: {
-					brand_name: {
-						required: 'Please type full name!',
-                        minlength:'Too short Brand Name',
-                        maxlength:'Too long Brand Name',
+					title: {
+						required: 'Please type Slider title!',
+                        minlength:'Too short Slider title',
+                        maxlength:'Too long Slider title',
 
 					},
 
-                    brand_slug:{
-                        required: 'Please type full Slug!',
-                        minlength:'Too short Brand Slug',
-                        maxlength:'Too long Brand Slug',
+                    short_title:{
+                        required: 'Please type Slider short title!',
+                        minlength:'Too short Slider short title',
+                        maxlength:'Too long Slider short title',
                     }
 				},
 				errorElement: 'span',

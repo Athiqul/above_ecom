@@ -142,7 +142,16 @@ class Brand extends Controller
 
     public function delete($id)
     {
-        BrandModel::findOrFail($id)->delete();
+        $item=BrandModel::findOrFail($id);
+        //Delete Image
+        $path=public_path('uploads/brands/');
+        if(file_exists($path.$item->image))
+        {
+            unlink($path.$item->image);
+        }
+
+        $item->delete();
+
         return back()->with('alert-success','Successfully item deleted')->with(['toast-type'=>'success','toast-message'=>'Successfully item deleted!']);
     }
 }

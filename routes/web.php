@@ -11,10 +11,11 @@ use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
 use App\Http\Controllers\Common\Products;
+use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
 use App\Http\Controllers\Vendor\VendorProduct;
-use App\Models\Slider;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +100,7 @@ Route::prefix('admin')->group(function (){
 });
 
 //Brands
-Route::controller(Slider::class)->prefix('slider')->group( function (){
+Route::controller(CommonSlider::class)->prefix('slider')->group( function (){
     //Show All brands
     Route::get('all-sliders','index')->name('all.slider');
     Route::get('add-slider','add')->name('slider.add');

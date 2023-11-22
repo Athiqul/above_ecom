@@ -140,4 +140,19 @@ class Slider extends Controller
 
     }
     //Slider delete
+
+    public function delete($id)
+    {
+        $item=ModelsSlider::findOrFail($id);
+        //Delete Image
+        $path=public_path('uploads/sliders/');
+        if(file_exists($path.$item->image))
+        {
+            unlink($path.$item->image);
+        }
+
+        $item->delete();
+
+        return back()->with('alert-success','Successfully item deleted')->with(['toast-type'=>'success','toast-message'=>'Successfully item deleted!']);
+    }
 }
