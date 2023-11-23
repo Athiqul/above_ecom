@@ -22,6 +22,12 @@ class Product extends Model
     {
         return $this->belongsTo(SubCategory::class,'subcategory_id');
     }
+    public function category():BelongsTo
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+
 
     public function images():HasMany
     {

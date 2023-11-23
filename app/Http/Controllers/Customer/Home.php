@@ -10,12 +10,15 @@ use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Product;
 class Home extends Controller
 {
     //Customer home page
     public function index()
     {
-        return view('customer.home');
+        $categories=\App\Models\Category::orderBy('category_name','ASC')->get();
+        $products=Product::where('status','1')->latest()->limit(10)->get();
+        return view('customer.home',compact('categories','products'));
     }
 
     //Customer Dashboard

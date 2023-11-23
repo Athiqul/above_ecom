@@ -185,8 +185,11 @@
                                         <label for="inputCollection" class="form-label">Sub Category</label>
                                         <select class="form-select" id="subcat" name="subcategory_id"
                                             id="inputCollection">
+                                            @if (isset($product->subcategory_id))
                                             <option value="{{ $product->subcategory_id }}">
                                                 {{ $product->subcategory->sub_name }}</option>
+                                            @endif
+
                                         </select>
                                     </div>
 

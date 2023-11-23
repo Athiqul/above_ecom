@@ -49,7 +49,7 @@ class Banner extends Controller
                  $filename=time().$file->getClientOriginalExtension();
                  !is_dir(public_path('uploads/banners/'))&&mkdir('uploads/banners/',0777,true);
                  $path=public_path('uploads/banners/');
-                 Image::make($file)->resize(800,800)->save($path.$filename);
+                 Image::make($file)->resize(768,450)->save($path.$filename);
 
            }
           //Info Save
@@ -112,7 +112,7 @@ class Banner extends Controller
                       unlink(public_path('uploads/banners/'.$item->image));
                  }
                  $path=public_path('uploads/banners/');
-                 Image::make($file)->resize(2376,807)->save($path.$filename);
+                 Image::make($file)->resize(768,450)->save($path.$filename);
 
            }
 
