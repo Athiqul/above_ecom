@@ -29,7 +29,7 @@ class Category extends Controller
 
         Validator::make($request->all(),[
            'category_name'=>'required|min:3|max:255|unique:categories,category_name',
-           'image'=>'required|image|mimes:png,jpg|max:2048'
+           'image'=>'required|image|mimes:jpg,jpeg,png,webp|max:2048'
         ],[
            'category_name.required'=>'Please type category Name!',
            'category_name.min'=>'Too short category name!',
@@ -82,7 +82,7 @@ class Category extends Controller
        $item=CategoryModel::findOrFail($id);
        Validator::make($request->all(),[
            'category_name'=>['required','min:3','max:255',Rule::unique('categories')->ignore($item->id)],
-           'image'=>'nullable|image|mimes:png,jpg|max:2048'
+           'image'=>'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ],[
            'category_name.required'=>'Please type category Name!',
            'category_name.min'=>'Too short category name!',

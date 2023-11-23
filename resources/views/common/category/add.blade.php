@@ -56,7 +56,7 @@
                                     <h6 class="mb-0">Image</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary form-group">
-                                    <input type="file" id="selectImage" onchange="changeImage(event)" class="form-control @error('image')
+                                    <input type="file"  accept="image/png, image/gif, image/jpeg ,image/webp"  id="selectImage" onchange="changeImage(event)" class="form-control @error('image')
                                         is-invalid
                                     @enderror" name="image" required="">
                                     @error('image')

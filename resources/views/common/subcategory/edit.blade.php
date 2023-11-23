@@ -57,7 +57,7 @@
                                 @enderror" aria-label="Default select example" name="cat_id" required="">
 
                                     @foreach ($list as $item )
-                                    <option value="{{ $item->id }}" {{ $item->id==$sub->id?'Selected':'' }}>{{ $item->category_name }}</option>
+                                    <option value="{{ $item->id }}" {{ $item->id==$sub->cat_id?'Selected':'' }}>{{ $item->category_name }}</option>
                                     @endforeach
 
 

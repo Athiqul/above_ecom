@@ -30,7 +30,7 @@
             <hr>
             <div class="form-body mt-4">
                 @include('assets.alert')
-                <form action="{{ route('vendor.product.save') }}" method="post" id="loginForm" enctype="multipart/form-data">
+                <form action="{{ Auth::user()->role=='admin'? route('product.save'): route('vendor.product.save') }}" method="post" id="loginForm" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-lg-8">
@@ -396,11 +396,7 @@ if (event.target.files.length > 0) {
 
                     },
 
-                    vendor_id: {
-                        required: true,
-                        digits: true,
 
-                    },
 
 
 

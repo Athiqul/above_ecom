@@ -76,16 +76,16 @@
                                 @foreach ($products as $key=>$item )
                                 <tr role="row" class="odd">
                                     <td class="sorting_1">{{ ++$key }}</td>
-                                    <td class="sorting_1">{{ $item->product_name }}</td>
+                                    <td class="sorting_1">{{Str::substr($item->product_name, 0, 10).'..'  }}</td>
                                     <td>
                                         <img src="{{$item->main_image==null? asset('uploads/no_image.jpg'):asset('uploads/products/'.$item->main_image) }}" style="height: 50px;width:70px;" alt="{{ $item->product_name }}">
                                     </td>
                                     <td>{{ $item->selling_price }}</td>
                                      @php
-                                         $amount=$item->selling_price-$item->discount_price;
+                                         $amount=$item->selling_price-$item->discount_price??'';
                                          $percentage=round(($amount/$item->selling_price)*100);
                                      @endphp
-                                    <td class="text-center"> <span class="badge rounded-pill bg-danger">{{$percentage  }}%</span></td>
+                                    <td class="text-center"> <span class="badge rounded-pill {{ $percentage==100?'bg-info':'bg-danger' }}">{{$percentage==100?'No Discount': $percentage.'%'  }}</span></td>
                                     <td>{{ $item->vendor->name??'' }}</td>
                                     <td> <span class="rounded-pill badge {{ $item->status=='1'?'bg-success':'bg-warning' }}">{{ $item->status=='1'?'Active':'Inactive' }}</span></td>
                                     <td>
