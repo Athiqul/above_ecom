@@ -79,7 +79,7 @@
                                 data-wow-delay=".1s">
                                 <div class="product-img-action-wrap">
                                     <div class="product-img product-img-zoom">
-                                        <a href="shop-product-right.html">
+                                        <a href="{{ route('product.details',['id'=>$item->id,'slug'=>$item->product_slug]) }}">
                                             <img class="default-img" src="{{ asset('uploads/products/'.$item->main_image)}}"
                                                 alt="{{ $item->product_name }}" />
                                             <img class="hover-img" src="{{  asset('uploads/products/'.$item->main_image)}}"
@@ -107,7 +107,7 @@
                                     <div class="product-category">
                                         <a href="shop-grid-right.html">{{ $item->category->category_name }}</a>
                                     </div>
-                                    <h2><a href="shop-product-right.html">{{ $item->product_name }}</a></h2>
+                                    <h2><a href="{{ route('product.details',['id'=>$item->id,'slug'=>$item->product_slug]) }}">{{ $item->product_name }}</a></h2>
                                     <div class="product-rate-cover">
                                         <div class="product-rate d-inline-block">
                                             <div class="product-rating" style="width: 90%"></div>
@@ -121,10 +121,10 @@
                                     <div class="product-card-bottom">
                                         <div class="product-price">
                                             @if ($item->discount_price!=null)
-                                            <span>{{ $item->discount_price }} Tk.</span>
-                                            <span class="old-price">{{ $item->selling_price }} Tk.</span>
+                                            <span>৳{{ $item->discount_price }}</span>
+                                            <span class="old-price">৳{{ $item->selling_price }}</span>
                                             @else
-                                            <span >{{ $item->selling_price }} Tk.</span>
+                                            <span >৳{{ $item->selling_price }}</span>
                                             @endif
 
                                         </div>
@@ -167,7 +167,7 @@
                                 data-wow-delay=".1s">
                                 <div class="product-img-action-wrap">
                                     <div class="product-img product-img-zoom">
-                                        <a href="shop-product-right.html">
+                                        <a href="{{ route('product.details',['id'=>$catItem->id,'slug'=>$catItem->product_slug]) }}">
                                             <img class="default-img" src="{{ asset('uploads/products/'.$catItem->main_image)}}"
                                                 alt="{{ $catItem->product_name }}" />
                                             <img class="hover-img" src="{{  asset('uploads/products/'.$catItem->main_image)}}"
@@ -195,7 +195,7 @@
                                     <div class="product-category">
                                         <a href="shop-grid-right.html">{{ $catItem->category->category_name }}</a>
                                     </div>
-                                    <h2><a href="shop-product-right.html">{{ $catItem->product_name }}</a></h2>
+                                    <h2><a href="{{ route('product.details',['id'=>$catItem->id,'slug'=>$catItem->product_slug]) }}">{{ $catItem->product_name }}</a></h2>
                                     <div class="product-rate-cover">
                                         <div class="product-rate d-inline-block">
                                             <div class="product-rating" style="width: 90%"></div>
@@ -209,10 +209,10 @@
                                     <div class="product-card-bottom">
                                         <div class="product-price">
                                             @if ($catItem->discount_price!=null)
-                                            <span>{{ $catItem->discount_price }} Tk.</span>
-                                            <span class="old-price">{{ $catItem->selling_price }} Tk.</span>
+                                            <span>৳{{ $catItem->discount_price }}</span>
+                                            <span class="old-price">৳{{ $catItem->selling_price }}</span>
                                             @else
-                                            <span >{{ $catItem->selling_price }} Tk.</span>
+                                            <span >৳{{ $catItem->selling_price }}</span>
                                             @endif
 
                                         </div>

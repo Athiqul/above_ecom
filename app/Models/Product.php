@@ -33,4 +33,10 @@ class Product extends Model
     {
          return $this->hasMany(ProductImage::class,'product_id');
     }
+
+    public function brands():BelongsTo{
+        return $this->belongsTo(Brand::class,'brand_id');
+    }
+
+
 }

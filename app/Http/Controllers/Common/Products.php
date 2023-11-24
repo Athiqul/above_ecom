@@ -398,4 +398,16 @@ class Products extends Controller
         return json_encode($items);
     }
 
+
+    //Show Product Details
+    public function productDetails($id,$slug)
+    {
+         $product=Product::findOrFail($id);
+        // dd($product);
+        //Category wise latest 4 products
+        $relatedCat=Product::where('status','1')->where('category_id',$product->category_id)->where('id','!=',$id)->latest()->limit(4)->get();
+         return view('common.products.view',compact('product','relatedCat'));
+
+    }
+
 }

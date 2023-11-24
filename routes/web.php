@@ -153,6 +153,7 @@ Route::prefix('vendor')->middleware(['auth', 'role:vendor'])->group(function () 
 //Visitors view
 
 Route::get('/', [Home::class, 'index'])->name('customer.home');
+Route::get('/product-details/{id}/{slug}',[Products::class,'productDetails'])->name('product.details');
 Route::get('/sign-in', [CustomerAuth::class, 'signIn'])->name('customer.login');
 Route::get('/sign-up', [CustomerAuth::class, 'register'])->name('customer.register');
 Route::get('/forget-password', [CustomerAuth::class, 'forgot'])->name('customer.forgot');
