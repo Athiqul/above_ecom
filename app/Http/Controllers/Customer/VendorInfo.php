@@ -26,6 +26,6 @@ class VendorInfo extends Controller
              //VendorInfo
              $vendorInfo=$vendor->vendorInfo;
 
-             return view('customer.vendor_details',compact('vendor','products'));
+             return view('customer.vendor_details',compact('vendor','products','vendorInfo'));
     }
 }

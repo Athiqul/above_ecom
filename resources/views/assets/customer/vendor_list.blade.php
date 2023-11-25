@@ -19,7 +19,7 @@
                     <div class="vendor-wrap mb-40">
                         <div class="vendor-img-action-wrap">
                             <div class="vendor-img">
-                                <a href="vendor-details-1.html">
+                                <a href="{{ route('vendor.show',$vendor->id) }}">
                                     <img class="default-img" src="{{ asset('uploads/profile/' . $vendor->image) }}"
                                         alt="{{ $vendor->name }}" />
                                 </a>
@@ -34,7 +34,7 @@
                                     <div class="product-category">
                                         <span class="text-muted">Since {{ $vendorInfo->since }}</span>
                                     </div>
-                                    <h4 class="mb-5"><a href="vendor-details-1.html">{{ $vendor->name }}</a></h4>
+                                    <h4 class="mb-5"><a href="{{ route('vendor.show',$vendor->id) }}">{{ $vendor->name }}</a></h4>
                                     <div class="product-rate-cover">
 
                                         <span class="font-small total-product">{{ $item->productItem }} products</span>
@@ -50,7 +50,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="vendor-details-1.html" class="btn btn-xs">Visit Store <i
+                            <a href="{{ route('vendor.show',$vendor->id) }}" class="btn btn-xs">Visit Store <i
                                     class="fi-rs-arrow-small-right"></i></a>
                         </div>
                     </div>
