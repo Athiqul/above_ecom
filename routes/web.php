@@ -15,6 +15,7 @@ use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
+use App\Http\Controllers\Customer\VendorInfo;
 use App\Http\Controllers\Vendor\VendorProduct;
 
 
@@ -161,6 +162,10 @@ Route::get('/forget-password', [CustomerAuth::class, 'forgot'])->name('customer.
 Route::get('/vendor-register', [VendorProfile::class, 'vendorRegister'])->name('vendor.register');
 Route::post('vendor-register', [VendorProfile::class, 'storeVendor'])->name('vendor.create');
 
+//Vendors info
+
+Route::get('/vendor-list', [VendorInfo::class, 'index'])->name('vendor.list');
+Route::get('/vendor-list/{id}', [VendorInfo::class, 'show'])->name('vendor.show');
 
 
 
