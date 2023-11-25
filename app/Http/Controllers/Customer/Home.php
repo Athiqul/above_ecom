@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 class Home extends Controller
 {
     //Customer home page
@@ -18,7 +19,25 @@ class Home extends Controller
     {
         $categories=\App\Models\Category::orderBy('category_name','ASC')->get();
         $products=Product::where('status','1')->latest()->limit(10)->get();
-        return view('customer.home',compact('categories','products'));
+        $featureItems=Product::where('status','1')->where('featured','1')->latest()->limit(10)->get();
+        //Top 3 most products Category
+        $topCats=Product::select('category_id',DB::raw('count(category_id) as product_count'))->where('status','1')->groupBy('category_id')->orderBy('product_count','DESC')->take(3)->get();
+      //  dd($topCats);
+         //Hot Deals
+         $hotItems=Product::where('status','1')->where('hot_deals','1')->where('discount_price','!=',null)->latest()->take(3)->get();
+         //Speacial Deals
+         $specialDeals=Product::where('status','1')->where('special_deals','1')->where('discount_price','!=',null)->latest()->take(3)->get();
+         //Special Offer
+         $specialOffer=Product::where('status','1')->where('special_offer','1')->where('discount_price','!=',null)->latest()->take(3)->get();
+         //Recent Product
+         $recentAdded=Product::where('status','1')->where('discount_price','!=',null)->latest()->take(3)->get();
+
+         //dd($hotItems);
+
+         //Top 4 vendor list base on Product Items
+         $topVendors=Product::select('vendor_id',DB::raw('count(vendor_id) as productItem'))->where('status','1')->where('vendor_id','!=',null)->limit(4)->groupBy('vendor_id')->orderBy('productItem','DESC')->get();
+
+        return view('customer.home',compact('categories','products','featureItems','topCats','hotItems','specialDeals','recentAdded','specialOffer','topVendors'));
     }
 
     //Customer Dashboard

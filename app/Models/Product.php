@@ -15,7 +15,7 @@ class Product extends Model
 
     public function vendor():BelongsTo
     {
-        return $this->belongsTo(User::class,'vendor_id');
+        return $this->belongsTo(User::class,'vendor_id')->where('role','vendor');
     }
 
     public function subcategory():BelongsTo
