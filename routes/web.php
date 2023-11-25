@@ -15,6 +15,7 @@ use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
+use App\Http\Controllers\Customer\CategoryInfo;
 use App\Http\Controllers\Customer\VendorInfo;
 use App\Http\Controllers\Vendor\VendorProduct;
 
@@ -166,6 +167,9 @@ Route::post('vendor-register', [VendorProfile::class, 'storeVendor'])->name('ven
 
 Route::get('/vendor-list', [VendorInfo::class, 'index'])->name('vendor.list');
 Route::get('/vendor-list/{id}', [VendorInfo::class, 'show'])->name('vendor.show');
+
+//Category Details
+Route::get('/category-details/{id}/{slug}', [CategoryInfo::class, 'show'])->name('category.show');
 
 
 
