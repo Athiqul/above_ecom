@@ -410,4 +410,20 @@ class Products extends Controller
 
     }
 
+
+    //Send Product Json Data
+    public function productJson($id)
+    {
+        $product=Product::select('id','vendor_id','category_id','product_name','selling_price','discount_price')->where('id',$id)->firstOrFail();
+        $data=[
+            "product"=>$product,
+            "vendor"=>$product->vendor,
+            "category"=>$product->category,
+            // "brand"=>$product->vendor,
+        ];
+
+
+        return json_encode($data);
+    }
+
 }

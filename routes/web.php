@@ -172,6 +172,9 @@ Route::get('/vendor-list/{id}', [VendorInfo::class, 'show'])->name('vendor.show'
 Route::get('/category-details/{id}/{slug}', [CategoryInfo::class, 'show'])->name('category.show');
 Route::get('/sub-category/{id}', [CategoryInfo::class, 'showSub'])->name('subCategory.show');
 
+//Product Modal json
+Route::get('/product-modal/{id}',[Products::class,'productJson'])->name('product.modal');
+
 
 
 //Customer
