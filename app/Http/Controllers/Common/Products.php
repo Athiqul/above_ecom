@@ -414,14 +414,30 @@ class Products extends Controller
     //Send Product Json Data
     public function productJson($id)
     {
-        $product=Product::select('id','vendor_id','category_id','product_name','selling_price','discount_price')->where('id',$id)->firstOrFail();
-        $data=[
-            "product"=>$product,
-            "vendor"=>$product->vendor,
-            "category"=>$product->category,
-            // "brand"=>$product->vendor,
-        ];
+        $product=DB::table('products')
+        ->join('brands','products.brand_id','=','brands.id')
+        ->join('categories','products.category_id','=','categories.id')
+        ->select('products.id','products.product_name','products.product_slug','products.product_qty','products.product_tags','products.product_size','products.product_color','products.selling_price','products.discount_price','products.main_image','brands.brand_name','brands.brand_slug','categories.category_name','categories.category_slug','categories.id as category_id','products.vendor_id','products.subcategory_id')
+        ->where('products.status','1')
+        ->where('products.id',$id)->first();
 
+
+        $vendor=$sub=null;
+
+        if(isset($product->vendor_id))
+        {
+                $vendor=User::select('name','id')->where('id',$product->vendor_id)->first();
+        }
+        if(isset($product->subcategory_id))
+        {
+                $sub=SubCategory::select('sub_name','sub_slug')->where('id',$product->subcategory_id)->first();
+        }
+
+  $data=[
+    "product"=>$product,
+    'vendor'=>$vendor,
+    'sub'=>$sub,
+  ];
 
         return json_encode($data);
     }

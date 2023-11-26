@@ -91,7 +91,7 @@
                                             href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                 class="fi-rs-shuffle"></i></a>
-                                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
+                                        <a aria-label="Quick view" id="{{ $item->id }}" onclick="modalView(this.id)" class="action-btn" data-bs-toggle="modal"
                                             data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
                                     </div>
                                     <div class="product-badges product-badges-position product-badges-mrg">
@@ -179,7 +179,7 @@
                                             href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                 class="fi-rs-shuffle"></i></a>
-                                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
+                                        <a aria-label="Quick view" id="{{ $catItem->id }}" onclick="modalView(this.id)" class="action-btn" data-bs-toggle="modal"
                                             data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
                                     </div>
                                     <div class="product-badges product-badges-position product-badges-mrg">
@@ -286,6 +286,8 @@
                                             </div>
                                             <div class="product-action-1">
                                                 <a aria-label="Quick view" class="action-btn small hover-up"
+                                                onclick="modalView(this.id)"
+                                                id="{{ $item->id }}"
                                                     data-bs-toggle="modal" data-bs-target="#quickViewModal"> <i
                                                         class="fi-rs-eye"></i></a>
                                                 <a aria-label="Add To Wishlist"
@@ -398,7 +400,7 @@
                                     <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                             class="fi-rs-shuffle"></i></a>
                                     <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
-                                        data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        data-bs-target="#quickViewModal" id="{{ $item->id }}" onclick="modalView(this.id)"><i class="fi-rs-eye"></i></a>
                                 </div>
                                 <div class="product-badges product-badges-position product-badges-mrg">
                                     @if ($item->discount_price==null)
@@ -607,5 +609,9 @@
 
 
 </main>
+@endsection
+@section('need-js')
+
+<script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
 @endsection
 
