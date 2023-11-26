@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\SubCategory;
 
 class CategoryInfo extends Controller
 {
@@ -13,16 +14,35 @@ class CategoryInfo extends Controller
     public function show($id,$cat)
     {
 
-
+        $selectCat=Category::findOrFail($id);
         //Category Base Products
         $products=Product::where('status','1')->where('category_id',$id)->orderBy('product_name')->paginate(10);
         //Category_list
-        $categories=Category::where('id','!=',$id)->orderBy('category_name')->get();
+        $catList=Category::where('id','!=',$id)->orderBy('category_name')->get();
         //Category Base new Products
         $newProducts=Product::where('status','1')->where('category_id',$id)->latest()->take(3)->get();
 
-        //dd($products,$categories,$newProducts);
 
-        return view('customer.category_details',compact('products','categories','newProducts','cat'));
+
+
+        return view('customer.category_details',compact('products','catList','newProducts','selectCat'));
     }
+
+    //Sub Category Wise Product List
+
+    //category wise product List
+    public function showSub($id)
+    {
+
+        $selectSub=SubCategory::findOrFail($id);
+        //Category Base Products
+        $products=Product::where('status','1')->where('subcategory_id',$id)->orderBy('product_name')->paginate(10);
+        //Category_list
+        $catList=Category::where('id','!=',$selectSub->cat_id)->orderBy('category_name')->get();
+        //Category Base new Products
+        $newProducts=Product::where('status','1')->where('subcategory_id',$id)->latest()->take(3)->get();
+
+        return view('customer.sub_details',compact('products','catList','newProducts','selectSub'));
+    }
+
 }

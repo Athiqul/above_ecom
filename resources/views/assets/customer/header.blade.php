@@ -268,15 +268,16 @@
                                 @endphp
                                 @for ($i=0;$i<$limit;$i++)
                                 <li>
-                                    <a href="page-about.html">{{ explode(' ',$categories[$i]->category_name)[0] }} <i class="fi-rs-angle-down"></i></a>
+                                    <a href="{{ route('category.show',['id'=>$categories[$i]->id,'slug'=>$categories[$i]->category_slug]) }}">{{ explode(' ',$categories[$i]->category_name)[0] }} <i class="fi-rs-angle-down"></i></a>
                                     <ul class="sub-menu">
                                         @php
                                             $subcat=\App\Models\SubCategory::where('cat_id',$categories[$i]->id)->orderBy('sub_name','ASC')->get();
+                                            //dd($subcat);
                                             $count=count($subcat);
                                         @endphp
                                         @if ($count!=0)
                                         @foreach ($subcat as $item)
-                                        <li><a href="vendors-grid.html">{{ $item->sub_name }}</a></li>
+                                        <li><a href="{{ route('subCategory.show',$item->id) }}">{{ $item->sub_name }}</a></li>
                                         @endforeach
                                         @endif
 

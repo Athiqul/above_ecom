@@ -170,6 +170,7 @@ Route::get('/vendor-list/{id}', [VendorInfo::class, 'show'])->name('vendor.show'
 
 //Category Details
 Route::get('/category-details/{id}/{slug}', [CategoryInfo::class, 'show'])->name('category.show');
+Route::get('/sub-category/{id}', [CategoryInfo::class, 'showSub'])->name('subCategory.show');
 
 
 

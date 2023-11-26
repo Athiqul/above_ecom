@@ -1,6 +1,6 @@
 @extends('layouts.frontend_master')
 @section('title')
-    {{ $selectCat->category_name }}|Above Ecommerce
+    {{ $selectSub->sub_name }}|Above Ecommerce
 @endsection
 
 @section('main')
@@ -10,10 +10,10 @@
                 <div class="archive-header">
                     <div class="row align-items-center">
                         <div class="col-xl-3">
-                            <h1 class="mb-15">{{ $selectCat->category_name }}</h1>
+                            <h1 class="mb-15">{{ $selectSub->sub_name }}</h1>
                             <div class="breadcrumb">
                                 <a href="{{ route('customer.home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                                <span></span> Category <span></span> {{ $selectCat->category_name }}
+                                <span></span> {{ $selectSub->category->category_name }} <span></span> {{ $selectSub->sub_name }}
                             </div>
                         </div>
 

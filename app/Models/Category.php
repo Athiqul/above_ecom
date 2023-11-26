@@ -22,4 +22,11 @@ class Category extends Model
     {
         return $this->hasMany(Product::class,'category_id')->where('status','1')->latest()->take(5);
     }
+
+    //Product count
+
+    public function productCount():HasMany
+    {
+        return $this->hasMany(Product::class,'category_id')->where('status','1');
+    }
 }
