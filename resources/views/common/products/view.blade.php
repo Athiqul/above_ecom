@@ -104,16 +104,15 @@
                                         <div class="attr-detail attr-size mb-30">
                                             <strong class="mr-10">Size / Weight: </strong>
 
-                                            <ul class="list-filter size-filter font-small">
+
                                                 @php
                                                     $sizes = explode(',', $product->product_size);
                                                 @endphp
+                                                <select name="size" id="productSize"></select>
                                                 @foreach ($sizes as $size)
                                                     <li><a href="#">{{ ucwords($size) }}</a></li>
                                                 @endforeach
 
-
-                                            </ul>
                                         </div>
                                     @endif
 

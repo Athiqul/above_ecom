@@ -65,6 +65,7 @@ class Cart extends Controller
                 "size"=>json_decode($request->size),
                 "color"=>json_decode($request->color),
                 "image"=>$product->main_image,
+                "url"=>route('product.details',['id'=>$product->id,'slug'=>$product->product_slug]),
             ]
         ]);
       }catch(Exception $ex)
@@ -95,12 +96,31 @@ class Cart extends Controller
      public function cartList()
      {
         try{
+            $count=FacadesCart::count();
+            $total=FacadesCart::total();
            $items= FacadesCart::content();
-           return response(['items'=>$items]);
+           $data=[
+            'carts'=>$items,
+            'cartItem'=>$count,
+            'total'=>$total,
+           ];
+           return response($data);
         }catch(Exception $ex){
             return response(['msg'=>$ex->getMessage()]);
         }
      }
     //Remove Cart By session
+
+    public function deleteCart($rowId)
+    {
+        try{
+            FacadesCart::remove($rowId);
+            return response(['msg'=>'Successfully item removed from cart list!']);
+        }catch(Exception $ex)
+        {
+            return response(['msg'=>$ex->getMessage()]);
+        }
+
+    }
     //Update Cart By Session
 }
