@@ -15,6 +15,7 @@ use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
+use App\Http\Controllers\Customer\Cart;
 use App\Http\Controllers\Customer\CategoryInfo;
 use App\Http\Controllers\Customer\VendorInfo;
 use App\Http\Controllers\Vendor\VendorProduct;
@@ -175,6 +176,9 @@ Route::get('/sub-category/{id}', [CategoryInfo::class, 'showSub'])->name('subCat
 //Product Modal json
 Route::get('/product-modal/{id}',[Products::class,'productJson'])->name('product.modal');
 
+//Cart
+
+Route::get('add-cart',[Cart::class,'addCart'])->name('cart.push');
 
 
 //Customer

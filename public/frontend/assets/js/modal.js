@@ -1,4 +1,4 @@
-console.log('hello');
+//console.log('hello');
 
 function modalView(id)
 {
@@ -10,7 +10,7 @@ function modalView(id)
 
        //fatech data
        fetch(url).then(res=>res.json()).then(res=>{
-            console.log(res);
+           // console.log(res);
             //Modal Heading
             let ModalHeading=document.getElementById('modalHeading');
             ModalHeading.innerText=res.product.product_name;
@@ -73,5 +73,14 @@ function modalView(id)
         }
 
 
+        document.getElementById('product_id').value=id;
+
+
        }).catch(err=>console.log(err));
+}
+
+
+function addCart(){
+     let productId=document.getElementById('product_id').value;
+     let qty=
 }
