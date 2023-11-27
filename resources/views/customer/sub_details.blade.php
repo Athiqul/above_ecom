@@ -94,6 +94,7 @@
                                             <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                     class="fi-rs-shuffle"></i></a>
                                             <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
+                                            id="{{ $item->id }}" onclick="modalView(this.id)"
                                                 data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
                                         </div>
                                         <div class="product-badges product-badges-position product-badges-mrg">
@@ -219,4 +220,7 @@
             </div>
         </div>
     </main>
+@endsection
+@section('need-js')
+<script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
 @endsection

@@ -16,7 +16,7 @@ function modalView(id)
             ModalHeading.innerText=res.product.product_name;
             ModalHeading.href='/product-details/'+res.product.id+'/'+res.product.product_slug;
             let modalImage=document.getElementById('modalImage');
-            modalImage.src="uploads/products/"+res.product.main_image;
+            modalImage.src="/uploads/products/"+res.product.main_image;
 
             //Modal Price
             let price=document.getElementById('modalPrice');
@@ -37,8 +37,8 @@ function modalView(id)
 
             let modalExtra=document.getElementById('modalExtra');
             modalExtra.innerHTML=` <ul>
-            <li class="mb-5">Vendor: <span class="text-brand">${res.vendor.name??''}</span></li>
-            <li class="mb-5">Brand:<span class="text-brand"> ${res.product.brand_name??''}</span></li>
+            <li class="mb-5">Vendor: <span class="text-brand">${res.vendor==null?'owner':res.vendor.name}</span></li>
+            <li class="mb-5">Brand:<span class="text-brand"> ${res.product.brand_name==null?'':res.product.brand_name}</span></li>
         </ul>
 
         <ul>
