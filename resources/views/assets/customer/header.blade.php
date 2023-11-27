@@ -111,7 +111,7 @@
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
                                     <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-cart.svg')}}" />
-                                    <span class="pro-count blue">2</span>
+                                    <span class="pro-count blue">{{ Cart::total() }}</span>
                                 </a>
                                 <a href="shop-cart.html"><span class="lable">Cart</span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart as FacadesCart;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,8 @@ class Cart extends Controller
     //Add Cart by session
      public function addCart(Request $request)
      {
+
+
            $validator=Validator::make($request->all(),
 
             [
@@ -33,11 +36,11 @@ class Cart extends Controller
 
 
         $product=Product::find($request->id);
-        if($product->qty<$request->qty)
+        if($product->product_qty<$request->qty)
         {
             $data=[
                 "errors"=>true,
-                "msg"=>'Stock is low!',
+                "msg"=>'Stock is low!'.$request->qty,
             ];
             return response($data);
         }
@@ -51,27 +54,29 @@ class Cart extends Controller
         }
         //Add to cart
 
-
+      try{
         $item=FacadesCart::add([
             "id"=>$product->id,
             "name"=>$product->product_name,
-            "qty"=>$request->qty,
+            "qty"=>json_decode($request->qty),
             'price'=>$price,
+            'weight'=>'1',
             'options'=>[
-                "size"=>$request->size,
-                "color"=>$request->color,
-                "image"=>$request->image,
+                "size"=>json_decode($request->size),
+                "color"=>json_decode($request->color),
+                "image"=>$product->main_image,
             ]
         ]);
+      }catch(Exception $ex)
+      {
+            return response(['msg'=>$ex->getMessage()]);
+      }
 
-        if($item==null)
-        {
-            $data=[
-                "errors"=>true,
-                "msg"=>'Can not add cart!',
-            ];
-            return response($data);
-        }
+
+
+        //return response(['msg'=>'working']);
+
+
 
 
         $data=[
@@ -82,6 +87,19 @@ class Cart extends Controller
 
         return response($data);
 
+     }
+
+
+
+     //total cart show
+     public function cartList()
+     {
+        try{
+           $items= FacadesCart::content();
+           return response(['items'=>$items]);
+        }catch(Exception $ex){
+            return response(['msg'=>$ex->getMessage()]);
+        }
      }
     //Remove Cart By session
     //Update Cart By Session

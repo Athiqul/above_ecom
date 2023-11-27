@@ -11,6 +11,7 @@
     <meta property="og:type" content="" />
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/imgs/theme/favicon.svg') }}" />
     <!-- Template CSS -->

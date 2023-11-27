@@ -1,5 +1,7 @@
 //console.log('hello');
 
+
+
 function modalView(id)
 {
       // console.log(id);
@@ -43,7 +45,7 @@ function modalView(id)
 
         <ul>
             <li class="mb-5">Category: <span class="text-brand">${res.product.category_name??''}</span></li>
-            <li class="mb-5">Stock:<span class="${res.product.product_qty<1 ? 'text-danger':'text-brand'}">${res.product.product_qty<1 ? 'Stock Out':'Stock In'}</span></li>
+            <li class="mb-5">Stock:<span class="${res.product.product_qty<1 ? 'text-danger':'text-brand'}">${res.product.product_qty<1 ? 'Stock Out':res.product.product_qty+' Stock In'}</span></li>
         </ul>`;
 
         let modalSize=document.getElementById('modalSize');
@@ -53,7 +55,7 @@ function modalView(id)
         {
             let tem='';
             sizes.forEach(function(item){
-                  tem+=`<li><a href="#">${item.charAt(0).toUpperCase()+item.slice(1)}</a></li>`
+                  tem+=`<option value='${item.charAt(0).toUpperCase()+item.slice(1)}'>${item.charAt(0).toUpperCase()+item.slice(1)}</option>`;
             });
             modalSize.innerHTML=tem;
         }
@@ -67,10 +69,14 @@ function modalView(id)
         {
             let cl='';
             colors.forEach(function(item){
-                  cl+=`<li><a href="#">${item.charAt(0).toUpperCase()+item.slice(1)}</a></li>`
+                  cl+=`<option value='${item.charAt(0).toUpperCase()+item.slice(1)}'>${item.charAt(0).toUpperCase()+item.slice(1)}</option>`;
             });
             modalColor.innerHTML=cl;
         }
+
+        //Maximum Quantity
+        let qty=document.getElementById('quantity');
+        qty.setAttribute('max',res.product.product_qty);
 
 
         document.getElementById('product_id').value=id;
@@ -82,5 +88,43 @@ function modalView(id)
 
 function addCart(){
      let productId=document.getElementById('product_id').value;
-     let qty=
+     let qty=document.getElementById('quantity').value;
+     let size=document.getElementById('modalSize').value;
+     let color=document.getElementById('modalColor').value;
+
+    // console.log(productId,qty,size,color);
+     let url='/add-cart';
+     fetch(url,{
+        method:'POST',
+        headers:{
+            'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify({
+            'id':productId,
+            'qty':qty,
+            'size':size,
+            'color':color,
+        })
+     }).then(res=>res.json()).then(res=>{
+            console.log(res);
+            if(res.errors==true)
+            {
+               toastr.error("Something wrong can't add product into carts")
+            }else{
+                toastr.success(res.msg);
+            }
+     }).catch(err=>console.log(err));
+     //Sent to data in API
+
+}
+
+
+//Show all items in cart
+
+function cartList(){
+    let url='/cart-items';
+    fetch(url).then(res=>res.json()).then(res=>{
+        console.log(res);
+    }).catch(err=>console.log(err));
 }

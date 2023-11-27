@@ -178,7 +178,8 @@ Route::get('/product-modal/{id}',[Products::class,'productJson'])->name('product
 
 //Cart
 
-Route::get('add-cart',[Cart::class,'addCart'])->name('cart.push');
+Route::post('add-cart',[Cart::class,'addCart'])->name('cart.push');
+Route::get('cart-items',[Cart::class,'cartList'])->name('cart.list');
 
 
 //Customer
