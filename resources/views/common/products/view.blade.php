@@ -102,29 +102,49 @@
                                     </div>
                                     @if ($product->product_size !== null)
                                         <div class="attr-detail attr-size mb-30">
-                                            <strong class="mr-10">Size / Weight: </strong>
+                                            <strong class="mr-10">Size</strong>
 
 
                                                 @php
                                                     $sizes = explode(',', $product->product_size);
                                                 @endphp
-                                                <select name="size" id="productSize"></select>
+                                                <select name="size" class="form-control" id="productSize">
                                                 @foreach ($sizes as $size)
-                                                    <li><a href="#">{{ ucwords($size) }}</a></li>
+                                                    <option value="{{ $size }}">{{ ucwords($size) }}</option>
                                                 @endforeach
+                                            </select>
 
                                         </div>
                                     @endif
 
+
+                                    @if ($product->product_color !== null)
+                                    <div class="attr-detail attr-size mb-30">
+                                        <strong class="mr-10">Color</strong>
+
+
+                                            @php
+                                                $colors = explode(',', $product->product_color);
+                                            @endphp
+                                            <select name="color" id="productColor" class=" form-control">
+                                            @foreach ($colors as $color)
+                                                <option value="{{ $color }}">{{ ucwords($color) }}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                @endif
+
                                     <div class="detail-extralink mb-50">
                                         <div class="detail-qty border radius">
                                             <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                            <input type="text" name="quantity" class="qty-val" value="1"
-                                                min="1">
+                                            <input type="number" name="quantity" class="qty-val" value="1"
+                                                min="1" max="30" id="qtyProduct">
                                             <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                         </div>
                                         <div class="product-extra-link2">
-                                            <button type="submit" class="button button-add-to-cart"><i
+                                            <input type="hidden" name="product_id" id="productId" value="{{ $product->id }}">
+                                            <button type="button" onclick="addCartProduct()" class="button button-add-to-cart"><i
                                                     class="fi-rs-shopping-cart"></i>Add to cart</button>
                                             <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                 href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
@@ -606,7 +626,7 @@
                                                 <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                         class="fi-rs-shuffle"></i></a>
                                                 <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                                    data-bs-target="#quickViewModal" id="{{ $catItem->id }}" onclick="modalView(this.id)"><i class="fi-rs-eye"></i></a>
                                             </div>
                                             <div class="product-badges product-badges-position product-badges-mrg">
                                                 @if ($catItem->discount_price==null)
@@ -662,4 +682,8 @@
             </div>
         </div>
     </main>
+@endsection
+
+@section('need-js')
+<script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
 @endsection

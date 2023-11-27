@@ -126,10 +126,10 @@ function addCart(){
 //add from product page
 
 function addCartProduct(){
-    let productId=document.getElementById('product_id').value;
-    let qty=document.getElementById('quantity').value;
+    let productId=document.getElementById('productId').value;
+    let qty=document.getElementById('qtyProduct').value;
     let size=document.getElementById('productSize').value;
-    let color=document.getElementById('modalColor').value;
+    let color=document.getElementById('productColor').value;
 
    // console.log(productId,qty,size,color);
     let url='/add-cart';
