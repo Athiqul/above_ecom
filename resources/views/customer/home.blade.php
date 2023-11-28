@@ -87,8 +87,8 @@
                                         </a>
                                     </div>
                                     <div class="product-action-1">
-                                        <a aria-label="Add To Wishlist" class="action-btn"
-                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Add To Wishlist" id="{{ $item->id }}" class="action-btn"
+                                            onclick="addWish(this.id)"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                 class="fi-rs-shuffle"></i></a>
                                         <a aria-label="Quick view" id="{{ $item->id }}" onclick="modalView(this.id)" class="action-btn" data-bs-toggle="modal"
@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="product-action-1">
                                         <a aria-label="Add To Wishlist" class="action-btn"
-                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        id="{{ $item->id }}"  onclick="addWish(this.id)"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                 class="fi-rs-shuffle"></i></a>
                                         <a aria-label="Quick view" id="{{ $catItem->id }}" onclick="modalView(this.id)" class="action-btn" data-bs-toggle="modal"
@@ -291,8 +291,8 @@
                                                     data-bs-toggle="modal" data-bs-target="#quickViewModal"> <i
                                                         class="fi-rs-eye"></i></a>
                                                 <a aria-label="Add To Wishlist"
-                                                    class="action-btn small hover-up"
-                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    class="action-btn small hover-up" id="{{ $item->id }}"
+                                                   onclick="addWish(this.id)"><i class="fi-rs-heart"></i></a>
                                                 <a aria-label="Compare" class="action-btn small hover-up"
                                                     href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                             </div>
@@ -396,7 +396,8 @@
                                 </div>
                                 <div class="product-action-1">
                                     <a aria-label="Add To Wishlist" class="action-btn"
-                                        href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                    id="{{ $item->id }}"
+                                        onclick="addWish(this.id)"><i class="fi-rs-heart"></i></a>
                                     <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                             class="fi-rs-shuffle"></i></a>
                                     <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
@@ -613,5 +614,6 @@
 @section('need-js')
 
 <script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
 @endsection
 

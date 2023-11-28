@@ -10,7 +10,7 @@
                         <ul>
 
                             <li><a href="page-account.html">My Cart</a></li>
-                            <li><a href="shop-wishlist.html">Checkout</a></li>
+                            <li><a href="{{ route('wish.list') }}">Checkout</a></li>
                             <li><a href="shop-order.html">Order Tracking</a></li>
                         </ul>
                     </div>
@@ -102,11 +102,11 @@
                             </div>
 
                             <div class="header-action-icon-2">
-                                <a href="shop-wishlist.html">
+                                <a href="{{ route('wish.list') }}">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />
-                                    <span class="pro-count blue">6</span>
+                                    <span class="pro-count blue" id="wishCount"></span>
                                 </a>
-                                <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
+                                <a href="{{ route('wish.list') }}"><span class="lable">Wishlist</span></a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
@@ -152,7 +152,7 @@
                                             <a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
                                         </li>
                                         <li>
-                                            <a href="shop-wishlist.html"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
+                                            <a href="{{ route('wish.list') }}"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
                                         </li>
                                         <li>
                                             <a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
@@ -295,9 +295,9 @@
                 <div class="header-action-right d-block d-lg-none">
                     <div class="header-action-2">
                         <div class="header-action-icon-2">
-                            <a href="shop-wishlist.html">
+                            <a href="{{ route('wish.list') }}">
                                 <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />
-                                <span class="pro-count white" id="smallCartCount1"></span>
+                                <span class="pro-count white" id="wishCount1"></span>
                             </a>
                         </div>
                         <div class="header-action-icon-2">
@@ -374,7 +374,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                                <li><a href="{{ route('wish.list') }}">Shop – Wishlist</a></li>
                                 <li><a href="shop-cart.html">Shop – Cart</a></li>
                                 <li><a href="shop-checkout.html">Shop – Checkout</a></li>
                                 <li><a href="shop-compare.html">Shop – Compare</a></li>

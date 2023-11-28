@@ -18,6 +18,7 @@ use App\Http\Controllers\Common\Vendor;
 use App\Http\Controllers\Customer\Cart;
 use App\Http\Controllers\Customer\CategoryInfo;
 use App\Http\Controllers\Customer\VendorInfo;
+use App\Http\Controllers\Customer\WishList;
 use App\Http\Controllers\Vendor\VendorProduct;
 
 
@@ -183,12 +184,23 @@ Route::get('cart-items',[Cart::class,'cartList'])->name('cart.list');
 Route::get('remove-item/{any}',[Cart::class,'deleteCart'])->name('cart.delete');
 
 
+//Wish List Add
+Route::post('add-wishlist',[WishList::class,'add'])->name('wish.push');
+
 //Customer
 Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('dashboard', [Home::class, 'dashboard'])->name('customer.dashboard');
     Route::patch('account-info-update', [Home::class, 'profileUpdate'])->name('customer.profile.update');
     Route::patch('change-password', [Home::class, 'storePassword'])->name('customer.change.password');
     Route::get('logout', [Home::class, 'destroy'])->name('customer.logout');
+
+    //WishList
+    Route::controller(WishList::class)->group(function(){
+        Route::get('wishlist','index');//Api
+
+        Route::get('wishlist-show','viewWishlist')->name('wish.list');//web View
+
+    });
 });
 
 Route::middleware('auth')->group(function () {
