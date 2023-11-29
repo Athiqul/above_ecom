@@ -214,11 +214,11 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
     Route::controller(CompareController::class)->group(function(){
         Route::get('compare-count','countCompare');//Api
 
-        Route::get('compare-list','products');//Product show api
+        Route::get('compare-list','compareItems');//Product show api
 
         Route::get('compare-items','view')->name('compare.list');//web View
 
-        Route::get('delete-product/{id}','remove')->name('remove.wishlist');
+        Route::get('delete-compare/{id}','remove')->name('remove.compare');
 
     });
 });

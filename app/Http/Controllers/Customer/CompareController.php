@@ -109,11 +109,25 @@ class CompareController extends Controller
 
         $items= DB::table('compares')
                 ->leftJoin('products',function (JoinClause $join){
-                    $join->on('comapres.product_id','=','products.id')->where('compares.user_id',Auth::user()->id);
+                    $join->on('compares.product_id','=','products.id')->where('compares.user_id',Auth::user()->id);
                 })->select(['products.id','products.product_name','products.discount_price','products.selling_price','products.main_image','products.product_qty','products.product_slug','products.product_size','products.product_color'])->get();
 
        return response($items);
 
+    }
+
+
+    //Remove Products
+
+    public function remove($id)
+    {
+        $user_id=Auth::user()->id;
+        try{
+            Compare::where('user_id',$user_id)->where('product_id',$id)->delete();
+            return response(['errors'=>false,'msg'=>'Successfully Removed! from compare list']);
+        }catch(Exception $ex){
+            return response(['errors'=>true,'msg'=>$ex->getMessage()]);
+        }
     }
 
     //View

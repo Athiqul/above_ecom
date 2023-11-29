@@ -69,6 +69,9 @@
     <!-- Template  JS -->
     <script src="{{ asset('frontend/assets/js/main.js')}}?v=5.3"></script>
     <script src="{{ asset('frontend/assets/js/shop.js')}}?v=5.3"></script>
+    <script src="{{ asset('frontend/assets/js/compare.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
     @include('assets.toaster')
     @yield('need-js')
 </body>

@@ -73,7 +73,7 @@
 
 
                         @foreach ($products as $item)
-                            <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                            <div class="col-lg-1-4 col-md-4 col-12 col-sm-6">
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn"
                                     data-wow-delay=".1s">
                                     <div class="product-img-action-wrap">
@@ -92,7 +92,7 @@
                                             <a aria-label="Add To Wishlist" id="{{ $item->id }}"
                                                 onclick="addWish(this.id)" class="action-btn" ><i
                                                     class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
+                                            <a aria-label="Compare" class="action-btn" id="{{ $item->id }}" onclick="addCompare(this.id)" ><i
                                                     class="fi-rs-shuffle"></i></a>
                                             <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
                                             id="{{ $item->id }}" onclick="modalView(this.id)"
@@ -224,8 +224,7 @@
 @endsection
 
 @section('need-js')
-<script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
-<script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
+
 
 
 @endsection

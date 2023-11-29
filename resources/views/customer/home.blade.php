@@ -613,8 +613,7 @@
 @endsection
 @section('need-js')
 
-<script src="{{ asset('frontend/assets/js/modal.js') }}"></script>
-<script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
-<script src="{{ asset('frontend/assets/js/compare.js') }}"></script>
+
+
 @endsection
 

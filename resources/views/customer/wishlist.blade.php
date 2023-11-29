@@ -55,7 +55,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css
 
 
 @section('need-js')
-    <script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         //Show wishList
