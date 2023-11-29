@@ -198,6 +198,8 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
     Route::controller(WishList::class)->group(function(){
         Route::get('wishlist','index');//Api
 
+        Route::get('wishlist-items','products');//Product show
+
         Route::get('wishlist-show','viewWishlist')->name('wish.list');//web View
 
     });

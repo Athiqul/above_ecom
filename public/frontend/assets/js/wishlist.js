@@ -37,6 +37,12 @@ function wishList()
       {
          document.getElementById('wishCount').innerText=res.length;
          document.getElementById('wishCount1').innerText=res.length;
+
+
+
+      }else{
+        document.getElementById('wishCount').innerText=0;
+        document.getElementById('wishCount1').innerText=0;
       }
 
     }).catch(err=>console.log(err));

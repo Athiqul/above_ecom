@@ -8,6 +8,7 @@ use Exception;
 use App\Models\Wishlist as WishModel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class WishList extends Controller
 {
@@ -85,7 +86,7 @@ class WishList extends Controller
     {
           return view('customer.wishlist');
     }
-    //Show all wishlist APi
+    //Show all count wishlist APi
     public function index()
     {
          $items=WishModel::where('user_id',Auth::user()->id)->latest()->get();
@@ -94,6 +95,15 @@ class WishList extends Controller
          return response($items);
     }
 
+    //Show Products
+
+    public function products()
+    {
+         $items=DB::table('users');
+
+
+         return response($items);
+    }
     //Remove products
     public function remove($id)
     {
