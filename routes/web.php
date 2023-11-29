@@ -17,6 +17,7 @@ use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
 use App\Http\Controllers\Customer\Cart;
 use App\Http\Controllers\Customer\CategoryInfo;
+use App\Http\Controllers\Customer\CompareController;
 use App\Http\Controllers\Customer\VendorInfo;
 use App\Http\Controllers\Customer\WishList;
 use App\Http\Controllers\Vendor\VendorProduct;
@@ -187,6 +188,9 @@ Route::get('remove-item/{any}',[Cart::class,'deleteCart'])->name('cart.delete');
 //Wish List Add
 Route::post('add-wishlist',[WishList::class,'add'])->name('wish.push');
 
+//Add Compare List
+Route::post('add-compare',[CompareController::class,'add'])->name('compare.push');
+
 //Customer
 Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('dashboard', [Home::class, 'dashboard'])->name('customer.dashboard');
@@ -201,6 +205,18 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
         Route::get('wishlist-items','products');//Product show
 
         Route::get('wishlist-show','viewWishlist')->name('wish.list');//web View
+
+        Route::get('delete-product/{id}','remove')->name('remove.wishlist');
+
+    });
+
+    //Compare
+    Route::controller(CompareController::class)->group(function(){
+        Route::get('compare-count','countCompare');//Api
+
+        Route::get('compare-list','products');//Product show api
+
+        Route::get('compare-items','view')->name('compare.list');//web View
 
         Route::get('delete-product/{id}','remove')->name('remove.wishlist');
 

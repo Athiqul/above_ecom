@@ -101,6 +101,15 @@
                                 </form>
                             </div>
 
+
+                            <div class="header-action-icon-2">
+                                <a href="{{ route('compare.list') }}">
+                                    <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-compare.svg')}}" />
+                                    <span class="pro-count blue" id="compareCount"></span>
+                                </a>
+                                <a href="{{ route('compare.list') }}"><span class="lable">Compare</span></a>
+                            </div>
+
                             <div class="header-action-icon-2">
                                 <a href="{{ route('wish.list') }}">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />
@@ -294,6 +303,13 @@
                 </div>
                 <div class="header-action-right d-block d-lg-none">
                     <div class="header-action-2">
+                        <div class="header-action-icon-2">
+                            <a href="{{ route('compare.list') }}">
+                                <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-compare.svg')}}" />
+                                <span class="pro-count blue" id="compareCount1"></span>
+                            </a>
+
+                        </div>
                         <div class="header-action-icon-2">
                             <a href="{{ route('wish.list') }}">
                                 <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />

@@ -1,9 +1,9 @@
+console.log('from Compare js');
 
-
-function addWish(id)
+function addCompare(id)
 {
 
-    let url="/add-wishlist";
+    let url="/add-compare";
     fetch(url,{
         method:'POST',
         headers:{
@@ -16,13 +16,13 @@ function addWish(id)
     })
     .then(res=>res.json())
     .then(res=>{
-
+        console.log(res);
         if(res.errors)
         {
             toastr.error(res.msg);
         }else{
             toastr.success(res.msg);
-            wishList();
+            compareList();
         }
     })
     .catch(err=>console.log(err));
@@ -30,23 +30,26 @@ function addWish(id)
 }
 
 //Wish list
-function wishList()
+function compareList()
 {
-    let url='/customer/wishlist';
+    let url='/customer/compare-count';
     fetch(url).then(res=>res.json()).then(res=>{
       if(res!==null)
       {
-         document.getElementById('wishCount').innerText=res.length;
-         document.getElementById('wishCount1').innerText=res.length;
 
+         console.log(res.total);
+         document.getElementById('compareCount').innerText=res.total;
+         document.getElementById('compareCount1').innerText=res.total;
 
 
       }else{
-        document.getElementById('wishCount').innerText=0;
-        document.getElementById('wishCount1').innerText=0;
+
+        document.getElementById('compareCount').innerText=0;
+        document.getElementById('compareCount1').innerText=0;
+
       }
 
     }).catch(err=>console.log(err));
 }
 
-wishList();
+compareList();
