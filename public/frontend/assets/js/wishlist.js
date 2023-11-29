@@ -22,6 +22,7 @@ function addWish(id)
             toastr.error(res.msg);
         }else{
             toastr.success(res.msg);
+            wishList();
         }
     })
     .catch(err=>console.log(err));

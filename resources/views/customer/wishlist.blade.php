@@ -3,13 +3,19 @@
     Wishlist| Above Ecommerce
 @endsection
 
+@section('need-css')
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css
+" rel="stylesheet">
+@endsection
+
 @section('main')
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                    <span></span> Shop <span></span> Fillter
+                    <a href="{{ route('customer.home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <span></span> Wishlist<span></span> Details
                 </div>
             </div>
         </div>
@@ -36,35 +42,7 @@
                                 </tr>
                             </thead>
                             <tbody id="wishListShow">
-                                <tr class="pt-30">
-                                    <td class="custome-checkbox pl-30">
 
-                                    </td>
-                                    <td class="image product-thumbnail pt-40"><img src="assets/imgs/shop/product-1-1.jpg"
-                                            alt="#"></td>
-                                    <td class="product-des product-name">
-                                        <h6><a class="product-name mb-10" href="shop-product-right.html">Field Roast Chao
-                                                Cheese Creamy Original</a></h6>
-                                        <div class="product-rate-cover">
-                                            <div class="product-rate d-inline-block">
-                                                <div class="product-rating" style="width: 90%"></div>
-                                            </div>
-                                            <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                        </div>
-                                    </td>
-                                    <td class="price" data-title="Price">
-                                        <h3 class="text-brand">$2.51</h3>
-                                    </td>
-                                    <td class="text-center detail-info" data-title="Stock">
-                                        <span class="stock-status in-stock mb-0"> In Stock </span>
-                                    </td>
-                                    <td class="text-right" data-title="Cart">
-                                        <button class="btn btn-sm">Add to cart</button>
-                                    </td>
-                                    <td class="action text-center" data-title="Remove">
-                                        <a href="#" class="text-body"><i class="fi-rs-trash"></i></a>
-                                    </td>
-                                </tr>
 
                             </tbody>
                         </table>
@@ -78,6 +56,7 @@
 
 @section('need-js')
     <script src="{{ asset('frontend/assets/js/wishlist.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         //Show wishList
         function wishListShow() {
@@ -90,11 +69,41 @@
                 if (res !== null) {
                     document.getElementById('wishCount3').innerText = res.length;
 
-                     console.log(res);
-                    // let html='';
-                    // res.forEach(function(item){
-                    //      html+=``
-                    // });
+                    console.log(res);
+                    let html = '';
+                    res.forEach(function(item) {
+                        html += ` <tr class="pt-30">
+                                    <td class="custome-checkbox pl-30">
+
+                                    </td>
+                                    <td class="image product-thumbnail pt-40"><img src="/uploads/products/${item.main_image}"
+                                            alt="#"></td>
+                                    <td class="product-des product-name">
+                                        <h6><a class="product-name mb-10" href="/product-details/${item.id}/${item.product_slug}">${item.product_name}</a></h6>
+                                        <div class="product-rate-cover">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" style="width: 90%"></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                        </div>
+                                    </td>
+                                    <td class="price" data-title="Price">
+                                        <h3 class="text-brand">৳${item.discount_price==null?item.selling_price:item.discount_price}</h3>
+                                    </td>
+                                    <td class="text-center detail-info" data-title="Stock">
+                                        <span class="stock-status  mb-0 ${item.product_qty>0?'in-stock':'out-stock'} "> ${item.product_qty>0?'Stock In':'Stock Out'} </span>
+                                    </td>
+                                    <td class="text-right" data-title="Cart">
+                                        <button class="btn btn-sm">Add to cart</button>
+                                    </td>
+                                    <td class="action text-center" data-title="Remove">
+                                        <a id="${item.id}" onclick="remove(this.id,event)" class="text-body"><i class="fi-rs-trash"></i></a>
+                                    </td>
+                                </tr>`;
+                    });
+
+
+                    itemsContainer.innerHTML = html;
 
 
                 } else {
@@ -106,5 +115,42 @@
         }
 
         wishListShow();
+
+        function remove(id, event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Delete this product from Wishlist?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, do it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+
+                    fetch('/customer/delete-product/' + id).then(res => res.json()).then(res => {
+
+
+                        if (res.errors == false) {
+                            Swal.fire(
+                        'Deleted!',
+                        res.msg,
+                        'success'
+                    )
+
+                            wishListShow();
+                        } else {
+                            toastr.warning(res.msg);
+                        }
+
+                    }).catch(err => console.log(err));
+
+                }
+            })
+
+        }
     </script>
 @endsection

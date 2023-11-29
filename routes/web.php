@@ -202,6 +202,8 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
 
         Route::get('wishlist-show','viewWishlist')->name('wish.list');//web View
 
+        Route::get('delete-product/{id}','remove')->name('remove.wishlist');
+
     });
 });
 

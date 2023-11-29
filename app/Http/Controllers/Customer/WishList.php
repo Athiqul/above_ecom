@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
 use App\Models\Wishlist as WishModel;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -99,7 +100,9 @@ class WishList extends Controller
 
     public function products()
     {
-         $items=DB::table('users');
+         $items=DB::table('wishlists')->leftJoin('products',function (JoinClause $join){
+                $join->on('wishlists.product_id','=','products.id')->where('wishlists.user_id',Auth::user()->id);
+         })->select(['products.id','products.product_name','products.discount_price','products.selling_price','products.main_image','products.product_qty','products.product_slug'])->get();
 
 
          return response($items);
@@ -107,6 +110,17 @@ class WishList extends Controller
     //Remove products
     public function remove($id)
     {
+
+        $userId=Auth::user()->id;
+        try{
+            WishModel::where('user_id',$userId)->where('product_id',$id)->delete();
+
+            return response(['errors'=>false,'msg'=>"Succesfully Product removed from wishlist"]);
+
+        }catch(Exception $ex){
+
+            return response(["msg"=>$ex->getMessage()]);
+        }
 
     }
 }
