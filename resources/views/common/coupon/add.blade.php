@@ -102,8 +102,8 @@
                                 <div class="col-md-9 text-secondary form-group ">
                                     <input type="text" placeholder="Maximum Purchase amount" value="{{old('max_discount_amount') }}" class="form-control @error('max_discount_amount')
                                         is-invalid
-                                    @enderror" name="max_purchase_amount">
-                                    @error('max_purchase_amount')
+                                    @enderror" name="max_discount_amount">
+                                    @error('max_discount_amount')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

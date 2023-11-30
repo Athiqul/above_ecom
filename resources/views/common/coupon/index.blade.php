@@ -27,7 +27,7 @@
         <!--end breadcrumb-->
         <div class="d-flex justify-content-between">
             <h6 class="mb-0 text-uppercase ">Coupon List</h6>
-            <a href="{{ route('coupon.add') }}" class="btn btn-primary ">Add Category</a>
+            <a href="{{ route('coupon.add') }}" class="btn btn-primary ">Add Coupon</a>
         </div>
 
         <hr>
@@ -54,7 +54,7 @@
 
                                             <th class="sorting" tabindex="0" aria-controls="example" rowspan="1"
                                                 colspan="1" aria-label="Office: activate to sort column ascending"
-                                                style="width: 73px;">Last Date</th>
+                                                style="width: 73px;">Status</th>
                                             <th class="sorting" tabindex="0" aria-controls="example" rowspan="1"
                                                 colspan="1" aria-label="Age: activate to sort column ascending"
                                                 style="width: 27px;">Used</th>
@@ -74,14 +74,32 @@
                                     <td class="sorting_1">{{ $item->coupon_code }}</td>
 
                                     <td>
-                                        {{date('h:i:s:a d-m-Y',strtotime($item->last_date))}}
+                                        @php
+                                        $tmp=$class="";
+                                            if($item->status==0)
+                                            {
+                                                $tmp="Inactive";
+                                                $class="bg-warning";
+                                            }elseif(strtotime($item->last_date)<time())
+                                            {
+                                                $tmp="Expired";
+                                                $class="bg-danger";
+                                            }else if(strtotime($item->start_date)>time()){
+                                                $tmp="Waiting";
+                                                $class="bg-info";
+                                            }else{
+                                                $tmp="Active";
+                                                $class="bg-success";
+                                            }
+                                        @endphp
+                                        <span class="badge rounded-pill {{ $class }}">{{ $tmp }}</span>
                                     </td>
-                                    <td>{{ ($item->limit==null)? $item->count: $item->limit-$item->count  }}</td>
+                                    <td>{{ ($item->limit==null)? $item->count.' used': $item->limit-$item->count.' Remaining'  }}</td>
 
-                                    <td>{{ ($item->discount_type=='percent')? "%".$item->discount_amount : "$".$item->discount_amount }}</td>
+                                    <td><span class="badge rounded-pill bg-danger text-light">{{ ($item->discount_type=='percent')?$item->discount_amount."%" : "$".$item->discount_amount }}</span></td>
                                     <td>
-                                        <a href="{{ route('catedory.edit',$item->id) }}" class="btn btn-secondary">Edit</a>
-                                        <a href="{{ route('category.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
+                                        <a href="{{ route('coupon.edit',$item->id) }}" class="btn btn-secondary">Edit</a>
+                                        <a href="{{ route('coupon.delete',$item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
