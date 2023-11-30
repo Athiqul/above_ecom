@@ -182,6 +182,9 @@ Route::get('/product-modal/{id}',[Products::class,'productJson'])->name('product
 
 Route::post('add-cart',[Cart::class,'addCart'])->name('cart.push');
 Route::get('cart-items',[Cart::class,'cartList'])->name('cart.list');
+Route::get('cart-list',[Cart::class,'cartView'])->name('cart.show');
+Route::get('cart-item-increment/{any}',[Cart::class,'increment']);
+Route::get('cart-item-decrement/{any}',[Cart::class,'decrement']);
 Route::get('remove-item/{any}',[Cart::class,'deleteCart'])->name('cart.delete');
 
 

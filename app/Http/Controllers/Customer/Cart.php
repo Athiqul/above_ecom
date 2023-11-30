@@ -109,6 +109,12 @@ class Cart extends Controller
             return response(['msg'=>$ex->getMessage()]);
         }
      }
+
+     //Cart page View
+     public function cartView()
+     {
+        return view('customer.cart_details');
+     }
     //Remove Cart By session
 
     public function deleteCart($rowId)
@@ -123,4 +129,39 @@ class Cart extends Controller
 
     }
     //Update Cart By Session
+
+    public function increment($rowId)
+    {
+
+
+        try{
+            $item=FacadesCart::get($rowId);
+            FacadesCart::update($rowId,$item->qty+1);
+            return response(['msg'=>'Item increment']);
+        }catch(Exception $ex)
+        {
+            return response(['msg'=>$ex->getMessage()]);
+        }
+
+
+    }
+
+    //Decrement
+
+    public function decrement($rowId)
+    {
+
+
+        try{
+            $item=FacadesCart::get($rowId);
+            FacadesCart::update($rowId,$item->qty-1);
+            return response(['msg'=>'Item decrement']);
+        }catch(Exception $ex)
+        {
+            return response(['msg'=>$ex->getMessage()]);
+        }
+
+
+    }
+
 }

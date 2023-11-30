@@ -168,12 +168,12 @@ function cartList(){
     fetch(url).then(res=>res.json()).then(res=>{
         let totalCart=document.getElementById('totalCart');
         totalCart.innerText=res.cartItem;
-        document.getElementById('smallCartCount1').innerText=res.cartItem;
+       // document.getElementById('smallCartCount1').innerText=res.cartItem;
         document.getElementById('smallCartCount2').innerText=res.cartItem;
 
 
         let html='';
-        console.log(res);
+       // console.log(res);
         for(const key in res.carts)
         {
             if(res.carts.hasOwnProperty(key))
@@ -207,7 +207,7 @@ cartList();
 function deleteCart($row)
 {
    fetch('/remove-item/'+$row).then(res=>res.json()).then(res=>{
-           console.log(res);
+           //console.log(res);
            toastr.info(res.msg);
            cartList();
    }).catch(err=>console.log(err));
