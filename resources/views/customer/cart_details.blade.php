@@ -225,6 +225,7 @@ function decrement(rowId)
 
         console.log(res);
         cartListShow();
+        cartList();
       })
       .catch(err=>console.log(err));
 }

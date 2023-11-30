@@ -11,6 +11,7 @@ use App\Http\Controllers\Vendor\VendorProfile;
 use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
+use App\Http\Controllers\Common\Coupon;
 use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
@@ -123,6 +124,17 @@ Route::prefix('admin')->group(function () {
             Route::get('edit-banner/{id}', 'edit')->name('banner.edit');
             Route::patch('update/{id}', 'update')->name('banner.update');
             Route::get('banner-delete/{id}', 'delete')->name('banner.delete');
+        });
+
+           //Banner
+           Route::controller(Coupon::class)->prefix('coupon')->group(function () {
+
+            Route::get('coupon-list', 'index')->name('coupon.list');
+            Route::get('add-coupon', 'add')->name('coupon.add');
+            Route::post('add-coupon', 'store')->name('coupon.create');
+            Route::get('edit-coupon/{id}', 'edit')->name('coupon.edit');
+            Route::patch('update/{id}', 'update')->name('coupon.update');
+            Route::get('coupon-delete/{id}', 'delete')->name('coupon.delete');
         });
     });
 });
