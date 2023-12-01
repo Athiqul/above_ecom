@@ -12,6 +12,8 @@ use App\Http\Controllers\Customer\Auth as CustomerAuth;
 use App\Http\Controllers\Common\Brand;
 use App\Http\Controllers\Common\Category;
 use App\Http\Controllers\Common\Coupon;
+use App\Http\Controllers\Common\District;
+use App\Http\Controllers\Common\Division;
 use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
 use App\Http\Controllers\Common\SubCategory;
@@ -135,6 +137,40 @@ Route::prefix('admin')->group(function () {
             Route::get('edit-coupon/{id}', 'edit')->name('coupon.edit');
             Route::patch('update/{id}', 'update')->name('coupon.update');
             Route::get('coupon-delete/{id}', 'delete')->name('coupon.delete');
+        });
+
+        Route::prefix('shipping')->group(function(){
+            Route::controller(Division::class)->prefix('division')->group(function () {
+
+                Route::get('division-list', 'index')->name('division.list');
+                Route::get('add-division', 'add')->name('division.add');
+                Route::post('add-division', 'store')->name('division.create');
+                Route::get('edit-division/{id}', 'edit')->name('division.edit');
+                Route::patch('update/{id}', 'update')->name('division.update');
+
+            });
+
+
+            Route::controller(District::class)->prefix('district')->group(function () {
+
+                Route::get('district-list', 'index')->name('district.list');
+                Route::get('add-district', 'add')->name('district.add');
+                Route::post('add-district', 'store')->name('district.create');
+                Route::get('edit-district/{id}', 'edit')->name('district.edit');
+                Route::patch('update/{id}', 'update')->name('district.update');
+
+            });
+
+
+            Route::controller(District::class)->prefix('state')->group(function () {
+
+                Route::get('state-list', 'index')->name('state.list');
+                Route::get('add-state', 'add')->name('state.add');
+                Route::post('add-state', 'store')->name('state.create');
+                Route::get('edit-state/{id}', 'edit')->name('state.edit');
+                Route::patch('update/{id}', 'update')->name('state.update');
+
+            });
         });
     });
 });
