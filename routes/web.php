@@ -16,6 +16,7 @@ use App\Http\Controllers\Common\District;
 use App\Http\Controllers\Common\Division;
 use App\Http\Controllers\Common\Products;
 use App\Http\Controllers\Common\Slider as CommonSlider;
+use App\Http\Controllers\Common\State;
 use App\Http\Controllers\Common\SubCategory;
 use App\Http\Controllers\Common\Vendor;
 use App\Http\Controllers\Customer\Cart;
@@ -162,13 +163,15 @@ Route::prefix('admin')->group(function () {
             });
 
 
-            Route::controller(District::class)->prefix('state')->group(function () {
+            Route::controller(State::class)->prefix('state')->group(function () {
 
                 Route::get('state-list', 'index')->name('state.list');
                 Route::get('add-state', 'add')->name('state.add');
                 Route::post('add-state', 'store')->name('state.create');
                 Route::get('edit-state/{id}', 'edit')->name('state.edit');
                 Route::patch('update/{id}', 'update')->name('state.update');
+                Route::get('district-list/{id}','districtApi');//District Api
+                Route::get('state-list/{id}','stateApi');//District Api
 
             });
         });
