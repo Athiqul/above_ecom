@@ -57,8 +57,8 @@
                             <p class="mb-30"><span class="font-lg text-muted">Using A Promo Code?</span></p>
                             <form action="#">
                                 <div class="d-flex justify-content-between">
-                                    <input class="font-medium mr-15 coupon" name="Coupon" placeholder="Enter Your Coupon">
-                                    <button class="btn"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                    <input class="font-medium mr-15 coupon" id="coupon" name="Coupon" placeholder="Enter Your Coupon">
+                                    <a class="btn" onclick="applyCoupon()"><i class="fi-rs-label mr-10"></i>Apply</a>
                                 </div>
                             </form>
                         </div>
@@ -228,6 +228,25 @@ function decrement(rowId)
         cartList();
       })
       .catch(err=>console.log(err));
+}
+
+//Check Coupon
+function applyCoupon()
+{
+    let coupon=document.getElementById("coupon");
+    console.log(coupon.value);
+    if(coupon.value.length<4)
+    {
+        return;
+    }
+
+
+    fetch('/check-coupon?coupon_code='+coupon.value,
+    )
+    .then(res=>res.json())
+    .then(res=>{
+       console.log(res);
+    }).catch(err=>console.log(err));
 }
 </script>
 @endsection

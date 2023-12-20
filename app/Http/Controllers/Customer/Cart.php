@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use App\Models\Product;
 use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart as FacadesCart;
@@ -161,6 +162,59 @@ class Cart extends Controller
             return response(['msg'=>$ex->getMessage()]);
         }
 
+
+    }
+
+       //Coupon API for Customer
+    public function couponCheck(Request $request)
+    {
+        $validate=Validator::make($request->all(),[
+            'coupon_code'=>'required|string|min:3|max:255|exists:coupons,coupon_code',
+
+        ]);
+
+        if($validate->fails())
+        {
+            $data=[
+                "code"=>0,
+                "msg"=>'Invalid Coupon code!',
+            ];
+           return response($data);
+        }
+
+
+        //Check code
+       $couponInfo= Coupon::where('coupon_code',$request->coupon_code)->where('status','1')->where('last_date','>=',date('Y-m-d'))->where('start_date','<=',date('Y-m-d'))->first();
+
+
+       //Check limit
+       if($couponInfo->limit!=null && $couponInfo->count>=$couponInfo->limit)
+       {
+        $data=[
+            "code"=>0,
+            "msg"=>'Coupon Limit Over!',
+        ];
+       return response($data);
+       }
+
+       //Minimum Purchase Amount
+       if($couponInfo->min_purchase_amount!=null && FacadesCart::total()<$couponInfo->min_purchase_amount)
+       {
+        $data=[
+            "code"=>0,
+            "msg"=>'You have to purchase minimum $'.$couponInfo->min_purchase_amount.' !',
+        ];
+       return response($data);
+       }
+
+       //Save into session
+
+       $data=[
+        "code"=>1,
+        "msg"=>$couponInfo,
+       ];
+
+       return response($data);
 
     }
 

@@ -238,6 +238,8 @@ Route::get('cart-item-increment/{any}',[Cart::class,'increment']);
 Route::get('cart-item-decrement/{any}',[Cart::class,'decrement']);
 Route::get('remove-item/{any}',[Cart::class,'deleteCart'])->name('cart.delete');
 
+Route::get('check-coupon',[Cart::class,'couponCheck'])->name('api.coupon.check');
+
 
 //Wish List Add
 Route::post('add-wishlist',[WishList::class,'add'])->name('wish.push');
@@ -254,9 +256,9 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
 
     //WishList
     Route::controller(WishList::class)->group(function(){
-        Route::get('wishlist','index');//Api
+        Route::get('wishlist','index')->name('api.wishlist');//Api
 
-        Route::get('wishlist-items','products');//Product show
+        Route::get('wishlist-items','products')->name('api.products');//Product show
 
         Route::get('wishlist-show','viewWishlist')->name('wish.list');//web View
 
