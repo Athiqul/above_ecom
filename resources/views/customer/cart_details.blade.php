@@ -50,19 +50,24 @@
 
 
                 <div class="row mt-50">
+                    <div class="col-lg-5">
 
-                        <div class="col-lg-5">
-                        <div class="p-40">
-                            <h4 class="mb-10">Apply Coupon</h4>
-                            <p class="mb-30"><span class="font-lg text-muted">Using A Promo Code?</span></p>
-                            <form action="#">
-                                <div class="d-flex justify-content-between">
-                                    <input class="font-medium mr-15 coupon" id="coupon" name="Coupon" placeholder="Enter Your Coupon">
-                                    <a class="btn" onclick="applyCoupon()"><i class="fi-rs-label mr-10"></i>Apply</a>
-                                </div>
-                            </form>
-                        </div>
+
+                    <div class="p-40" id="promoCode">
+                        <h4 class="mb-10">Apply Coupon</h4>
+                        <p class="mb-30"><span class="font-lg text-muted">Using A Promo Code?</span></p>
+                        <form action="#">
+                            <div class="d-flex justify-content-between">
+                                <input class="font-medium mr-15 coupon" id="coupon" name="Coupon" placeholder="Enter Your Coupon">
+                                <a class="btn" onclick="applyCoupon()"><i class="fi-rs-label mr-10"></i>Apply</a>
+                            </div>
+                        </form>
                     </div>
+
+
+
+                </div>
+
 
 
                     <div class="col-lg-7">
@@ -73,43 +78,8 @@
                         <div class="border p-md-4 cart-totals ml-30">
                     <div class="table-responsive">
                         <table class="table no-border">
-                            <tbody>
-                                <tr>
-                                    <td class="cart_total_label">
-                                        <h6 class="text-muted">Subtotal</h6>
-                                    </td>
-                                    <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">$12.31</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td scope="col" colspan="2">
-                                        <div class="divider-2 mt-10 mb-10"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="cart_total_label">
-                                        <h6 class="text-muted">Shipping</h6>
-                                    </td>
-                                    <td class="cart_total_amount">
-                                        <h5 class="text-heading text-end">Free </h5></td></tr> <tr>
-                                    <td class="cart_total_label">
-                                        <h6 class="text-muted">Estimate for</h6>
-                                    </td>
-                                    <td class="cart_total_amount">
-                                        <h5 class="text-heading text-end">United Kingdom </h5></td></tr> <tr>
-                                    <td scope="col" colspan="2">
-                                        <div class="divider-2 mt-10 mb-10"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="cart_total_label">
-                                        <h6 class="text-muted">Total</h6>
-                                    </td>
-                                    <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">$12.31</h4>
-                                    </td>
-                                </tr>
+                            <tbody id="cartBill">
+
                             </tbody>
                         </table>
                     </div>
@@ -200,6 +170,7 @@ function deleteCartItem($row)
            console.log(res);
            toastr.info(res.msg);
            cartListShow();
+           cartBills();
    }).catch(err=>console.log(err));
 }
 
@@ -212,6 +183,7 @@ function increment(rowId)
 
         console.log(res);
         cartListShow();
+        cartBills();
       })
       .catch(err=>console.log(err));
 }
@@ -226,6 +198,7 @@ function decrement(rowId)
         console.log(res);
         cartListShow();
         cartList();
+        cartBills();
       })
       .catch(err=>console.log(err));
 }
@@ -245,7 +218,102 @@ function applyCoupon()
     )
     .then(res=>res.json())
     .then(res=>{
+       //console.log(res);
+       if(res.code==0)
+       {
+        toastr.warning(res.msg);
+       }else{
+        toastr.success(res.msg);
+        cartBills();
+       }
+    }).catch(err=>console.log(err));
+}
+
+//Show Cart Bills
+
+function cartBills()
+{
+    fetch('/cart-bill'
+    )
+    .then(res=>res.json())
+    .then(res=>{
        console.log(res);
+       if(res.discount==1)
+       {
+        document.getElementById("promoCode").style.display="none";
+         document.getElementById('cartBill').innerHTML=` <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">Subtotal</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h4 class="text-brand text-end">$${res.subtotal}</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="col" colspan="2">
+                                        <div class="divider-2 mt-10 mb-10"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">Coupon</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h5 class="text-heading text-end">${res.coupon}  <a onclick="removeCoupon()" class="text-muted"><i class="fi-rs-trash mr-5"></i></a></h5>
+
+                                        </td>
+
+                                        </tr> <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">Discount</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h5 class="text-heading text-end">$${res.save} </h5></td></tr> <tr>
+                                    <td scope="col" colspan="2">
+                                        <div class="divider-2 mt-10 mb-10"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">Grand Total</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h4 class="text-brand text-end">$${res.pay}</h4>
+                                    </td>
+                                </tr>`;
+
+
+       }else{
+
+        document.getElementById("promoCode").style.display="block";
+        document.getElementById('cartBill').innerHTML=` <tr>
+                                    <td class="cart_total_label">
+                                        <h6 class="text-muted">Grand Total</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h4 class="text-brand text-end">$${res.subtotal}</h4>
+                                    </td>
+                                </tr>`;
+
+       }
+
+
+    }).catch(err=>console.log(err));
+}
+
+cartBills();
+
+function removeCoupon()
+{
+    fetch('/remove-coupon'
+    )
+    .then(res=>res.json())
+    .then(res=>{
+       console.log(res);
+       document.getElementById("promoCode").style.display="block";
+        toastr.info(res.msg);
+        cartBills();
+
     }).catch(err=>console.log(err));
 }
 </script>

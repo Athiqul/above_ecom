@@ -239,6 +239,8 @@ Route::get('cart-item-decrement/{any}',[Cart::class,'decrement']);
 Route::get('remove-item/{any}',[Cart::class,'deleteCart'])->name('cart.delete');
 
 Route::get('check-coupon',[Cart::class,'couponCheck'])->name('api.coupon.check');
+Route::get('cart-bill',[Cart::class,'getTotalBill'])->name('cart.bill');
+Route::get('remove-coupon',[Cart::class,'removeCouponCode'])->name('coupon.remove');
 
 
 //Wish List Add

@@ -179,7 +179,7 @@ class Cart extends Controller
                 "code"=>0,
                 "msg"=>'Invalid Coupon code!',
             ];
-           return response($data);
+           return response()->json($data);
         }
 
 
@@ -194,7 +194,7 @@ class Cart extends Controller
             "code"=>0,
             "msg"=>'Coupon Limit Over!',
         ];
-       return response($data);
+       return response()->json($data);
        }
 
        //Minimum Purchase Amount
@@ -204,18 +204,98 @@ class Cart extends Controller
             "code"=>0,
             "msg"=>'You have to purchase minimum $'.$couponInfo->min_purchase_amount.' !',
         ];
-       return response($data);
+       return response()->json($data);
        }
 
+       //Maximum Limit
+
+       if($couponInfo->discount_type=='percent')
+       {
+        $save=(FacadesCart::total()* $couponInfo->discount_amount)/100;
+          $payAbleAmount=(FacadesCart::total()- $save);
+          if($save>$couponInfo->max_discount_amount)
+          {
+            $save=$couponInfo->max_discount_amount;
+            $payAbleAmount=FacadesCart::total()-$save;
+          }
+
+       }else{
+        $save=$couponInfo->discount_amount;
+        $payAbleAmount=FacadesCart::total()-$couponInfo->discount_amount;
+
+       }
+
+       if(session()->has('coupon'))
+       {
+        $data=[
+            "code"=>0,
+            "msg"=>"Already Have a coupon!",
+         ];
+
+         return response()->json($data);
+       }
+
+
+
+
        //Save into session
+       $request->session()->put('coupon',$couponInfo);
 
        $data=[
-        "code"=>1,
-        "msg"=>$couponInfo,
+          "code"=>1,
+          "msg"=>"Coupon Added Successfully",
        ];
 
-       return response($data);
+       return response()->json($data);
 
+    }
+
+    //Provide payable amount
+    public function getTotalBill()
+    {
+           if(session()->has('coupon'))
+           {
+              $couponInfo=session()->get('coupon');
+              if($couponInfo->discount_type=='percent')
+              {
+               $save=(FacadesCart::total()* $couponInfo->discount_amount)/100;
+                 $payAbleAmount=(FacadesCart::total()- $save);
+                 if($save>$couponInfo->max_discount_amount)
+                 {
+                   $save=$couponInfo->max_discount_amount;
+                   $payAbleAmount=FacadesCart::total()-$save;
+                 }
+
+              }else{
+               $save=$couponInfo->discount_amount;
+               $payAbleAmount=FacadesCart::total()-$couponInfo->discount_amount;
+
+              }
+              $data=[
+                'discount'=>1,
+                'subtotal'=>FacadesCart::total(),
+                'pay'=>$payAbleAmount,
+                'save'=>$save,
+                'coupon'=>$couponInfo->coupon_code,
+            ];
+           }
+
+           else{
+               $data=['subtotal'=>FacadesCart::total(),
+                'discount'=>0,
+           ];
+           }
+
+
+           return response()->json($data);
+    }
+
+    //Remove Coupon
+
+    public function removeCouponCode()
+    {
+           session()->forget('coupon');
+           return response()->json(['msg'=>'Coupon token removed successfully!']);
     }
 
 }
