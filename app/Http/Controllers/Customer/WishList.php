@@ -24,7 +24,7 @@ class WishList extends Controller
                 "msg"=>"Please Login First, to add wishlist!"
             ];
 
-            return response($data);
+            return response()->json($data);
         }
         $validation=Validator::make($request->all(),[
             'product_id'=>'required|exists:products,id'
@@ -56,14 +56,14 @@ class WishList extends Controller
                     "msg"=>"Succesfully product added to wishlist!"
                  ];
 
-                 return response($data);
+                 return response()->json($data);
             }catch(Exception $ex){
                 $data=[
                     "errors"=>true,
                     "msg"=>$ex->getMessage(),
                    ];
 
-                   return response($data);
+                   return response()->json($data);
             }
 
 
@@ -77,7 +77,7 @@ class WishList extends Controller
        ];
 
 
-       return response($data);
+       return response()->json($data);
 
 
     }
@@ -93,7 +93,7 @@ class WishList extends Controller
          $items=WishModel::where('user_id',Auth::user()->id)->latest()->get();
 
 
-         return response($items);
+         return response()->json($items);
     }
 
     //Show Products
@@ -105,7 +105,7 @@ class WishList extends Controller
          })->select(['products.id','products.product_name','products.discount_price','products.selling_price','products.main_image','products.product_qty','products.product_slug'])->get();
 
 
-         return response($items);
+         return response()->json($items);
     }
     //Remove products
     public function remove($id)
@@ -115,11 +115,11 @@ class WishList extends Controller
         try{
             WishModel::where('user_id',$userId)->where('product_id',$id)->delete();
 
-            return response(['errors'=>false,'msg'=>"Succesfully Product removed from wishlist"]);
+            return response()->json(['errors'=>false,'msg'=>"Succesfully Product removed from wishlist"]);
 
         }catch(Exception $ex){
 
-            return response(["msg"=>$ex->getMessage()]);
+            return response()->json(["msg"=>$ex->getMessage()]);
         }
 
     }

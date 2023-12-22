@@ -25,6 +25,7 @@ use App\Http\Controllers\Customer\CompareController;
 use App\Http\Controllers\Customer\VendorInfo;
 use App\Http\Controllers\Customer\WishList;
 use App\Http\Controllers\Vendor\VendorProduct;
+use App\Http\Controllers\Customer\CheckOut;
 
 
 /*
@@ -249,6 +250,10 @@ Route::post('add-wishlist',[WishList::class,'add'])->name('wish.push');
 //Add Compare List
 Route::post('add-compare',[CompareController::class,'add'])->name('compare.push');
 
+
+//Show Checkout Page
+Route::get('checkout',[Checkout::class,'checkoutView'])->name('checkout.page');
+
 //Customer
 Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('dashboard', [Home::class, 'dashboard'])->name('customer.dashboard');
@@ -279,6 +284,8 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
         Route::get('delete-compare/{id}','remove')->name('remove.compare');
 
     });
+
+
 });
 
 Route::middleware('auth')->group(function () {

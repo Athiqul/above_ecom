@@ -105,7 +105,7 @@
                             <div class="header-action-icon-2">
                                 <a href="{{ route('compare.list') }}">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-compare.svg')}}" />
-                                    <span class="pro-count blue" id="compareCount"></span>
+                                    <span class="pro-count blue" id="compareCount">0</span>
                                 </a>
                                 <a href="{{ route('compare.list') }}"><span class="lable">Compare</span></a>
                             </div>
@@ -113,7 +113,7 @@
                             <div class="header-action-icon-2">
                                 <a href="{{ route('wish.list') }}">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />
-                                    <span class="pro-count blue" id="wishCount"></span>
+                                    <span class="pro-count blue" id="wishCount">0</span>
                                 </a>
                                 <a href="{{ route('wish.list') }}"><span class="lable">Wishlist</span></a>
                             </div>
@@ -167,7 +167,7 @@
                                             <a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
                                         </li>
                                         <li>
-                                            <a href="page-login.html"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                            <a href="{{ route('customer.logout') }}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -306,14 +306,14 @@
                         <div class="header-action-icon-2">
                             <a href="{{ route('compare.list') }}">
                                 <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-compare.svg')}}" />
-                                <span class="pro-count blue" id="compareCount1"></span>
+                                <span class="pro-count blue" id="compareCount1">0</span>
                             </a>
 
                         </div>
                         <div class="header-action-icon-2">
                             <a href="{{ route('wish.list') }}">
                                 <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')}}" />
-                                <span class="pro-count white" id="wishCount1"></span>
+                                <span class="pro-count white" id="wishCount1">0</span>
                             </a>
                         </div>
                         <div class="header-action-icon-2">
