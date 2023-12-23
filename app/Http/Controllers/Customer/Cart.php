@@ -91,8 +91,6 @@ class Cart extends Controller
 
      }
 
-
-
      //total cart show
      public function cartList()
      {

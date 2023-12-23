@@ -33,10 +33,10 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="fname" placeholder="User Name *">
+                                    <input type="text" required="" name="name" value="{{ old('name',$userInfo->name) }}">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="email" required="" name="lname" placeholder="Email *">
+                                    <input type="email" required="" value="{{ old('name',$userInfo->email) }}" name="email">
                                 </div>
                             </div>
 
@@ -45,60 +45,40 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active select2-hidden-accessible"
-                                            data-select2-id="7" tabindex="-1" aria-hidden="true">
-                                            <option value="" data-select2-id="9">Select an option...</option>
+                                        <select class="form-control select-active "
+                                            data-select2-id="7" tabindex="-1" id="divisions" aria-hidden="true">
+                                            <option value="">Select Division</option>
+                                            @foreach ($divisions as $div)
+                                            <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
+                                            @endforeach
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <input required="" type="tel" name="mobile" value="{{ old('mobile',$userInfo->mobile) }}" >
+                                </div>
+                            </div>
+
+                            <div class="row shipping_calculator">
+                                <div class="form-group col-lg-6">
+                                    <div class="custom_select">
+                                        <select class="form-control select-active "
+                                            data-select2-id="10" id="district" tabindex="-1" aria-hidden="true">
+                                            <option value="">Select District</option>
                                             <option value="AX">Aland Islands</option>
                                             <option value="AF">Afghanistan</option>
                                             <option value="AL">Albania</option>
                                             <option value="DZ">Algeria</option>
                                             <option value="AD">Andorra</option>
 
-                                        </select><span class="select2 select2-container select2-container--default"
-                                            dir="ltr" data-select2-id="8" style="width: 342.625px;"><span
-                                                class="selection"><span class="select2-selection select2-selection--single"
-                                                    role="combobox" aria-haspopup="true" aria-expanded="false"
-                                                    tabindex="0" aria-labelledby="select2-b0d0-container"><span
-                                                        class="select2-selection__rendered" id="select2-b0d0-container"
-                                                        role="textbox" aria-readonly="true"
-                                                        title="Select an option...">Select an option...</span><span
-                                                        class="select2-selection__arrow" role="presentation"><b
-                                                            role="presentation"></b></span></span></span><span
-                                                class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input required="" type="text" name="city" placeholder="Phone*">
-                                </div>
-                            </div>
-
-                            <div class="row shipping_calculator">
-                                <div class="form-group col-lg-6">
-                                    <div class="custom_select">
-                                        <select class="form-control select-active select2-hidden-accessible"
-                                            data-select2-id="10" tabindex="-1" aria-hidden="true">
-                                            <option value="" data-select2-id="12">Select an option...</option>
-                                            <option value="AX">Aland Islands</option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AL">Albania</option>
-                                            <option value="DZ">Algeria</option>
-                                            <option value="AD">Andorra</option>
-
-                                        </select><span class="select2 select2-container select2-container--default"
-                                            dir="ltr" data-select2-id="11" style="width: 342.625px;"><span
-                                                class="selection"><span class="select2-selection select2-selection--single"
-                                                    role="combobox" aria-haspopup="true" aria-expanded="false"
-                                                    tabindex="0" aria-labelledby="select2-z645-container"><span
-                                                        class="select2-selection__rendered" id="select2-z645-container"
-                                                        role="textbox" aria-readonly="true"
-                                                        title="Select an option...">Select an option...</span><span
-                                                        class="select2-selection__arrow" role="presentation"><b
-                                                            role="presentation"></b></span></span></span><span
-                                                class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <input required="" type="text" name="city" placeholder="Post Code *">
+                                    <input required="" type="text" name="post_code" value="{{ old('post_code') }}" placeholder="Post Code">
                                 </div>
                             </div>
 
@@ -106,31 +86,20 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active select2-hidden-accessible"
+                                        <select class="form-control select-active "
                                             data-select2-id="13" tabindex="-1" aria-hidden="true">
-                                            <option value="" data-select2-id="15">Select an option...</option>
+                                            <option value="" data-select2-id="15">Select Thana</option>
                                             <option value="AX">Aland Islands</option>
                                             <option value="AF">Afghanistan</option>
                                             <option value="AL">Albania</option>
                                             <option value="DZ">Algeria</option>
                                             <option value="AD">Andorra</option>
 
-                                        </select><span class="select2 select2-container select2-container--default"
-                                            dir="ltr" data-select2-id="14" style="width: 342.625px;"><span
-                                                class="selection"><span
-                                                    class="select2-selection select2-selection--single" role="combobox"
-                                                    aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                                    aria-labelledby="select2-dqxd-container"><span
-                                                        class="select2-selection__rendered" id="select2-dqxd-container"
-                                                        role="textbox" aria-readonly="true"
-                                                        title="Select an option...">Select an option...</span><span
-                                                        class="select2-selection__arrow" role="presentation"><b
-                                                            role="presentation"></b></span></span></span><span
-                                                class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input required="" type="text" name="city" placeholder="Address *">
+                                    <input required="" type="text" name="address" value="{{ old('address',$userInfo->address) }}" placeholder="Address">
                                 </div>
                             </div>
 
@@ -243,7 +212,7 @@
 
 @section('need-js')
     <script>
-        //Show Products
+        //Fetch District
 
 
         //Show Cart Bills
@@ -269,7 +238,7 @@
                 <h6 class="text-muted">Coupn Name</h6>
             </td>
             <td class="cart_total_amount">
-                <h6 class="text-brand text-end">$${res.coupon}</h6>
+                <h6 class="text-brand text-end">${res.coupon}(${Math.ceil((res.save/res.subtotal)*100)}%)</h6>
             </td>
         </tr>
 
@@ -278,7 +247,7 @@
                 <h6 class="text-muted">Coupon Discount</h6>
             </td>
             <td class="cart_total_amount">
-                <h4 class="text-brand text-end">$${res.save}</h4>
+                <h4 class="text-brand text-end">- $${res.save}</h4>
             </td>
         </tr>
 
