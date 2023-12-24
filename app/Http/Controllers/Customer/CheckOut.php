@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Division;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -39,5 +41,70 @@ class CheckOut extends Controller
     //Show Online Gateway Page
 
     //Get Districts
-    
+    public function getDistricts(Request $request)
+    {
+
+          if($request->en_name==null)
+          {
+             $data=[
+                "code"=>0,
+                "msg"=>"Division name missing",
+             ];
+             return response()->json($data);
+          }
+
+
+          //Get Div ID
+          $division=Division::where('en_name',$request->en_name)->first();
+          if($division==null)
+          {
+            $data=[
+                "code"=>0,
+                "msg"=>"Invalid Division!",
+             ];
+             return response()->json($data);
+          }
+          //get Dis by div id
+          $items=District::where('division_id',$division->id)->get();
+
+          $data=[
+            "code"=>1,
+            "items"=>$items,
+          ];
+          return response()->json($data);
+    }
+
+
+    public function getThana(Request $request)
+    {
+
+          if($request->en_name==null)
+          {
+             $data=[
+                "code"=>0,
+                "msg"=>"District name missing",
+             ];
+             return response()->json($data);
+          }
+
+
+          //Get dis ID
+          $dis=District::where('en_name',$request->en_name)->first();
+          if($dis==null)
+          {
+            $data=[
+                "code"=>0,
+                "msg"=>"Invalid Division!",
+             ];
+             return response()->json($data);
+          }
+          //get thaba by dis id
+          $items=State::where('district_id',$dis->id)->get();
+
+          $data=[
+            "code"=>1,
+            "items"=>$items,
+          ];
+          return response()->json($data);
+    }
 }

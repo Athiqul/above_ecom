@@ -33,10 +33,12 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="name" value="{{ old('name',$userInfo->name) }}">
+                                    <input type="text" required="" name="name"
+                                        value="{{ old('name', $userInfo->name) }}">
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="email" required="" value="{{ old('name',$userInfo->email) }}" name="email">
+                                    <input type="email" required="" value="{{ old('name', $userInfo->email) }}"
+                                        name="email">
                                 </div>
                             </div>
 
@@ -45,11 +47,11 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active "
-                                            data-select2-id="7" tabindex="-1" id="divisions" aria-hidden="true">
+                                        <select class="form-control select-active " data-select2-id="7" tabindex="-1"
+                                            id="divisions" aria-hidden="true" name="div_name">
                                             <option value="">Select Division</option>
                                             @foreach ($divisions as $div)
-                                            <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
+                                                <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
                                             @endforeach
 
 
@@ -58,15 +60,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input required="" type="tel" name="mobile" value="{{ old('mobile',$userInfo->mobile) }}" >
+                                    <input required="" type="tel" name="mobile"
+                                        value="{{ old('mobile', $userInfo->mobile) }}">
                                 </div>
                             </div>
 
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active "
-                                            data-select2-id="10" id="district" tabindex="-1" aria-hidden="true">
+                                        <select class="form-control select-active " data-select2-id="10" id="district"
+                                            tabindex="-1" aria-hidden="true">
                                             <option value="">Select District</option>
                                             <option value="AX">Aland Islands</option>
                                             <option value="AF">Afghanistan</option>
@@ -78,7 +81,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input required="" type="text" name="post_code" value="{{ old('post_code') }}" placeholder="Post Code">
+                                    <input required="" type="text" name="post_code" value="{{ old('post_code') }}"
+                                        placeholder="Post Code">
                                 </div>
                             </div>
 
@@ -86,8 +90,8 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active "
-                                            data-select2-id="13" tabindex="-1" aria-hidden="true">
+                                        <select class="form-control select-active " data-select2-id="13" tabindex="-1"
+                                            aria-hidden="true">
                                             <option value="" data-select2-id="15">Select Thana</option>
                                             <option value="AX">Aland Islands</option>
                                             <option value="AF">Afghanistan</option>
@@ -99,7 +103,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input required="" type="text" name="address" value="{{ old('address',$userInfo->address) }}" placeholder="Address">
+                                    <input required="" type="text" name="address"
+                                        value="{{ old('address', $userInfo->address) }}" placeholder="Address">
                                 </div>
                             </div>
 
@@ -128,28 +133,29 @@
                         <div class="table-responsive order_table checkout">
                             <table class="table no-border">
                                 <tbody id="productsShow">
-                                   @foreach ($products as $item)
-                                   <tr>
-                                    <td class="image product-thumbnail"><img src="{{ asset('uploads/products/'.$item->options->image) }}"
-                                            alt="{{ $item->name }}" style="width: 80px;height:80px;"></td>
-                                    <td>
-                                        <h6 class="w-160 mb-5"><a href="{{ $item->options->url }}"
-                                                class="text-heading" target="_blank">{{ $item->name }}</a></h6>
-                                        <div class="product-rate-cover">
+                                    @foreach ($products as $item)
+                                        <tr>
+                                            <td class="image product-thumbnail"><img
+                                                    src="{{ asset('uploads/products/' . $item->options->image) }}"
+                                                    alt="{{ $item->name }}" style="width: 80px;height:80px;"></td>
+                                            <td>
+                                                <h6 class="w-160 mb-5"><a href="{{ $item->options->url }}"
+                                                        class="text-heading" target="_blank">{{ $item->name }}</a></h6>
+                                                <div class="product-rate-cover">
 
-                                            <strong>Color : {{ $item->options->color }}</strong>
-                                            <strong>Size : {{ $item->options->size }}</strong>
+                                                    <strong>Color : {{ $item->options->color }}</strong>
+                                                    <strong>Size : {{ $item->options->size }}</strong>
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-muted pl-20 pr-20">x {{ $item->qty }}</h6>
-                                    </td>
-                                    <td>
-                                        <h4 class="text-brand">${{number_format($item->price)  }}</h4>
-                                    </td>
-                                </tr>
-                                   @endforeach
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted pl-20 pr-20">x {{ $item->qty }}</h6>
+                                            </td>
+                                            <td>
+                                                <h4 class="text-brand">${{ number_format($item->price) }}</h4>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
 
                                 </tbody>
@@ -213,7 +219,14 @@
 @section('need-js')
     <script>
         //Fetch District
-
+        let div=  document.getElementById('divisions');
+    console.log(div);
+      div.addEventListener('change',function (e){
+            console.log('hello');
+            fetch('/customer/districts?en_name='+div.value).then(res=>res.json()).then(res=>{
+                console.log(res);
+            }).catch(err=>console.log(err));
+        });
 
         //Show Cart Bills
 
@@ -221,7 +234,7 @@
             fetch('/cart-bill')
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res);
+                    //console.log(res);
                     if (res.discount == 1) {
 
                         document.getElementById('checkoutBill').innerHTML = `  <tr>

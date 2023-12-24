@@ -286,6 +286,14 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
     });
 
 
+    //Check out
+
+    Route::controller(CheckOut::class)->group(function(){
+        Route::get('districts','getDistricts')->name('checkout.district');//api
+        Route::get('states','getThana')->name('checkout.thana');//api
+    });
+
+
 });
 
 Route::middleware('auth')->group(function () {
