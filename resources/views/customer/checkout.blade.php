@@ -47,8 +47,7 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active " data-select2-id="7" tabindex="-1"
-                                            id="divisions" aria-hidden="true" name="div_name">
+                                        <select class="form-control  " name="div_name" required>
                                             <option value="">Select Division</option>
                                             @foreach ($divisions as $div)
                                                 <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
@@ -69,7 +68,7 @@
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
                                         <select class="form-control select-active " data-select2-id="10" id="district"
-                                            tabindex="-1" aria-hidden="true">
+                                            tabindex="-1" aria-hidden="true" name="dis_id" >
                                             <option value="">Select District</option>
                                             <option value="AX">Aland Islands</option>
                                             <option value="AF">Afghanistan</option>
@@ -218,15 +217,40 @@
 
 @section('need-js')
     <script>
-        //Fetch District
-        let div=  document.getElementById('divisions');
-    console.log(div);
-      div.addEventListener('change',function (e){
-            console.log('hello');
-            fetch('/customer/districts?en_name='+div.value).then(res=>res.json()).then(res=>{
-                console.log(res);
-            }).catch(err=>console.log(err));
-        });
+     document.addEventListener('DOMContentLoaded', function () {
+  var selectDivision = document.querySelector('select[name="div_name"]');
+  //var selectDistrict = document.querySelector('select[name="dis_id"]');
+  console.log(selectDivision);
+  selectDivision.addEventListener('change', function () {
+    var division_id = selectDivision.value;
+      console.log(division_id);
+    // if (division_id) {
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open('GET', '/district-get/ajax/' + division_id, true);
+    //   xhr.setRequestHeader('Content-Type', 'application/json');
+    //   xhr.onreadystatechange = function () {
+    //     if (xhr.readyState === 4 && xhr.status === 200) {
+    //       var data = JSON.parse(xhr.responseText);
+
+    //       // Clear existing options
+    //       selectDistrict.innerHTML = '';
+
+    //       // Populate options
+    //       data.forEach(function (value) {
+    //         var option = document.createElement('option');
+    //         option.value = value.id;
+    //         option.textContent = value.district_name;
+    //         selectDistrict.appendChild(option);
+    //       });
+    //     }
+    //   };
+
+    //   xhr.send();
+    // } else {
+    //   alert('danger');
+    // }
+  });
+});
 
         //Show Cart Bills
 
