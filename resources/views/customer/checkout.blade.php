@@ -47,7 +47,7 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control  " name="div_name" required>
+                                        <select class="form-control  " id="divisions" name="div_name" required>
                                             <option value="">Select Division</option>
                                             @foreach ($divisions as $div)
                                                 <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
@@ -67,15 +67,9 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active " data-select2-id="10" id="district"
-                                            tabindex="-1" aria-hidden="true" name="dis_id" >
-                                            <option value="">Select District</option>
-                                            <option value="AX">Aland Islands</option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AL">Albania</option>
-                                            <option value="DZ">Algeria</option>
-                                            <option value="AD">Andorra</option>
-
+                                        <select class="form-control  " id="districts"
+                                            tabindex="-1"  name="dis_name" required>
+                                            <option value="" data-select2-id="15">Select District</option>
                                         </select>
                                     </div>
                                 </div>
@@ -89,14 +83,10 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-6">
                                     <div class="custom_select">
-                                        <select class="form-control select-active " data-select2-id="13" tabindex="-1"
-                                            aria-hidden="true">
+                                        <select class="form-control  "
+                                          required name="thana" id="thana"  >
                                             <option value="" data-select2-id="15">Select Thana</option>
-                                            <option value="AX">Aland Islands</option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AL">Albania</option>
-                                            <option value="DZ">Algeria</option>
-                                            <option value="AD">Andorra</option>
+
 
                                         </select>
                                     </div>
@@ -112,12 +102,12 @@
 
 
                             <div class="form-group mb-30">
-                                <textarea rows="5" placeholder="Additional information"></textarea>
+                                <textarea rows="5" name="info"  placeholder="Additional information"></textarea>
                             </div>
 
 
 
-                        </form>
+
                     </div>
                 </div>
 
@@ -206,9 +196,11 @@
                                 alt="">
                             <img src="{{ asset('frontend/assets/imgs/theme/icons/payment-zapper.svg') }}" alt="">
                         </div>
-                        <a href="#" class="btn btn-fill-out btn-block mt-30">Place an Order<i
-                                class="fi-rs-sign-out ml-15"></i></a>
+                        <button  type="submit" class="btn btn-fill-out btn-block mt-30">Place an Order<i
+                                class="fi-rs-sign-out ml-15"></i></button>
                     </div>
+
+                </form>
                 </div>
             </div>
         </div>
@@ -217,40 +209,42 @@
 
 @section('need-js')
     <script>
-     document.addEventListener('DOMContentLoaded', function () {
-  var selectDivision = document.querySelector('select[name="div_name"]');
-  //var selectDistrict = document.querySelector('select[name="dis_id"]');
-  console.log(selectDivision);
-  selectDivision.addEventListener('change', function () {
-    var division_id = selectDivision.value;
-      console.log(division_id);
-    // if (division_id) {
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open('GET', '/district-get/ajax/' + division_id, true);
-    //   xhr.setRequestHeader('Content-Type', 'application/json');
-    //   xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === 4 && xhr.status === 200) {
-    //       var data = JSON.parse(xhr.responseText);
+     //Show Divisions
+     let div=document.getElementById('divisions');
+     let dis=document.getElementById('districts');
+     div.addEventListener('change',()=>{
+         fetch('/customer/districts?en_name='+div.value).then(res=>res.json()).then(res=>{
+            console.log(res);
+            if(res.code==1)
+            {
+                   let dis=document.getElementById('districts');
+                   let html='';
+                   res.items.forEach((e)=>{
+                      html+=`<option value="${e.en_name}">${e.en_name}</option>`
+                   });
 
-    //       // Clear existing options
-    //       selectDistrict.innerHTML = '';
+                   dis.innerHTML=html;
+                   thana.innerHTML='';
+            }
+         }).catch(err=>console.log(err));
+     });
 
-    //       // Populate options
-    //       data.forEach(function (value) {
-    //         var option = document.createElement('option');
-    //         option.value = value.id;
-    //         option.textContent = value.district_name;
-    //         selectDistrict.appendChild(option);
-    //       });
-    //     }
-    //   };
+     dis.addEventListener('change',()=>{
+         fetch('/customer/states?en_name='+dis.value).then(res=>res.json()).then(res=>{
+            console.log(res);
+            if(res.code==1)
+            {
+                   let thana=document.getElementById('thana');
+                   let html='<option value="" data-select2-id="15">Select Thana</option>';
+                   res.items.forEach((e)=>{
+                      html+=`<option value="${e.en_name}">${e.en_name}</option>`
+                   });
 
-    //   xhr.send();
-    // } else {
-    //   alert('danger');
-    // }
-  });
-});
+                   thana.innerHTML=html;
+            }
+         }).catch(err=>console.log(err));
+     });
+
 
         //Show Cart Bills
 

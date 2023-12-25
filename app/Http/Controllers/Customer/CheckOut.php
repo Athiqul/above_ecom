@@ -28,7 +28,7 @@ class CheckOut extends Controller
         $products=Cart::content();
         $userInfo=Auth::user();
         $divisions=Division::get();
-        //dd($divisions);
+        //dd($products);
         return view('customer.checkout',compact('products','userInfo','divisions'));
     }
     //Cart payment info store

@@ -26,13 +26,15 @@ class Cart extends Controller
             ]
         );
 
+
+       //return response()->json($request->all());
         if($validator->fails())
         {
             $data=[
                 "errors"=>true,
                 "msg"=>$validator->errors(),
             ];
-            return response($data);
+            return response()->json($data);
         }
 
 
@@ -43,7 +45,7 @@ class Cart extends Controller
                 "errors"=>true,
                 "msg"=>'Stock is low!'.$request->qty,
             ];
-            return response($data);
+            return response()->json($data);
         }
 
         //Get Price
@@ -59,19 +61,19 @@ class Cart extends Controller
         $item=FacadesCart::add([
             "id"=>$product->id,
             "name"=>$product->product_name,
-            "qty"=>json_decode($request->qty),
+            "qty"=>$request->qty,
             'price'=>$price,
             'weight'=>'1',
             'options'=>[
-                "size"=>json_decode($request->size),
-                "color"=>json_decode($request->color),
+                "size"=>$request->size,
+                "color"=>$request->color,
                 "image"=>$product->main_image,
                 "url"=>route('product.details',['id'=>$product->id,'slug'=>$product->product_slug]),
             ]
         ]);
       }catch(Exception $ex)
       {
-            return response(['msg'=>$ex->getMessage()]);
+            return response()->json(['msg'=>$ex->getMessage()]);
       }
 
 
@@ -84,10 +86,11 @@ class Cart extends Controller
         $data=[
             "errors"=>false,
             "msg"=>'Successfully added into cart!',
+            "item"=>$item,
         ];
 
 
-        return response($data);
+        return response()->json($data);
 
      }
 

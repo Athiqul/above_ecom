@@ -107,7 +107,7 @@ function addCart(){
             'color':color,
         })
      }).then(res=>res.json()).then(res=>{
-           // console.log(res);
+            console.log(res);
             if(res.errors==true)
             {
                toastr.error("Something wrong can't add product into carts")
