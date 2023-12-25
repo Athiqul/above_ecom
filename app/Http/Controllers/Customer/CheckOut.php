@@ -32,9 +32,9 @@ class CheckOut extends Controller
         return view('customer.checkout',compact('products','userInfo','divisions'));
     }
     //Cart payment info store
-    public function storeCheckOut()
+    public function storeCheckOut(Request $request)
     {
-
+           dd($request->all());
     }
     //Show Stripe Payment
     //Show Cashon Delivery

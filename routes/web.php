@@ -291,6 +291,7 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
     Route::controller(CheckOut::class)->group(function(){
         Route::get('districts','getDistricts')->name('checkout.district');//api
         Route::get('states','getThana')->name('checkout.thana');//api
+        Route::post('checkout-store','storeCheckOut')->name('checkout.store');
     });
 
 
