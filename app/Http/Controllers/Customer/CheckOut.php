@@ -9,6 +9,7 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Validator;
 
 class CheckOut extends Controller
 {
@@ -34,11 +35,72 @@ class CheckOut extends Controller
     //Cart payment info store
     public function storeCheckOut(Request $request)
     {
-           dd($request->all());
+           //dd(strlen($request->mobile));
+           //Validation
+           $validation=Validator::make(
+            $request->all(),
+            [
+                'name'=>'required|string|max:255',
+                'email'=>'required|email',
+                'mobile'=>'required|numeric',
+                'dis_name'=>'required|string|max:255',
+                'div_name'=>'required|string|max:255',
+                'thana'=>'required|string|max:255',
+                'address'=>'required|string|max:255',
+                'post_code'=>'required|string|max:255',
+                'payment_option'=>'required|string|max:255',
+
+            ]
+           )->validate();
+
+           //Store
+           $data=(object) $request->all();
+          // dd($data);
+           //payment Type Page
+           session()->put('bill_info',$data);
+           if($request->payment_option=='online')
+           {
+               //Online gateway page
+           }
+
+           if($data->payment_option=='cash')
+           {
+                //return cashon page
+                return redirect()->route('checkout.cash');
+           }
+
+           if($data->payment_option=='stripe')
+           {
+            //return Stripe Page
+            return redirect()->route('checkout.stripe');
+           }
     }
     //Show Stripe Payment
+    public function stripe()
+    {
+        if(!session()->has('bill_info'))
+        {
+              abort(404);
+        }
+         return view('customer.stripe_payment');
+    }
     //Show Cashon Delivery
+    public function cashOn()
+    {
+        if(!session()->has('bill_info'))
+        {
+              abort(404);
+        }
+         return view('customer.cash_payment');
+
+
+    }
     //Show Online Gateway Page
+
+    public function gateway()
+    {
+
+    }
 
     //Get Districts
     public function getDistricts(Request $request)

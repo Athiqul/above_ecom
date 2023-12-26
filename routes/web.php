@@ -292,6 +292,9 @@ Route::prefix('customer')->middleware(['auth', 'role:user'])->group(function () 
         Route::get('districts','getDistricts')->name('checkout.district');//api
         Route::get('states','getThana')->name('checkout.thana');//api
         Route::post('checkout-store','storeCheckOut')->name('checkout.store');
+        Route::get('stripe-payment','stripe')->name('checkout.stripe');
+        Route::get('cash-payment','cashOn')->name('checkout.cash');
+
     });
 
 

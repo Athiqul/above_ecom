@@ -37,10 +37,16 @@
                                 <div class="form-group col-lg-6">
                                     <input type="text" required="" name="name"
                                         value="{{ old('name', $userInfo->name) }}">
+                                        @error('name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="email" required="" value="{{ old('name', $userInfo->email) }}"
+                                    <input type="email" required="" value="{{ old('email', $userInfo->email) }}"
                                         name="email">
+                                        @error('email')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -52,18 +58,26 @@
                                         <select class="form-control  " id="divisions" name="div_name" required>
                                             <option value="">Select Division</option>
                                             @foreach ($divisions as $div)
-                                                <option value="{{ $div->en_name }}">{{ $div->en_name }}</option>
+                                                <option value="{{ $div->en_name }}" {{ old('div_name')==$div->en_name?'Selected':'' }}>{{ $div->en_name }}</option>
                                             @endforeach
 
 
 
                                         </select>
+                                        @error('div_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <input required="" type="tel" name="mobile"
                                         value="{{ old('mobile', $userInfo->mobile) }}">
+                                        @error('mobile')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
+
+
                             </div>
 
                             <div class="row shipping_calculator">
@@ -71,13 +85,20 @@
                                     <div class="custom_select">
                                         <select class="form-control  " id="districts"
                                             tabindex="-1"  name="dis_name" required>
-                                            <option value="" data-select2-id="15">Select District</option>
+                                            <option value="{{ old('dis_name','') }}" data-select2-id="15">{{ old('dis_name','Select District') }}</option>
                                         </select>
+                                        @error('dis_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <input required="" type="text" name="post_code" value="{{ old('post_code') }}"
                                         placeholder="Post Code">
+
+                                        @error('post_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
 
@@ -87,15 +108,21 @@
                                     <div class="custom_select">
                                         <select class="form-control  "
                                           required name="thana" id="thana"  >
-                                            <option value="" data-select2-id="15">Select Thana</option>
+                                          <option value="{{ old('thana','') }}" data-select2-id="15">{{ old('thana','Select District') }}</option>
 
 
                                         </select>
+                                        @error('thana')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <input required="" type="text" name="address"
                                         value="{{ old('address', $userInfo->address) }}" placeholder="Address">
+                                        @error('address')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
 
@@ -105,6 +132,7 @@
 
                             <div class="form-group mb-30">
                                 <textarea rows="5" name="info"  placeholder="Additional information"></textarea>
+
                             </div>
 
 
@@ -171,14 +199,14 @@
                         <h4 class="mb-30">Payment</h4>
                         <div class="payment_option">
                             <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option"
+                                <input class="form-check-input" required="" value="stripe" type="radio" name="payment_option"
                                     id="exampleRadios3" checked="" >
                                 <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse"
                                     data-target="#bankTranfer" aria-controls="bankTranfer">Stripe Payment</label>
                             </div>
                             <div class="custome-radio">
-                                <input class="form-check-input" required="" type="radio" name="payment_option"
-                                    id="exampleRadios4" checked="" value="cash">
+                                <input class="form-check-input" required="" value="cash" type="radio" name="payment_option"
+                                    id="exampleRadios4" checked="" >
                                 <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse"
                                     data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
                             </div>
@@ -200,6 +228,9 @@
                         </div>
                         <button  type="submit" class="btn btn-fill-out btn-block mt-30">Place an Order<i
                                 class="fi-rs-sign-out ml-15"></i></button>
+                                @error('payment_option')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                     </div>
 
 
