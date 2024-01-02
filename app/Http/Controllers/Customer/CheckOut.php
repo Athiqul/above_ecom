@@ -84,6 +84,8 @@ class CheckOut extends Controller
         }
          return view('customer.stripe_payment');
     }
+
+
     //Show Cashon Delivery
     public function cashOn()
     {
